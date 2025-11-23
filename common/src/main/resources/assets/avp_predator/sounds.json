@@ -1,0 +1,17 @@
+{
+  "item.armor.equip_veritanium": {
+    "sounds": [
+      {
+        "name": "minecraft:item.armor.equip_iron",
+        "type": "event"
+      }
+    ],
+    "subtitle": "subtitles.item.armor.equip_veritanium"
+  },
+  "jukebox_sounds.predator_music_1": {
+    "sounds": [
+      "avp_predator:jukebox_sounds/predator_music_1"
+    ],
+    "subtitle": "subtitles.jukebox_sounds.predator_music_1"
+  }
+}
