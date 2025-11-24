@@ -9,6 +9,7 @@ import com.predator.common.constant.FollowRangeConstants;
 import com.predator.common.constant.HealthConstants;
 import com.predator.common.constant.KnockbackResistanceConstants;
 import com.predator.common.constant.MoveSpeedConstants;
+import com.predator.common.gameplay.entity.ai.goal.UseItemGoal;
 import com.predator.common.gameplay.entity.living.yautja.manager.YautjaNavigationManager;
 import com.predator.common.gameplay.entity.living.yautja.util.YautjaPredicates;
 import com.predator.common.registry.init.item.PredatorArmorItems;
@@ -40,7 +41,6 @@ import org.jetbrains.annotations.Nullable;
 
 import com.avp.common.gameplay.ai.goal.StrollAroundInWaterGoal;
 import com.avp.common.gameplay.ai.goal.combat.DelayedAttackGoal;
-import com.avp.common.gameplay.ai.goal.combat.UseItemGoal;
 import com.predator.common.registry.init.item.PredatorItems;
 
 public class Yautja extends Monster implements DataUser {
