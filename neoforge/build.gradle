@@ -69,9 +69,6 @@ dependencies {
     implementation("com.just:just-codec:${project.just_codec_version}")
     implementation("com.just:just-core:${project.just_core_version}")
     implementation("com.just:just-goap:${project.just_goap_version}")
-
-    // Compats
-    implementation "maven.modrinth:gigeresque:${project.gigeresque_version}"
 }
 
 configurations.configureEach {
