@@ -3,6 +3,8 @@ package com.predator.common.registry.init.creative_mode_tab;
 import com.predator.Predator;
 import com.avp.common.registry.AVPDeferredHolder;
 import com.predator.PredatorResources;
+import com.predator.common.registry.init.PredatorBlocks;
+import com.predator.common.registry.init.creative_mode_tab.initializer.BlocksCreativeModeTabInitializer;
 import com.predator.common.registry.init.creative_mode_tab.initializer.CombatCreativeModeTabInitializer;
 import com.predator.common.registry.init.creative_mode_tab.initializer.IngredientsCreativeModeTabInitializer;
 import com.predator.common.registry.init.creative_mode_tab.initializer.SpawnEggsCreativeModeTabInitializer;
@@ -24,6 +26,12 @@ import java.util.function.Supplier;
 public class PredatorCreativeModeTabs {
 
     private static final String BASE_PATH = "creativeModeTab";
+
+    public static final AVPDeferredHolder<CreativeModeTab> BLOCKS = register(
+        PredatorCreativeModeTabKeys.BLOCKS_KEY,
+        () -> new ItemStack(PredatorBlocks.TRIP_MINE_BLOCK.get()),
+        BlocksCreativeModeTabInitializer.OUTPUT_CONSUMER
+    );
 
     public static final AVPDeferredHolder<CreativeModeTab> COMBAT = register(
         PredatorCreativeModeTabKeys.COMBAT_KEY,
