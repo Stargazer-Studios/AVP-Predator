@@ -1,6 +1,6 @@
 package com.predator.fabric.common;
 
-import com.predator.common.registry.init.item.PredatorSpawnEggItems;
+import com.predator.common.registry.init.item.block.PredatorSpawnEggItems;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
@@ -45,7 +45,7 @@ public class DispenserBlockBehaviors {
             }
         };
 
-        PredatorSpawnEggItems.getAll()
+        PredatorSpawnEggItems.REGISTRY.getAll()
             .forEach(spawnEggItem -> DispenserBlock.registerBehavior(spawnEggItem.get(), defaultDispenseItemBehavior));
     }
 

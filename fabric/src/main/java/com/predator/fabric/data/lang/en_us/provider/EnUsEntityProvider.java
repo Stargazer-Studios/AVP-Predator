@@ -19,7 +19,7 @@ public class EnUsEntityProvider {
         addEntity(builder, PredatorEntityTypes.YAUTJA, "Yautja");
 
         AVPRegistryValidation.throwIfMissingEntries(
-            PredatorEntityTypes.getAll(),
+            PredatorEntityTypes.REGISTRY.getAll(),
             TOUCHED_ENTRIES::contains,
             EntityType::getDescriptionId,
             "Entity type translation did not complete successfully - there are unhandled entity types that need to be handled."

@@ -1,8 +1,8 @@
 package com.predator.common.registry.init;
 
-import com.avp.common.registry.AVPDeferredHolder;
-import com.avp.service.Services;
-import com.predator.PredatorResources;
+import com.blib.BLibHolder;
+import com.blib.BLibRegistry;
+import com.predator.Predator;
 import com.predator.common.gameplay.block.entity.TripMineBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -12,17 +12,21 @@ import java.util.function.Supplier;
 
 public class PredatorBlockEntityTypes {
 
-    public static final AVPDeferredHolder<BlockEntityType<TripMineBlockEntity>> TRIP_MINE = register(
+    private static final BLibRegistry<BlockEntityType<?>> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.BLOCK_ENTITY_TYPE);
+
+    public static final BLibHolder<BlockEntityType<TripMineBlockEntity>> TRIP_MINE = create(
         "trip_mine",
         () -> BlockEntityType.Builder.of(TripMineBlockEntity::new, PredatorBlocks.TRIP_MINE_BLOCK.get())
     );
 
-    private static <T extends BlockEntity> AVPDeferredHolder<BlockEntityType<T>> register(
-        String id,
+    private static <T extends BlockEntity> BLibHolder<BlockEntityType<T>> create(
+        String path,
         Supplier<BlockEntityType.Builder<T>> builder
     ) {
-        return Services.REGISTRY.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, PredatorResources.location(id), () -> builder.get().build(null));
+        return REGISTRY.createHolder(path, () -> builder.get().build(null));
     }
 
-    public static void initialize() {}
+    public static void initialize() {
+        REGISTRY.registerAll();
+    }
 }

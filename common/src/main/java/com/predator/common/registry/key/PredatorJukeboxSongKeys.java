@@ -7,12 +7,10 @@ import net.minecraft.world.item.JukeboxSong;
 
 public class PredatorJukeboxSongKeys {
 
-    public static final ResourceKey<JukeboxSong> PREDATOR_MUSIC_1 = register("predator_music_1");
+    public static final ResourceKey<JukeboxSong> PREDATOR_MUSIC_1 = create("predator_music_1");
 
-    private static ResourceKey<JukeboxSong> register(String id) {
+    private static ResourceKey<JukeboxSong> create(String id) {
         var resourceLocation = PredatorResources.location(id);
         return ResourceKey.create(Registries.JUKEBOX_SONG, resourceLocation);
     }
-
-    public static void initialize() {}
 }

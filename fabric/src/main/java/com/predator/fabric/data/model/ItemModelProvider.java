@@ -2,7 +2,7 @@ package com.predator.fabric.data.model;
 
 import com.predator.common.registry.init.item.PredatorArmorItems;
 import com.predator.common.registry.init.item.PredatorItems;
-import com.predator.common.registry.init.item.PredatorSpawnEggItems;
+import com.predator.common.registry.init.item.block.PredatorSpawnEggItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.models.BlockModelGenerators;
@@ -25,7 +25,7 @@ public class ItemModelProvider extends FabricModelProvider {
     public void generateBlockStateModels(BlockModelGenerators generators) {
         var spawnEggLocation = ModelLocationUtils.decorateItemModelLocation("template_spawn_egg");
 
-        PredatorSpawnEggItems.getAll()
+        PredatorSpawnEggItems.REGISTRY.getAll()
             .forEach(spawnEggItem -> generators.delegateItemModel(spawnEggItem.get(), spawnEggLocation));
     }
 

@@ -16,7 +16,7 @@ public class EnUsBlockProvider {
     public static final Consumer<FabricLanguageProvider.TranslationBuilder> CONSUMER = builder -> {
         addBlock(builder, PredatorBlocks.TRIP_MINE_BLOCK, "Trip Mine");
         AVPRegistryValidation.throwIfMissingEntries(
-            PredatorBlocks.getAll(),
+            PredatorBlocks.REGISTRY.getAll(),
             TOUCHED_ENTRIES::contains,
             Block::getDescriptionId,
             "Block translation did not complete successfully - there are unhandled blocks that need to be handled."

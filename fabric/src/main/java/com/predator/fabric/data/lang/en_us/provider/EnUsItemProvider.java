@@ -3,7 +3,7 @@ package com.predator.fabric.data.lang.en_us.provider;
 import com.avp.common.registry.AVPRegistryValidation;
 import com.predator.common.registry.init.item.PredatorItems;
 import com.predator.common.registry.init.item.PredatorArmorItems;
-import com.predator.common.registry.init.item.PredatorSpawnEggItems;
+import com.predator.common.registry.init.item.block.PredatorSpawnEggItems;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -43,7 +43,7 @@ public class EnUsItemProvider {
         addItem(builder, PredatorSpawnEggItems.YAUTJA_SPAWN_EGG, "Yautja Spawn Egg");
 
         AVPRegistryValidation.throwIfMissingEntries(
-            PredatorItems.getAll()
+            PredatorItems.REGISTRY.getAll()
                 .stream()
                 .filter(deferredHolder -> !(deferredHolder.get() instanceof BlockItem))
                 .toList(),

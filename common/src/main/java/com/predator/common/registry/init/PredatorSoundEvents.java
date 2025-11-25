@@ -1,25 +1,26 @@
 package com.predator.common.registry.init;
 
+import com.blib.BLibHolder;
+import com.blib.BLibRegistry;
+import com.predator.Predator;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 
 import com.predator.PredatorResources;
-import com.avp.common.registry.AVPDeferredHolder;
-import com.avp.service.Services;
 
 public class PredatorSoundEvents {
 
-    public static final AVPDeferredHolder<SoundEvent> ITEM_ARMOR_EQUIP_VERITANIUM = register("item.armor.equip_veritanium");
+    private static final BLibRegistry<SoundEvent> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.SOUND_EVENT);
 
-    public static final AVPDeferredHolder<SoundEvent> JUKEBOX_SOUNDS_PREDATOR_MUSIC_1 = register("jukebox_sounds.predator_music_1");
+    public static final BLibHolder<SoundEvent> ITEM_ARMOR_EQUIP_VERITANIUM = create("item.armor.equip_veritanium");
 
-    private static AVPDeferredHolder<SoundEvent> register(String id) {
-        return Services.REGISTRY.register(
-            BuiltInRegistries.SOUND_EVENT,
-            PredatorResources.location(id),
-            () -> SoundEvent.createVariableRangeEvent(PredatorResources.location(id))
-        );
+    public static final BLibHolder<SoundEvent> JUKEBOX_SOUNDS_PREDATOR_MUSIC_1 = create("jukebox_sounds.predator_music_1");
+
+    private static BLibHolder<SoundEvent> create(String path) {
+        return REGISTRY.createHolder(path, () -> SoundEvent.createVariableRangeEvent(PredatorResources.location(path)));
     }
 
-    public static void initialize() {}
+    public static void initialize() {
+        REGISTRY.registerAll();
+    }
 }

@@ -1,5 +1,7 @@
 package com.predator.neoforge;
 
+import com.blib.neoforge.service.impl.NeoForgeBLibRegistryServiceImpl;
+import com.blib.service.BLibServices;
 import com.predator.Predator;
 import com.predator.common.registry.init.PredatorEntityTypes;
 import com.predator.mixin.ParrotSoundMapAccessor;
@@ -15,6 +17,9 @@ public class PredatorNeoForge {
 
     public PredatorNeoForge(IEventBus modBus) {
         Predator.initialize();
+
+        // TODO: Automate this.
+        ((NeoForgeBLibRegistryServiceImpl) BLibServices.REGISTRY).finalize(Predator.MOD, modBus);
 
         // Game bus events.
         NeoForge.EVENT_BUS.addListener(EventPriority.HIGH, PredatorNeoForge::onWorldEndTick);

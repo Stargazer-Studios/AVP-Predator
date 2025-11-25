@@ -1,0 +1,41 @@
+package com.predator.common.registry.init.item.block;
+
+import com.blib.BLibHolder;
+import com.blib.BLibRegistry;
+import com.predator.Predator;
+import com.predator.common.registry.init.PredatorEntityTypes;
+import com.avp.service.Services;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.Item;
+
+import net.minecraft.world.item.SpawnEggItem;
+
+import java.util.function.Supplier;
+
+public class PredatorSpawnEggItems {
+
+    public static final BLibRegistry<SpawnEggItem> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.ITEM);
+
+    public static final BLibHolder<SpawnEggItem> YAUTJA_SPAWN_EGG = create(
+        "yautja",
+        PredatorEntityTypes.YAUTJA,
+        0xB9A86C,
+        0x5A4728
+    );
+
+    private static <E extends Mob> BLibHolder<SpawnEggItem> create(
+        String baseId,
+        Supplier<EntityType<E>> entityTypeSupplier,
+        int primaryColor,
+        int secondaryColor
+    ) {
+        var supplier = Services.BRIDGE.createSpawnEggSupplier(entityTypeSupplier, primaryColor, secondaryColor, new Item.Properties());
+        return REGISTRY.createHolder(baseId + "_spawn_egg", supplier);
+    }
+
+    public static void initialize() {
+        REGISTRY.registerAll();
+    }
+}

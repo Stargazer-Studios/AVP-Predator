@@ -40,7 +40,7 @@ public class EnglishLanguageProvider extends FabricLanguageProvider {
         EnUsSoundEventProvider.CONSUMER.accept(builder);
 
         // Jukebox Sounds
-        builder.add("jukebox_song.avp.predator_music_1", "Rotch Gwylt - Hunter");
+        builder.add("jukebox_song.avp_predator.predator_music_1", "Rotch Gwylt - Hunter");
 
         // Advancements
         EnUsAdvancementProvider.CONSUMER.accept(builder);

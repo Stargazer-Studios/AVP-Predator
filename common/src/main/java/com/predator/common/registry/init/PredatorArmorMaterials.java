@@ -1,7 +1,9 @@
 package com.predator.common.registry.init;
 
+import com.blib.BLibHolder;
+import com.blib.BLibRegistry;
+import com.predator.Predator;
 import com.predator.PredatorResources;
-import com.avp.service.Services;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
@@ -14,13 +16,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import com.avp.common.registry.AVPDeferredHolder;
 import com.predator.common.registry.init.item.PredatorItems;
 import org.jetbrains.annotations.NotNull;
 
 public class PredatorArmorMaterials {
 
-    public static final AVPDeferredHolder<ArmorMaterial> VERITANIUM = register(
+    public static final BLibRegistry<ArmorMaterial> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.ARMOR_MATERIAL);
+
+    public static final BLibHolder<ArmorMaterial> VERITANIUM = create(
         "veritanium",
         relativeDefense(
             ArmorMaterials.NETHERITE,
@@ -39,8 +42,8 @@ public class PredatorArmorMaterials {
         false
     );
 
-    public static AVPDeferredHolder<ArmorMaterial> register(
-        String id,
+    public static BLibHolder<ArmorMaterial> create(
+        String path,
         Map<ArmorItem.Type, Integer> defensePoints,
         int enchantability,
         Supplier<Holder<SoundEvent>> equipSoundHolderSupplier,
@@ -49,15 +52,14 @@ public class PredatorArmorMaterials {
         float knockbackResistance,
         boolean dyeable
     ) {
-        var resourceLocation = PredatorResources.location(id);
+        var resourceLocation = PredatorResources.location(path);
 
         List<ArmorMaterial.Layer> layers = List.of(
             new ArmorMaterial.Layer(resourceLocation, "", dyeable)
         );
 
-        return Services.REGISTRY.register(
-            BuiltInRegistries.ARMOR_MATERIAL,
-            PredatorResources.location(id),
+        return REGISTRY.createHolder(
+            path,
             () -> new ArmorMaterial(
                 defensePoints,
                 enchantability,
@@ -92,5 +94,7 @@ public class PredatorArmorMaterials {
         return Map.entry(type, armorMaterial.getDefense(type) + additiveDefense.getOrDefault(type, 0));
     }
 
-    public static void initialize() {}
+    public static void initialize() {
+        REGISTRY.registerAll();
+    }
 }

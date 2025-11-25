@@ -78,7 +78,7 @@ public class PredatorItemTagProvider extends FabricTagProvider.ItemTagProvider {
         // Weapons
         var swordTagProvider = getOrCreateTagBuilder(ItemTags.SWORDS);
 
-        PredatorItems.getAll().forEach(deferredHolder -> {
+        PredatorItems.REGISTRY.getAll().forEach(deferredHolder -> {
             var item = deferredHolder.get();
 
             if (item instanceof ArmorItem armorItem) {

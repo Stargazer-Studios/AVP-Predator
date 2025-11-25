@@ -3,7 +3,7 @@ package com.predator.client;
 import com.predator.client.render.armor.JunglePredatorArmorRenderer;
 import com.predator.client.render.block.TripMineRenderer;
 import com.predator.client.render.entity.YautjaRenderer;
-import com.predator.common.registry.init.PredatorBlockItems;
+import com.predator.common.registry.init.item.PredatorBlockItems;
 import com.predator.common.registry.init.PredatorEntityTypes;
 import com.predator.common.registry.init.item.PredatorArmorItems;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
