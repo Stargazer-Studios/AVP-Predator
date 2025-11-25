@@ -9,10 +9,10 @@ import com.predator.common.registry.init.creative_mode_tab.initializer.CombatCre
 import com.predator.common.registry.init.creative_mode_tab.initializer.IngredientsCreativeModeTabInitializer;
 import com.predator.common.registry.init.creative_mode_tab.initializer.SpawnEggsCreativeModeTabInitializer;
 import com.predator.common.registry.init.creative_mode_tab.initializer.ToolsAndUtilitiesCreativeModeTabInitializer;
-import com.predator.common.registry.init.item.PredatorItems;
-import com.predator.common.registry.key.PredatorCreativeModeTabKeys;
 import com.predator.common.registry.init.item.PredatorArmorItems;
+import com.predator.common.registry.init.item.PredatorItems;
 import com.predator.common.registry.init.item.block.PredatorSpawnEggItems;
+import com.predator.common.registry.key.PredatorCreativeModeTabKeys;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;

@@ -1,7 +1,7 @@
 package com.predator.common.registry.init.creative_mode_tab.initializer;
 
-import com.predator.common.registry.init.item.PredatorItems;
 import com.predator.common.registry.init.item.PredatorArmorItems;
+import com.predator.common.registry.init.item.PredatorItems;
 import net.minecraft.world.item.CreativeModeTab;
 
 import java.util.function.Consumer;

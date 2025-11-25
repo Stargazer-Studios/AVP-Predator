@@ -15,6 +15,5 @@ public class PredatorNeoForgeClient {
         PredatorClient.initialize();
     }
 
-    public PredatorNeoForgeClient(IEventBus modBus) {
-    }
+    public PredatorNeoForgeClient(IEventBus modBus) {}
 }

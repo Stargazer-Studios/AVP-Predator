@@ -1,7 +1,7 @@
 package com.predator.mixin;
 
-import com.predator.common.registry.tag.PredatorItemTags;
 import com.avp.common.util.AVPPredicates;
+import com.predator.common.registry.tag.PredatorItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;

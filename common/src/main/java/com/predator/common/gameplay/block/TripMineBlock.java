@@ -2,6 +2,7 @@ package com.predator.common.gameplay.block;
 
 import com.mojang.serialization.MapCodec;
 import com.predator.common.gameplay.block.entity.TripMineBlockEntity;
+import com.predator.common.registry.init.PredatorBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
@@ -16,8 +17,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import com.predator.common.registry.init.PredatorBlockEntityTypes;
 
 public class TripMineBlock extends BaseEntityBlock {
 

@@ -1,5 +1,8 @@
 package com.predator.fabric.mixin;
 
+import com.avp.fabric.service.FabricBridgeService;
+import com.avp.service.Services;
+import com.predator.common.registry.init.PredatorMobCategoryData;
 import net.minecraft.world.entity.MobCategory;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,10 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import com.predator.common.registry.init.PredatorMobCategoryData;
-import com.avp.fabric.service.FabricBridgeService;
-import com.avp.service.Services;
 
 // TODO: Rename this.
 @Mixin(MobCategory.class)

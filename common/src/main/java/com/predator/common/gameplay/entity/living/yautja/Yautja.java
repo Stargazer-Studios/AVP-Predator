@@ -1,18 +1,15 @@
 package com.predator.common.gameplay.entity.living.yautja;
 
 import com.avp.common.config.AVPConfig;
+import com.avp.common.gameplay.ai.goal.StrollAroundInWaterGoal;
+import com.avp.common.gameplay.ai.goal.combat.DelayedAttackGoal;
 import com.lib.common.network.DataUser;
-import com.predator.common.constant.ArmorConstants;
-import com.predator.common.constant.ArmorToughnessConstants;
-import com.predator.common.constant.AttackDamageConstants;
-import com.predator.common.constant.FollowRangeConstants;
-import com.predator.common.constant.HealthConstants;
-import com.predator.common.constant.KnockbackResistanceConstants;
-import com.predator.common.constant.MoveSpeedConstants;
+import com.predator.common.constant.PlayerStatConstants;
 import com.predator.common.gameplay.entity.ai.goal.UseItemGoal;
 import com.predator.common.gameplay.entity.living.yautja.manager.YautjaNavigationManager;
 import com.predator.common.gameplay.entity.living.yautja.util.YautjaPredicates;
 import com.predator.common.registry.init.item.PredatorArmorItems;
+import com.predator.common.registry.init.item.PredatorItems;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -39,11 +36,21 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.avp.common.gameplay.ai.goal.StrollAroundInWaterGoal;
-import com.avp.common.gameplay.ai.goal.combat.DelayedAttackGoal;
-import com.predator.common.registry.init.item.PredatorItems;
-
 public class Yautja extends Monster implements DataUser {
+
+    public static final float ARMOR = 16.0F;
+
+    public static final float ARMOR_TOUGHNESS = 16.0F;
+
+    public static final float ATTACK_DAMAGE = PlayerStatConstants.PLAYER_HEALTH * 0.75F;
+
+    public static final float FOLLOW_RANGE = 35F;
+
+    public static final float HEALTH = PlayerStatConstants.PLAYER_HEALTH * 10F;
+
+    public static final float KNOCKBACK_RESISTANCE = 1f;
+
+    public static final float SPEED = PlayerStatConstants.PLAYER_WALK_SPEED * 1.2F;
 
     private final YautjaAnimationDispatcher animationDispatcher;
 
@@ -56,17 +63,20 @@ public class Yautja extends Monster implements DataUser {
     }
 
     public static AttributeSupplier.Builder createYautjaAttributes() {
-        return applyFrom(new AVPConfig.StatsConfigs.AdvancedStats(
-            HealthConstants.YAUTJA_HEALTH,
-            AttackDamageConstants.YAUTJA_ATTACK_DAMAGE,
-            0.0f,
-            KnockbackResistanceConstants.YAUTJA_KNOCKBACK_RESISTANCE,
-            MoveSpeedConstants.YAUTJA_SPEED,
-            ArmorConstants.YAUTJA_ARMOR,
-            ArmorToughnessConstants.YAUTJA_ARMOR_TOUGHNESS,
-            0,
-            FollowRangeConstants.YAUTJA_FOLLOW_RANGE
-        ), Monster.createMonsterAttributes());
+        return applyFrom(
+            new AVPConfig.StatsConfigs.AdvancedStats(
+                HEALTH,
+                ATTACK_DAMAGE,
+                0.0f,
+                KNOCKBACK_RESISTANCE,
+                SPEED,
+                ARMOR,
+                ARMOR_TOUGHNESS,
+                0,
+                FOLLOW_RANGE
+            ),
+            Monster.createMonsterAttributes()
+        );
     }
 
     @Override

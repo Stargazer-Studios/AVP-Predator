@@ -1,19 +1,18 @@
 package com.predator.client;
 
+import com.avp.service.Services;
 import com.predator.client.render.armor.JunglePredatorArmorRenderer;
 import com.predator.client.render.block.TripMineRenderer;
 import com.predator.client.render.entity.YautjaRenderer;
-import com.predator.common.registry.init.item.PredatorBlockItems;
-import com.predator.common.registry.init.PredatorEntityTypes;
-import com.predator.common.registry.init.item.PredatorArmorItems;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-
-import java.util.List;
-
 import com.predator.client.render.item.SpinningItemRenderer;
 import com.predator.client.render.item.TripMineItemRenderer;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
-import com.avp.service.Services;
+import com.predator.common.registry.init.PredatorEntityTypes;
+import com.predator.common.registry.init.item.PredatorArmorItems;
+import com.predator.common.registry.init.item.PredatorBlockItems;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+
+import java.util.List;
 
 public class PredatorClient {
 

@@ -1,10 +1,9 @@
 package com.predator.fabric.data.lang.en_us.provider;
 
+import com.predator.common.registry.key.PredatorCreativeModeTabKeys;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
 import java.util.function.Consumer;
-
-import com.predator.common.registry.key.PredatorCreativeModeTabKeys;
 
 public class EnUsCreativeModeTabProvider {
 

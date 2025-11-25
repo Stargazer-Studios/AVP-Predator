@@ -1,5 +1,6 @@
 package com.predator.common.gameplay.entity.living.yautja;
 
+import com.avp.common.util.AVPPredicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -10,8 +11,6 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.entity.EntityTypeTest;
-
-import com.avp.common.util.AVPPredicates;
 
 public class YautjaSpawning {
 

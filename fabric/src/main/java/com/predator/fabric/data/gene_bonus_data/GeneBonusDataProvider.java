@@ -3,6 +3,7 @@ package com.predator.fabric.data.gene_bonus_data;
 import com.avp.common.data.GeneBonusDataReloadListener;
 import com.lib.common.gameplay.gene.GeneBonusData;
 import com.mojang.serialization.JsonOps;
+import com.predator.PredatorResources;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
@@ -12,8 +13,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-
-import com.predator.PredatorResources;
 
 public abstract class GeneBonusDataProvider implements DataProvider {
 

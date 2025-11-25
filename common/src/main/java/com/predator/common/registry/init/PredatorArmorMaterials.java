@@ -4,6 +4,7 @@ import com.blib.BLibHolder;
 import com.blib.BLibRegistry;
 import com.predator.Predator;
 import com.predator.PredatorResources;
+import com.predator.common.registry.init.item.PredatorItems;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
@@ -11,13 +12,11 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import com.predator.common.registry.init.item.PredatorItems;
-import org.jetbrains.annotations.NotNull;
 
 public class PredatorArmorMaterials {
 

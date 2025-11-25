@@ -1,15 +1,14 @@
 package com.predator.common.registry.init.item.block;
 
+import com.avp.service.Services;
 import com.blib.BLibHolder;
 import com.blib.BLibRegistry;
 import com.predator.Predator;
 import com.predator.common.registry.init.PredatorEntityTypes;
-import com.avp.service.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
-
 import net.minecraft.world.item.SpawnEggItem;
 
 import java.util.function.Supplier;

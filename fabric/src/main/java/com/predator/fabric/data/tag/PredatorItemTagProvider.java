@@ -1,10 +1,10 @@
 package com.predator.fabric.data.tag;
 
-import com.predator.common.registry.init.item.PredatorItems;
 import com.avp.common.registry.tag.AVPItemTags;
-import com.predator.common.registry.tag.PredatorItemTags;
 import com.compat.CommonItemTags;
 import com.predator.common.registry.init.item.PredatorArmorItems;
+import com.predator.common.registry.init.item.PredatorItems;
+import com.predator.common.registry.tag.PredatorItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;

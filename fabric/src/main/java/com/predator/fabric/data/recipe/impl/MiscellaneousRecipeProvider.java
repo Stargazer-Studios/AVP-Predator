@@ -1,7 +1,7 @@
 package com.predator.fabric.data.recipe.impl;
 
-import com.predator.common.registry.init.item.PredatorItems;
 import com.avp.fabric.data.recipe.builder.RecipeBuilder;
+import com.predator.common.registry.init.item.PredatorItems;
 import net.minecraft.data.recipes.RecipeCategory;
 
 public class MiscellaneousRecipeProvider {

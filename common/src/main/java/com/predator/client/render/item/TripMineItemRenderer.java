@@ -1,10 +1,9 @@
 package com.predator.client.render.item;
 
+import com.predator.PredatorResources;
 import mod.azure.azurelib.common.render.item.AzItemRenderer;
 import mod.azure.azurelib.common.render.item.AzItemRendererConfig;
 import net.minecraft.resources.ResourceLocation;
-
-import com.predator.PredatorResources;
 
 public class TripMineItemRenderer extends AzItemRenderer {
 

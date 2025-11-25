@@ -1,15 +1,14 @@
 package com.predator.common.gameplay.entity.living.yautja.util;
 
+import com.avp.common.util.AVPPredicates;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
+import com.predator.common.registry.tag.PredatorItemTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
-
-import com.predator.common.registry.tag.PredatorItemTags;
-import com.avp.common.util.AVPPredicates;
 
 public class YautjaPredicates {
 

@@ -6,7 +6,6 @@ import com.predator.Predator;
 import com.predator.common.gameplay.item.VeritaniumArmorItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
 
 import java.util.function.Supplier;
 

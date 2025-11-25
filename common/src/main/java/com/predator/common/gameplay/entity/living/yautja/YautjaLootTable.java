@@ -1,6 +1,7 @@
 package com.predator.common.gameplay.entity.living.yautja;
 
 import com.predator.common.registry.init.item.PredatorArmorItems;
+import com.predator.common.registry.init.item.PredatorItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -11,8 +12,6 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.function.Function;
-
-import com.predator.common.registry.init.item.PredatorItems;
 
 public class YautjaLootTable {
 

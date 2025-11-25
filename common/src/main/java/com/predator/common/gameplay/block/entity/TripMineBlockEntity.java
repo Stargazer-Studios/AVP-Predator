@@ -1,5 +1,8 @@
 package com.predator.common.gameplay.block.entity;
 
+import com.avp.common.util.AVPPredicates;
+import com.predator.common.registry.init.PredatorBlockEntityTypes;
+import com.predator.common.registry.tag.PredatorEntityTypeTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -9,11 +12,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-
-import com.predator.Predator;
-import com.predator.common.registry.init.PredatorBlockEntityTypes;
-import com.predator.common.registry.tag.PredatorEntityTypeTags;
-import com.avp.common.util.AVPPredicates;
 
 public class TripMineBlockEntity extends BlockEntity {
 

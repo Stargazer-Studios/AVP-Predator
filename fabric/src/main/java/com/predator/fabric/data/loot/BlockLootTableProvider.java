@@ -27,12 +27,13 @@ public class BlockLootTableProvider extends FabricBlockLootTableProvider {
         generateSelfDrops();
 
         // TODO:
-//        AVPRegistryValidation.throwIfMissingEntries(
-//            AVPBlocks.getAll(),
-//            TOUCHED_ENTRIES::contains,
-//            Block::getDescriptionId,
-//            "Block loot table generation did not complete successfully - there are unhandled blocks that need to be handled."
-//        );
+        // AVPRegistryValidation.throwIfMissingEntries(
+        // AVPBlocks.getAll(),
+        // TOUCHED_ENTRIES::contains,
+        // Block::getDescriptionId,
+        // "Block loot table generation did not complete successfully - there are unhandled blocks that need to be
+        // handled."
+        // );
     }
 
     private void generateSelfDrops() {

@@ -1,10 +1,9 @@
 package com.predator.common.registry.tag;
 
+import com.predator.PredatorResources;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
-
-import com.predator.PredatorResources;
 
 public class PredatorEntityTypeTags {
 

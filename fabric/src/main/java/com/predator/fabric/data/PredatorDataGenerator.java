@@ -47,6 +47,5 @@ public class PredatorDataGenerator implements DataGeneratorEntrypoint {
     }
 
     @Override
-    public void buildRegistry(RegistrySetBuilder registryBuilder) {
-    }
+    public void buildRegistry(RegistrySetBuilder registryBuilder) {}
 }

@@ -1,5 +1,6 @@
 package com.predator.common.gameplay.item;
 
+import com.avp.common.data.TooltipTranslationKeys;
 import com.lib.common.data.TooltipHintBuilder;
 import com.lib.common.model.TooltipCategoryType;
 import com.predator.common.registry.init.PredatorArmorMaterials;
@@ -10,8 +11,6 @@ import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
-import com.predator.common.data.TooltipTranslationKeys;
 
 public class VeritaniumArmorItem extends ArmorItem {
 

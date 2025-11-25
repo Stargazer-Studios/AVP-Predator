@@ -1,10 +1,9 @@
 package com.predator.common.registry.key;
 
+import com.predator.PredatorResources;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
-
-import com.predator.PredatorResources;
 
 public class PredatorCreativeModeTabKeys {
 

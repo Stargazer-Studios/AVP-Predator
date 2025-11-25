@@ -1,5 +1,7 @@
 package com.predator.client.animation.entity;
 
+import com.predator.PredatorResources;
+import com.predator.client.animation.BasicAnimationUtils;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
 import com.predator.common.gameplay.entity.living.yautja.YautjaAnimationRefs;
 import mod.azure.azurelib.common.animation.AzAnimationContext;
@@ -9,9 +11,6 @@ import mod.azure.azurelib.common.animation.controller.AzAnimationControllerConta
 import mod.azure.azurelib.common.animation.impl.AzEntityAnimator;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-
-import com.predator.PredatorResources;
-import com.predator.client.animation.BasicAnimationUtils;
 
 public class YautjaAnimator extends AzEntityAnimator<Yautja> {
 

@@ -3,10 +3,9 @@ package com.predator.common.registry.init;
 import com.blib.BLibHolder;
 import com.blib.BLibRegistry;
 import com.predator.Predator;
+import com.predator.PredatorResources;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
-
-import com.predator.PredatorResources;
 
 public class PredatorSoundEvents {
 

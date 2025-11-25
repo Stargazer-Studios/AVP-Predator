@@ -7,8 +7,7 @@ import java.util.function.Consumer;
 
 public class EnUsAdvancementProvider {
 
-    public static final Consumer<FabricLanguageProvider.TranslationBuilder> CONSUMER = builder -> {
-    };
+    public static final Consumer<FabricLanguageProvider.TranslationBuilder> CONSUMER = builder -> {};
 
     private static void addAdvancement(
         FabricLanguageProvider.TranslationBuilder builder,

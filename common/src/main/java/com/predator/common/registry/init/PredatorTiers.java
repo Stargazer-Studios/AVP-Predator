@@ -1,5 +1,6 @@
 package com.predator.common.registry.init;
 
+import com.predator.common.registry.init.item.PredatorItems;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tier;
@@ -8,8 +9,6 @@ import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
-
-import com.predator.common.registry.init.item.PredatorItems;
 
 public class PredatorTiers {
 

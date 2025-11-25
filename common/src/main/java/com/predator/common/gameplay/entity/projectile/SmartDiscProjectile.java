@@ -1,6 +1,8 @@
 package com.predator.common.gameplay.entity.projectile;
 
+import com.avp.server.BlockBreakProgressManager;
 import com.predator.common.registry.init.PredatorEntityTypes;
+import com.predator.common.registry.init.item.PredatorItems;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -9,9 +11,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
-
-import com.predator.common.registry.init.item.PredatorItems;
-import com.avp.server.BlockBreakProgressManager;
 
 public class SmartDiscProjectile extends ThrowableItemProjectile {
 
@@ -38,9 +37,9 @@ public class SmartDiscProjectile extends ThrowableItemProjectile {
         if (this.tickCount > 300)
             this.kill();
         if (!this.dealtDamage) {
-//            ItemGoalUtil.trackToLivingEntity(this, 0.5, false);
+            // ItemGoalUtil.trackToLivingEntity(this, 0.5, false);
         } else {
-//            ItemGoalUtil.trackToOwnerEntity(this);
+            // ItemGoalUtil.trackToOwnerEntity(this);
         }
     }
 
