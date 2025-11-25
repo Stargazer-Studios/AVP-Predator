@@ -1,5 +1,6 @@
 package com.predator.common.gameplay.entity.living.yautja.manager;
 
+import com.predator.common.gameplay.entity.ai.goal.UseItemGoal;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -9,7 +10,6 @@ import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.level.pathfinder.PathType;
 
 import com.avp.common.gameplay.ai.goal.WaterMoveControl;
-import com.avp.common.gameplay.ai.goal.combat.UseItemGoal;
 
 public class YautjaNavigationManager {
 

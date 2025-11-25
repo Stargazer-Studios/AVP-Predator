@@ -11,7 +11,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
 
 import com.predator.common.registry.init.item.PredatorItems;
-import com.avp.common.util.ItemGoalUtil;
 import com.avp.server.BlockBreakProgressManager;
 
 public class SmartDiscProjectile extends ThrowableItemProjectile {
