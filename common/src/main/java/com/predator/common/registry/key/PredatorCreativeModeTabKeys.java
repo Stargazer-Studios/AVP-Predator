@@ -8,15 +8,15 @@ import com.predator.PredatorResources;
 
 public class PredatorCreativeModeTabKeys {
 
-    public static final ResourceKey<CreativeModeTab> BLOCKS_KEY = createResourceKey("blocks");
+    public static final ResourceKey<CreativeModeTab> BLOCKS_KEY = createResourceKey("predator_blocks");
 
-    public static final ResourceKey<CreativeModeTab> COMBAT_KEY = createResourceKey("combat");
+    public static final ResourceKey<CreativeModeTab> COMBAT_KEY = createResourceKey("predator_combat");
 
-    public static final ResourceKey<CreativeModeTab> INGREDIENTS_KEY = createResourceKey("ingredients");
+    public static final ResourceKey<CreativeModeTab> INGREDIENTS_KEY = createResourceKey("predator_ingredients");
 
-    public static final ResourceKey<CreativeModeTab> SPAWN_EGGS_KEY = createResourceKey("spawn_eggs");
+    public static final ResourceKey<CreativeModeTab> SPAWN_EGGS_KEY = createResourceKey("predator_spawn_eggs");
 
-    public static final ResourceKey<CreativeModeTab> TOOLS_AND_UTILITIES_KEY = createResourceKey("tools_and_utilities");
+    public static final ResourceKey<CreativeModeTab> TOOLS_AND_UTILITIES_KEY = createResourceKey("predator_tools_and_utilities");
 
     public static ResourceKey<CreativeModeTab> createResourceKey(String name) {
         return ResourceKey.create(
