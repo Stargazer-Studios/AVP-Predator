@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "avp:block/trip_mine"
+      "model": "avp_predator:block/trip_mine"
     }
   }
 }
