@@ -2,9 +2,11 @@ package com.predator;
 
 import com.avp.AVP;
 import com.avp.common.config.AVPConfig;
-import com.avp.service.Services;
 import com.blib.BLib;
 import com.blib.BLibMod;
+import com.blib.event.key.BLibEventKeys;
+import com.blib.event.BLibLevelTickEvent;
+import com.blib.service.BLibServices;
 import com.predator.common.registry.init.PredatorArmorMaterials;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
 import com.predator.common.registry.init.PredatorBlocks;
@@ -16,7 +18,9 @@ import com.predator.common.registry.init.item.PredatorArmorItems;
 import com.predator.common.registry.init.item.PredatorBlockItems;
 import com.predator.common.registry.init.item.PredatorItems;
 import com.predator.common.registry.init.item.block.PredatorSpawnEggItems;
+import com.predator.mixin.ParrotSoundMapAccessor;
 import mod.azure.azurelib.common.config.format.ConfigFormats;
+import net.minecraft.sounds.SoundEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +36,7 @@ public class Predator {
         // FIXME:
         AVP.config = AVP.registerConfig(AVPConfig.class, ConfigFormats.json()).getConfigInstance();
 
-        LOGGER.info("Initializing AVP (Predator) for platform '{}'", Services.PLATFORM.getPlatformName());
+        LOGGER.info("Initializing AVP (Predator) for mod loader '{}'", BLibServices.MOD_LOADER.getModLoaderName());
 
         // No dependencies.
         PredatorBlocks.initialize();
@@ -55,5 +59,21 @@ public class Predator {
 
         // Functionality
         PredatorEntitySpawns.initialize();
+
+        MOD.addEventListener(BLibEventKeys.LEVEL_TICK_PRE, Predator::injectCustomParrotSounds);
+    }
+
+    // Marine Spawns and Ash placement in nuked zones
+    public static void injectCustomParrotSounds(BLibLevelTickEvent.Pre event) {
+        if (event.level().isClientSide) {
+            return;
+        }
+
+        var sounds = ParrotSoundMapAccessor.getSoundMap();
+
+        /*
+         * TODO: Use Yautja sound when added
+         */
+        sounds.put(PredatorEntityTypes.YAUTJA.get(), SoundEvents.ALLAY_AMBIENT_WITH_ITEM);
     }
 }
