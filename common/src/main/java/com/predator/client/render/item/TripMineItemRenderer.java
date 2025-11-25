@@ -9,11 +9,11 @@ public class TripMineItemRenderer extends AzItemRenderer {
 
     public static final String NAME = "trip_mine";
 
-    private static final ResourceLocation GEO = PredatorResources.blockGeoModelLocation(NAME);
+    private static final ResourceLocation MODEL = PredatorResources.blockGeoModelLocation(NAME);
 
-    private static final ResourceLocation TEX = PredatorResources.blockTextureLocation(NAME);
+    private static final ResourceLocation TEXTURE = PredatorResources.blockTextureLocation(NAME);
 
     public TripMineItemRenderer() {
-        super(AzItemRendererConfig.builder(GEO, TEX).useNewOffset(true).build());
+        super(AzItemRendererConfig.builder(MODEL, TEXTURE).useNewOffset(true).build());
     }
 }

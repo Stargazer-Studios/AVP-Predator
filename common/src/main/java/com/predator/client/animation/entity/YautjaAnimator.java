@@ -39,7 +39,7 @@ public class YautjaAnimator extends AzEntityAnimator<Yautja> {
     @Override
     public void setCustomAnimations(Yautja animatable, float partialTick) {
         showHelmet(animatable, context());
-        showWristblades(animatable, context());
+        showWristBlades(animatable, context());
         BasicAnimationUtils.applyHeadRotations(animatable, context(), partialTick, "gNeckUpper", 0F);
         BasicAnimationUtils.applyLimbRotations(
             animatable,
@@ -54,7 +54,7 @@ public class YautjaAnimator extends AzEntityAnimator<Yautja> {
         );
     }
 
-    private static void showWristblades(Yautja entity, AzAnimationContext<?> context) {
+    private static void showWristBlades(Yautja entity, AzAnimationContext<?> context) {
         var bakedModel = context.boneCache().getBakedModel();
         var blade = bakedModel.getBoneOrNull("gWristBlade");
 

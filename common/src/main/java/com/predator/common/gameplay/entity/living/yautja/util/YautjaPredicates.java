@@ -12,32 +12,29 @@ import org.jetbrains.annotations.NotNull;
 
 public class YautjaPredicates {
 
-    private YautjaPredicates() {}
-
     public static boolean isThreateningTarget(@NotNull Yautja yautja, @NotNull LivingEntity potentialTarget) {
         return isValidTarget(yautja, potentialTarget);
     }
 
     public static boolean isValidTarget(@NotNull Yautja yautja, @NotNull LivingEntity potentialTarget) {
-        if (potentialTarget instanceof Yautja) {
-            return false;
-        }
-
-        if (potentialTarget instanceof Creeper) {
-            return false;
-        }
-
-        if (potentialTarget instanceof Player player) {
-            return !AVPPredicates.IS_IMMORTAL.test(player)
+        return switch (potentialTarget) {
+            case Yautja yautja1 -> false;
+            case Creeper creeper -> false;
+            case Player player -> !AVPPredicates.IS_IMMORTAL.test(player)
                 && (player.getMainHandItem().is(PredatorItemTags.HOSTILE_WEAPONS)
-                    || (yautja.getLastAttacker() != null && yautja.getLastAttacker().is(player)));
-        }
+                || (yautja.getLastAttacker() != null && yautja.getLastAttacker().is(player)));
+            default -> {
+                if (potentialTarget instanceof Mob || potentialTarget instanceof Monster) {
+                    yield potentialTarget.getMainHandItem().is(PredatorItemTags.HOSTILE_WEAPONS)
+                        || (yautja.getLastAttacker() != null && yautja.getLastAttacker().is(potentialTarget));
+                }
 
-        if (potentialTarget instanceof Mob || potentialTarget instanceof Monster) {
-            return potentialTarget.getMainHandItem().is(PredatorItemTags.HOSTILE_WEAPONS)
-                || (yautja.getLastAttacker() != null && yautja.getLastAttacker().is(potentialTarget));
-        }
+                yield yautja.getLastAttacker() != null && yautja.getLastAttacker().is(potentialTarget);
+            }
+        };
+    }
 
-        return yautja.getLastAttacker() != null && yautja.getLastAttacker().is(potentialTarget);
+    private YautjaPredicates() {
+        throw new UnsupportedOperationException();
     }
 }
