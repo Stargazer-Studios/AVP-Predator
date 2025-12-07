@@ -1,6 +1,6 @@
 package com.predator.util;
 
-import com.avp.common.util.AVPPredicates;
+import com.blib.common.gameplay.util.BLibEntityPredicates;
 import com.predator.common.gameplay.entity.projectile.ShurikenProjectile;
 import com.predator.common.gameplay.entity.projectile.SmartDiscProjectile;
 import com.predator.common.registry.init.item.PredatorItems;
@@ -100,7 +100,7 @@ public class ItemGoalUtil {
                 livingEntity -> !livingEntity.getType()
                     .is(
                         PredatorEntityTypeTags.PREDATORS
-                    ) && !AVPPredicates.IS_IMMORTAL.test(livingEntity) && livingEntity != projectile.getOwner()
+                    ) && !BLibEntityPredicates.isInvulnerable(livingEntity) && livingEntity != projectile.getOwner()
             );
         if (!livingEntities.isEmpty()) {
             var first = livingEntities.getFirst();
@@ -132,7 +132,7 @@ public class ItemGoalUtil {
         if (
             projectile.getOwner() instanceof Player player && projectile.getBoundingBox().intersects(projectile.getOwner().getBoundingBox())
         ) {
-            if (!AVPPredicates.IS_IMMORTAL.test(player)) {
+            if (!BLibEntityPredicates.isInvulnerable(player)) {
                 player.getInventory().add(PredatorItems.SMART_DISC.get().getDefaultInstance());
             }
             projectile.kill();

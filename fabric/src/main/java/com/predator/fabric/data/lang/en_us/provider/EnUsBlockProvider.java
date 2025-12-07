@@ -1,6 +1,6 @@
 package com.predator.fabric.data.lang.en_us.provider;
 
-import com.avp.common.registry.AVPRegistryValidation;
+import com.predator.Predator;
 import com.predator.common.registry.init.PredatorBlocks;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.world.level.block.Block;
@@ -15,12 +15,22 @@ public class EnUsBlockProvider {
 
     public static final Consumer<FabricLanguageProvider.TranslationBuilder> CONSUMER = builder -> {
         addBlock(builder, PredatorBlocks.TRIP_MINE_BLOCK, "Trip Mine");
-        AVPRegistryValidation.throwIfMissingEntries(
-            PredatorBlocks.REGISTRY.getAll(),
-            TOUCHED_ENTRIES::contains,
-            Block::getDescriptionId,
-            "Block translation did not complete successfully - there are unhandled blocks that need to be handled."
-        );
+
+        var missingEntries = PredatorBlocks.REGISTRY.computeMissingEntries(TOUCHED_ENTRIES);
+
+        if (!missingEntries.isEmpty()) {
+            var unhandledBlocksStrings = String.join("\n", missingEntries.stream().map(Block::getDescriptionId).toList());
+
+            Predator.LOGGER.error(
+                "Detected {} unhandled entries. Entries:\n{}",
+                missingEntries.size(),
+                unhandledBlocksStrings
+            );
+
+            throw new IllegalStateException(
+                "Block translation did not complete successfully - there are unhandled blocks that need to be handled."
+            );
+        }
     };
 
     private static void addBlock(

@@ -1,8 +1,8 @@
 package com.predator.common.gameplay.entity.living.yautja;
 
-import com.avp.common.config.AVPConfig;
 import com.avp.common.gameplay.ai.goal.StrollAroundInWaterGoal;
 import com.avp.common.gameplay.ai.goal.combat.DelayedAttackGoal;
+import com.avp.common.model.spawning.AdvancedStats;
 import com.lib.common.network.DataUser;
 import com.predator.common.constant.PlayerStatConstants;
 import com.predator.common.gameplay.entity.ai.goal.UseItemGoal;
@@ -64,7 +64,7 @@ public class Yautja extends Monster implements DataUser {
 
     public static AttributeSupplier.Builder createYautjaAttributes() {
         return applyFrom(
-            new AVPConfig.StatsConfigs.AdvancedStats(
+            new AdvancedStats(
                 HEALTH,
                 ATTACK_DAMAGE,
                 0.0f,
@@ -157,14 +157,14 @@ public class Yautja extends Monster implements DataUser {
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData);
     }
 
-    public static AttributeSupplier.Builder applyFrom(AVPConfig.StatsConfigs.AdvancedStats config, AttributeSupplier.Builder builder) {
-        builder.add(Attributes.ARMOR, config.armor);
-        builder.add(Attributes.ARMOR_TOUGHNESS, config.armorToughness);
-        builder.add(Attributes.ATTACK_DAMAGE, config.attackDamage);
-        builder.add(Attributes.FOLLOW_RANGE, config.followRange);
-        builder.add(Attributes.KNOCKBACK_RESISTANCE, config.knockbackResistance);
-        builder.add(Attributes.MAX_HEALTH, config.health);
-        builder.add(Attributes.MOVEMENT_SPEED, config.moveSpeed);
+    public static AttributeSupplier.Builder applyFrom(AdvancedStats config, AttributeSupplier.Builder builder) {
+        builder.add(Attributes.ARMOR, config.armor());
+        builder.add(Attributes.ARMOR_TOUGHNESS, config.armorToughness());
+        builder.add(Attributes.ATTACK_DAMAGE, config.attackDamage());
+        builder.add(Attributes.FOLLOW_RANGE, config.followRange());
+        builder.add(Attributes.KNOCKBACK_RESISTANCE, config.knockbackResistance());
+        builder.add(Attributes.MAX_HEALTH, config.health());
+        builder.add(Attributes.MOVEMENT_SPEED, config.moveSpeed());
 
         return builder;
     }

@@ -1,6 +1,6 @@
 package com.predator.common.gameplay.entity.living.yautja;
 
-import com.avp.common.util.AVPPredicates;
+import com.blib.common.gameplay.util.BLibEntityPredicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
@@ -40,8 +40,10 @@ public class YautjaSpawning {
     }
 
     public static boolean anyNearbyYautja(ServerLevelAccessor serverLevelAccessor, BlockPos blockPos, int requiredDistanceInBlocks) {
-        var allYautja = serverLevelAccessor.getLevel().getEntities(EntityTypeTest.forClass(Yautja.class), AVPPredicates.alwaysTrue());
+        var allYautja = serverLevelAccessor.getLevel()
+            .getEntities(EntityTypeTest.forClass(Yautja.class), BLibEntityPredicates.alwaysTrue());
         var requiredDistanceSquared = requiredDistanceInBlocks * requiredDistanceInBlocks;
+
         return allYautja.stream()
             .anyMatch(yautja -> yautja.distanceToSqr(blockPos.getX(), blockPos.getY(), blockPos.getZ()) < requiredDistanceSquared);
     }

@@ -1,6 +1,6 @@
 package com.predator.fabric.data.lang.en_us.provider;
 
-import com.avp.common.registry.AVPRegistryValidation;
+import com.predator.Predator;
 import com.predator.common.registry.init.item.PredatorArmorItems;
 import com.predator.common.registry.init.item.PredatorItems;
 import com.predator.common.registry.init.item.block.PredatorSpawnEggItems;
@@ -42,15 +42,25 @@ public class EnUsItemProvider {
         // Spawn Egg Items
         addItem(builder, PredatorSpawnEggItems.YAUTJA_SPAWN_EGG, "Yautja Spawn Egg");
 
-        AVPRegistryValidation.throwIfMissingEntries(
-            PredatorItems.REGISTRY.getAll()
-                .stream()
-                .filter(deferredHolder -> !(deferredHolder.get() instanceof BlockItem))
-                .toList(),
-            TOUCHED_ENTRIES::contains,
-            Item::getDescriptionId,
-            "Item translation did not complete successfully - there are unhandled items that need to be handled."
-        );
+        var missingEntries = PredatorItems.REGISTRY.computeMissingEntries(TOUCHED_ENTRIES);
+        var filteredMissingEntries = missingEntries
+            .stream()
+            .filter(item -> !(item instanceof BlockItem))
+            .toList();
+
+        if (!filteredMissingEntries.isEmpty()) {
+            var unhandledBlocksStrings = String.join("\n", filteredMissingEntries.stream().map(Item::getDescriptionId).toList());
+
+            Predator.LOGGER.error(
+                "Detected {} unhandled entries. Entries:\n{}",
+                filteredMissingEntries.size(),
+                unhandledBlocksStrings
+            );
+
+            throw new IllegalStateException(
+                "Item translation did not complete successfully - there are unhandled items that need to be handled."
+            );
+        }
     };
 
     private static void addItem(

@@ -1,6 +1,5 @@
 package com.predator.fabric.data.tag;
 
-import com.avp.common.registry.tag.AVPItemTags;
 import com.compat.CommonItemTags;
 import com.predator.common.registry.init.item.PredatorArmorItems;
 import com.predator.common.registry.init.item.PredatorItems;
@@ -39,7 +38,8 @@ public class PredatorItemTagProvider extends FabricTagProvider.ItemTagProvider {
         addAutomatedTagItems();
 
         getOrCreateTagBuilder(PredatorItemTags.HOSTILE_WEAPONS)
-            .addOptionalTag(AVPItemTags.GUNS)
+            // FIXME:
+            // .addOptionalTag(AVPItemTags.GUNS)
             .addTag(ItemTags.AXES)
             .addTag(ItemTags.SWORDS)
             .add(

@@ -1,6 +1,7 @@
 package com.predator.fabric.data.recipe;
 
-import com.avp.fabric.data.recipe.builder.RecipeBuilder;
+import com.blib.fabric.data.recipe.builder.RecipeBuilder;
+import com.predator.Predator;
 import com.predator.fabric.data.recipe.impl.MiscellaneousRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -17,7 +18,7 @@ public class RecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void buildRecipes(RecipeOutput recipeOutput) {
-        var builder = RecipeBuilder.with(recipeOutput);
+        var builder = RecipeBuilder.with(Predator.MOD, recipeOutput);
         MiscellaneousRecipeProvider.provide(builder);
     }
 

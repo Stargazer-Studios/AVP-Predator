@@ -1,11 +1,7 @@
 package com.predator;
 
-import com.avp.AVP;
-import com.avp.common.config.AVPConfig;
 import com.blib.BLib;
 import com.blib.BLibMod;
-import com.blib.event.BLibLevelTickEvent;
-import com.blib.event.key.BLibEventKeys;
 import com.blib.service.BLibServices;
 import com.predator.common.registry.init.PredatorArmorMaterials;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
@@ -19,8 +15,8 @@ import com.predator.common.registry.init.item.PredatorBlockItems;
 import com.predator.common.registry.init.item.PredatorItems;
 import com.predator.common.registry.init.item.block.PredatorSpawnEggItems;
 import com.predator.mixin.ParrotSoundMapAccessor;
-import mod.azure.azurelib.common.config.format.ConfigFormats;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,9 +29,6 @@ public class Predator {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static void initialize() {
-        // FIXME:
-        AVP.config = AVP.registerConfig(AVPConfig.class, ConfigFormats.json()).getConfigInstance();
-
         LOGGER.info("Initializing AVP (Predator) for mod loader '{}'", BLibServices.MOD_LOADER.getModLoaderName());
 
         // No dependencies.
@@ -60,12 +53,13 @@ public class Predator {
         // Functionality
         PredatorEntitySpawns.initialize();
 
-        MOD.addEventListener(BLibEventKeys.LEVEL_TICK_PRE, Predator::injectCustomParrotSounds);
+        // TODO: Only run this once on server start.
+        BLibServices.EVENT.beforeLevelTick().register(Predator::injectCustomParrotSounds);
     }
 
     // Marine Spawns and Ash placement in nuked zones
-    public static void injectCustomParrotSounds(BLibLevelTickEvent.Pre event) {
-        if (event.level().isClientSide) {
+    public static void injectCustomParrotSounds(Level level) {
+        if (level.isClientSide) {
             return;
         }
 

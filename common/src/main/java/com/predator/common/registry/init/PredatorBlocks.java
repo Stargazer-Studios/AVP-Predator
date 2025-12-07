@@ -1,10 +1,10 @@
 package com.predator.common.registry.init;
 
-import com.avp.common.gameplay.block.property.BlockProperties;
 import com.blib.BLibHolder;
 import com.blib.BLibRegistry;
 import com.predator.Predator;
 import com.predator.common.gameplay.block.TripMineBlock;
+import com.predator.common.gameplay.block.property.PredatorBlockProperties;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 
@@ -16,7 +16,7 @@ public class PredatorBlocks {
 
     public static final BLibHolder<Block> TRIP_MINE_BLOCK = create(
         "trip_mine",
-        () -> new TripMineBlock(BlockProperties.TITANIUM.build().noOcclusion())
+        () -> new TripMineBlock(PredatorBlockProperties.TRIP_MINE.build().noOcclusion())
     );
 
     private static <T extends Block> BLibHolder<T> create(String path, Supplier<T> blockSupplier) {

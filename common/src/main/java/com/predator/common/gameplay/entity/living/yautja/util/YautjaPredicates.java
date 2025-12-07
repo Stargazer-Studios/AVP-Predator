@@ -1,6 +1,6 @@
 package com.predator.common.gameplay.entity.living.yautja.util;
 
-import com.avp.common.util.AVPPredicates;
+import com.blib.common.gameplay.util.BLibEntityPredicates;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
 import com.predator.common.registry.tag.PredatorItemTags;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +20,7 @@ public class YautjaPredicates {
         return switch (potentialTarget) {
             case Yautja yautja1 -> false;
             case Creeper creeper -> false;
-            case Player player -> !AVPPredicates.IS_IMMORTAL.test(player)
+            case Player player -> !BLibEntityPredicates.isInvulnerable(player)
                 && (player.getMainHandItem().is(PredatorItemTags.HOSTILE_WEAPONS)
                     || (yautja.getLastAttacker() != null && yautja.getLastAttacker().is(player)));
             default -> {

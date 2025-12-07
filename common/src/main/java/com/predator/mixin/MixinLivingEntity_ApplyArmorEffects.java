@@ -1,6 +1,6 @@
 package com.predator.mixin;
 
-import com.avp.common.util.AVPPredicates;
+import com.blib.common.gameplay.util.BLibEntityPredicates;
 import com.predator.common.registry.tag.PredatorItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -33,6 +33,6 @@ public abstract class MixinLivingEntity_ApplyArmorEffects extends Entity {
 
     @Unique
     private boolean isWearingFullPredatorArmor(LivingEntity self) {
-        return AVPPredicates.hasFullArmorSetMatching(self, (itemStack -> itemStack.is(PredatorItemTags.PREDATOR_ARMORS)));
+        return BLibEntityPredicates.hasFullArmorSetMatching(self, (itemStack -> itemStack.is(PredatorItemTags.PREDATOR_ARMORS)));
     }
 }
