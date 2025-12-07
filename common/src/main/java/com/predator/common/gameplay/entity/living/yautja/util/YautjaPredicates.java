@@ -22,7 +22,7 @@ public class YautjaPredicates {
             case Creeper creeper -> false;
             case Player player -> !AVPPredicates.IS_IMMORTAL.test(player)
                 && (player.getMainHandItem().is(PredatorItemTags.HOSTILE_WEAPONS)
-                || (yautja.getLastAttacker() != null && yautja.getLastAttacker().is(player)));
+                    || (yautja.getLastAttacker() != null && yautja.getLastAttacker().is(player)));
             default -> {
                 if (potentialTarget instanceof Mob || potentialTarget instanceof Monster) {
                     yield potentialTarget.getMainHandItem().is(PredatorItemTags.HOSTILE_WEAPONS)
