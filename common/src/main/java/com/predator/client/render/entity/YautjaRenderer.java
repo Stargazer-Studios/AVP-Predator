@@ -2,6 +2,7 @@ package com.predator.client.render.entity;
 
 import com.predator.PredatorResources;
 import com.predator.client.animation.entity.YautjaAnimator;
+import com.predator.client.render.layer.YautjaArmorLayer;
 import com.predator.client.render.layer.YautjaItemLayer;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
 import mod.azure.azurelib.common.render.entity.AzEntityRenderer;
@@ -27,6 +28,7 @@ public class YautjaRenderer extends AzEntityRenderer<Yautja> {
             AzEntityRendererConfig.<Yautja>builder(MODEL, TEXTURE)
                 .setRenderType(YautjaRenderer::getRenderType)
                 .setAnimatorProvider(YautjaAnimator::new)
+                .addRenderLayer(new YautjaArmorLayer<>())
                 .addRenderLayer(new YautjaItemLayer())
                 .setShadowRadius(0.5F)
                 .build(),
