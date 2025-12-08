@@ -1,6 +1,7 @@
 package com.predator.client;
 
 import com.avp.service.Services;
+import com.blib.service.BLibServices;
 import com.predator.client.render.armor.JunglePredatorArmorRenderer;
 import com.predator.client.render.block.TripMineRenderer;
 import com.predator.client.render.entity.YautjaRenderer;
@@ -24,7 +25,7 @@ public class PredatorClient {
     }
 
     private static void registerArmorRenderers() {
-        Services.CLIENT_REGISTRY.registerArmorRenderer(
+        BLibServices.CLIENT_REGISTRY.registerArmorRenderer(
             JunglePredatorArmorRenderer::new,
             List.of(
                 PredatorArmorItems.JUNGLE_PREDATOR_HELMET,
@@ -36,19 +37,19 @@ public class PredatorClient {
     }
 
     private static void registerBlockEntityRenderers() {
-        Services.CLIENT_REGISTRY.registerBlockEntityRenderer(
+        BLibServices.CLIENT_REGISTRY.registerBlockEntityRenderer(
             PredatorBlockEntityTypes.TRIP_MINE,
             (BlockEntityRendererProvider.Context rendererDispatcherIn) -> new TripMineRenderer()
         );
     }
 
     private static void registerEntityRenderers() {
-        Services.CLIENT_REGISTRY.registerEntityRenderer(PredatorEntityTypes.SHURIKEN, SpinningItemRenderer::new);
-        Services.CLIENT_REGISTRY.registerEntityRenderer(PredatorEntityTypes.SMART_DISC, SpinningItemRenderer::new);
-        Services.CLIENT_REGISTRY.registerEntityRenderer(PredatorEntityTypes.YAUTJA, YautjaRenderer::new);
+        BLibServices.CLIENT_REGISTRY.registerEntityRenderer(PredatorEntityTypes.SHURIKEN, SpinningItemRenderer::new);
+        BLibServices.CLIENT_REGISTRY.registerEntityRenderer(PredatorEntityTypes.SMART_DISC, SpinningItemRenderer::new);
+        BLibServices.CLIENT_REGISTRY.registerEntityRenderer(PredatorEntityTypes.YAUTJA, YautjaRenderer::new);
     }
 
     private static void registerItemRenderers() {
-        Services.CLIENT_REGISTRY.registerItemRenderer(PredatorBlockItems.TRIP_MINE_BLOCK, name -> TripMineItemRenderer::new);
+        BLibServices.CLIENT_REGISTRY.registerItemRenderer(PredatorBlockItems.TRIP_MINE_BLOCK, name -> TripMineItemRenderer::new);
     }
 }

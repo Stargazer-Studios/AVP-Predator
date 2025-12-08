@@ -1,10 +1,10 @@
 package com.predator.common.gameplay.entity.living.yautja;
 
+import com.blib.common.constant.PlayerStatConstants;
 import com.blib.common.gameplay.entity.ai.goal.StrollAroundInWaterGoal;
 import com.blib.common.gameplay.entity.ai.goal.combat.DelayedAttackGoal;
 import com.blib.common.gameplay.model.spawning.AdvancedStats;
 import com.blib.common.network.data.DataUser;
-import com.predator.common.constant.PlayerStatConstants;
 import com.predator.common.gameplay.entity.ai.goal.UseItemGoal;
 import com.predator.common.gameplay.entity.living.yautja.manager.YautjaNavigationManager;
 import com.predator.common.gameplay.entity.living.yautja.util.YautjaPredicates;
@@ -42,15 +42,15 @@ public class Yautja extends Monster implements DataUser {
 
     public static final float ARMOR_TOUGHNESS = 16.0F;
 
-    public static final float ATTACK_DAMAGE = PlayerStatConstants.PLAYER_HEALTH * 0.75F;
+    public static final float ATTACK_DAMAGE = PlayerStatConstants.BASE_HEALTH * 0.75F;
 
     public static final float FOLLOW_RANGE = 35F;
 
-    public static final float HEALTH = PlayerStatConstants.PLAYER_HEALTH * 10F;
+    public static final float HEALTH = PlayerStatConstants.BASE_HEALTH * 10F;
 
     public static final float KNOCKBACK_RESISTANCE = 1f;
 
-    public static final float SPEED = PlayerStatConstants.PLAYER_WALK_SPEED * 1.2F;
+    public static final float SPEED = PlayerStatConstants.BASE_WALK_SPEED * 1.2F;
 
     private final YautjaAnimationDispatcher animationDispatcher;
 
