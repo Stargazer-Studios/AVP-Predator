@@ -1,9 +1,9 @@
 package com.predator.common.gameplay.entity.living.yautja;
 
-import com.avp.common.gameplay.ai.goal.StrollAroundInWaterGoal;
-import com.avp.common.gameplay.ai.goal.combat.DelayedAttackGoal;
-import com.avp.common.model.spawning.AdvancedStats;
-import com.lib.common.network.DataUser;
+import com.blib.common.gameplay.entity.ai.goal.StrollAroundInWaterGoal;
+import com.blib.common.gameplay.entity.ai.goal.combat.DelayedAttackGoal;
+import com.blib.common.gameplay.model.spawning.AdvancedStats;
+import com.blib.common.network.data.DataUser;
 import com.predator.common.constant.PlayerStatConstants;
 import com.predator.common.gameplay.entity.ai.goal.UseItemGoal;
 import com.predator.common.gameplay.entity.living.yautja.manager.YautjaNavigationManager;

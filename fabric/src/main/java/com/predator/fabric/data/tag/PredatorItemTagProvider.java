@@ -1,6 +1,6 @@
 package com.predator.fabric.data.tag;
 
-import com.compat.CommonItemTags;
+import com.compatibility.CommonItemTags;
 import com.predator.common.registry.init.item.PredatorArmorItems;
 import com.predator.common.registry.init.item.PredatorItems;
 import com.predator.common.registry.tag.PredatorItemTags;

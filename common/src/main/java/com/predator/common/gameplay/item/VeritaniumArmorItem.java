@@ -1,8 +1,8 @@
 package com.predator.common.gameplay.item;
 
-import com.avp.common.data.TooltipTranslationKeys;
-import com.lib.common.data.TooltipHintBuilder;
-import com.lib.common.model.TooltipCategoryType;
+import com.blib.common.data.TooltipHintBuilder;
+import com.blib.common.data.TooltipTranslationKeys;
+import com.blib.common.gameplay.model.TooltipCategoryType;
 import com.predator.common.registry.init.PredatorArmorMaterials;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ArmorItem;

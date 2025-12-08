@@ -1,8 +1,8 @@
 package com.predator.common.registry.init;
 
-import com.avp.common.registry.init.entity_type.SilencedEntityTypeBuilder;
 import com.blib.BLibHolder;
 import com.blib.BLibRegistry;
+import com.blib.common.registry.init.entity_type.SilencedEntityTypeBuilder;
 import com.blib.service.BLibServices;
 import com.predator.Predator;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
@@ -36,7 +36,7 @@ public class PredatorEntityTypes {
     );
 
     public static <T extends Entity> BLibHolder<EntityType<T>> create(String id, EntityType.Builder<T> builder) {
-        return REGISTRY.createHolder(id, () -> ((SilencedEntityTypeBuilder) builder).avp$buildWithoutDataFixerCheck());
+        return REGISTRY.createHolder(id, () -> ((SilencedEntityTypeBuilder) builder).blib$buildWithoutDataFixerCheck());
     }
 
     public static void initialize() {
