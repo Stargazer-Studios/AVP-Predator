@@ -31,27 +31,29 @@ public class Predator {
     public static void initialize() {
         LOGGER.info("Initializing AVP (Predator) for mod loader '{}'", BLibServices.MOD_LOADER.getModLoaderName());
 
-        // No dependencies.
-        PredatorBlocks.initialize();
-        PredatorItems.initialize();
-        PredatorEntityTypes.initialize();
-        PredatorSoundEvents.initialize();
+        MOD.initialize(() -> {
+            // No dependencies.
+            PredatorBlocks.initialize();
+            PredatorItems.initialize();
+            PredatorEntityTypes.initialize();
+            PredatorSoundEvents.initialize();
 
-        // Depends on blocks.
-        PredatorBlockItems.initialize();
-        // Depends on sound events.
-        PredatorArmorMaterials.initialize();
-        // Depends on armor materials.
-        PredatorArmorItems.initialize();
-        // Depends on entity types.
-        PredatorSpawnEggItems.initialize();
-        // Depends on blocks.
-        PredatorBlockEntityTypes.initialize();
-        // Depends on blocks, items, block items, etc.
-        PredatorCreativeModeTabs.initialize();
+            // Depends on blocks.
+            PredatorBlockItems.initialize();
+            // Depends on sound events.
+            PredatorArmorMaterials.initialize();
+            // Depends on armor materials.
+            PredatorArmorItems.initialize();
+            // Depends on entity types.
+            PredatorSpawnEggItems.initialize();
+            // Depends on blocks.
+            PredatorBlockEntityTypes.initialize();
+            // Depends on blocks, items, block items, etc.
+            PredatorCreativeModeTabs.initialize();
 
-        // Functionality
-        PredatorEntitySpawns.initialize();
+            // Functionality
+            PredatorEntitySpawns.initialize();
+        });
 
         // TODO: Only run this once on server start.
         BLibServices.EVENT.beforeLevelTick().register(Predator::injectCustomParrotSounds);

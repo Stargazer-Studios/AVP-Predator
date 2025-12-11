@@ -1,6 +1,5 @@
 package com.predator.client;
 
-import com.avp.service.Services;
 import com.blib.service.BLibServices;
 import com.predator.client.render.armor.JunglePredatorArmorRenderer;
 import com.predator.client.render.block.TripMineRenderer;
