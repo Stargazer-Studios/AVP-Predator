@@ -3,7 +3,6 @@ plugins {
     id 'idea'
     id 'multiloader-common'
     id 'net.neoforged.moddev'
-    id 'org.moddedmc.wiki.toolkit'
 }
 
 neoForge {
