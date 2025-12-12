@@ -1,17 +1,16 @@
 package com.predator.common.registry.init.item;
 
 import com.blib.BLibHolder;
-import com.blib.BLibRegistry;
+import com.blib.common.registry.impl.BLibItemRegistry;
 import com.predator.Predator;
 import com.predator.common.gameplay.item.VeritaniumArmorItem;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ArmorItem;
 
 import java.util.function.Supplier;
 
 public class PredatorArmorItems {
 
-    private static final BLibRegistry<ArmorItem> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.ITEM);
+    private static final BLibItemRegistry REGISTRY = Predator.MOD.createItemRegistry();
 
     public static final BLibHolder<ArmorItem> JUNGLE_PREDATOR_LEGGINGS = create(
         "jungle_predator_leggings",

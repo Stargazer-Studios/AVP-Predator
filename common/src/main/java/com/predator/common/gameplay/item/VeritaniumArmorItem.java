@@ -26,7 +26,7 @@ public class VeritaniumArmorItem extends ArmorItem {
 
     public VeritaniumArmorItem(Type type) {
         super(
-            PredatorArmorMaterials.VERITANIUM.getHolder(),
+            PredatorArmorMaterials.VERITANIUM,
             type,
             new Properties().durability(type.getDurability(VERITANIUM_DURABILITY_MULTIPLIER)).fireResistant()
         );

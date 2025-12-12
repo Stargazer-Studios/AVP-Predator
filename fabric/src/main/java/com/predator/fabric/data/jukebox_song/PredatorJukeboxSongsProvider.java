@@ -24,7 +24,7 @@ public class PredatorJukeboxSongsProvider extends FabricDynamicRegistryProvider 
 
     private JukeboxSong createPredatorMusic1Song() {
         return new JukeboxSong(
-            PredatorSoundEvents.JUKEBOX_SOUNDS_PREDATOR_MUSIC_1.getHolder(),
+            PredatorSoundEvents.JUKEBOX_SOUNDS_PREDATOR_MUSIC_1,
             Component.translatable("jukebox_song.avp_predator.predator_music_1"),
             184,
             12

@@ -34,7 +34,7 @@ public class PredatorArmorMaterials {
             )
         ),
         6,
-        PredatorSoundEvents.ITEM_ARMOR_EQUIP_VERITANIUM::getHolder,
+        () -> PredatorSoundEvents.ITEM_ARMOR_EQUIP_VERITANIUM,
         () -> Ingredient.of(PredatorItems.VERITANIUM_SHARD.get()),
         4,
         0.15F,

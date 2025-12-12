@@ -1,13 +1,12 @@
 package com.predator.common.registry.init.item;
 
 import com.blib.BLibHolder;
-import com.blib.BLibRegistry;
+import com.blib.common.registry.impl.BLibItemRegistry;
 import com.predator.Predator;
 import com.predator.common.gameplay.item.ShurikenItem;
 import com.predator.common.gameplay.item.SmartDiscItem;
 import com.predator.common.registry.init.PredatorTiers;
 import com.predator.common.registry.key.PredatorJukeboxSongKeys;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.DiscFragmentItem;
 import net.minecraft.world.item.HoeItem;
@@ -21,7 +20,7 @@ import java.util.function.Supplier;
 
 public class PredatorItems {
 
-    public static final BLibRegistry<Item> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.ITEM);
+    public static final BLibItemRegistry REGISTRY = Predator.MOD.createItemRegistry();
 
     public static final BLibHolder<Item> PREDATOR_MUSIC_DISC_1 = create(
         "predator_music_disc_1",

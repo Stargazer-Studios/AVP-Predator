@@ -1,21 +1,19 @@
 package com.predator.common.registry.init;
 
 import com.blib.BLibHolder;
-import com.blib.BLibRegistry;
-import com.blib.common.registry.init.entity_type.SilencedEntityTypeBuilder;
-import com.blib.service.BLibServices;
+import com.blib.common.registry.SilencedEntityTypeBuilder;
+import com.blib.common.registry.impl.BLibEntityTypeRegistry;
 import com.predator.Predator;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
 import com.predator.common.gameplay.entity.projectile.ShurikenProjectile;
 import com.predator.common.gameplay.entity.projectile.SmartDiscProjectile;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 
 public class PredatorEntityTypes {
 
-    public static final BLibRegistry<EntityType<?>> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.ENTITY_TYPE);
+    public static final BLibEntityTypeRegistry REGISTRY = Predator.MOD.createEntityTypeRegistry();
 
     public static final BLibHolder<EntityType<ShurikenProjectile>> SHURIKEN = create(
         "shuriken",
@@ -41,6 +39,6 @@ public class PredatorEntityTypes {
 
     public static void initialize() {
         REGISTRY.registerAll();
-        BLibServices.REGISTRY.registerEntityAttributes(YAUTJA, Yautja::createYautjaAttributes);
+        REGISTRY.registerEntityAttributes(YAUTJA, Yautja::createYautjaAttributes);
     }
 }

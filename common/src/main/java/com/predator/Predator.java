@@ -29,30 +29,20 @@ public class Predator {
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static void initialize() {
-        LOGGER.info("Initializing AVP (Predator) for mod loader '{}'", BLibServices.MOD_LOADER.getModLoaderName());
+        LOGGER.info("Initializing AVP (Predator) for mod loader '{}'", BLib.getModLoaderType());
 
         MOD.initialize(() -> {
-            // No dependencies.
-            PredatorBlocks.initialize();
-            PredatorItems.initialize();
-            PredatorEntityTypes.initialize();
-            PredatorSoundEvents.initialize();
-
-            // Depends on blocks.
-            PredatorBlockItems.initialize();
-            // Depends on sound events.
-            PredatorArmorMaterials.initialize();
-            // Depends on armor materials.
             PredatorArmorItems.initialize();
-            // Depends on entity types.
-            PredatorSpawnEggItems.initialize();
-            // Depends on blocks.
+            PredatorArmorMaterials.initialize();
             PredatorBlockEntityTypes.initialize();
-            // Depends on blocks, items, block items, etc.
+            PredatorBlockItems.initialize();
+            PredatorBlocks.initialize();
             PredatorCreativeModeTabs.initialize();
-
-            // Functionality
             PredatorEntitySpawns.initialize();
+            PredatorEntityTypes.initialize();
+            PredatorItems.initialize();
+            PredatorSoundEvents.initialize();
+            PredatorSpawnEggItems.initialize();
         });
 
         // TODO: Only run this once on server start.
