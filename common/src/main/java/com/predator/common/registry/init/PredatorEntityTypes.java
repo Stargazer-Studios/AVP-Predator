@@ -39,6 +39,6 @@ public class PredatorEntityTypes {
 
     public static void initialize() {
         REGISTRY.registerAll();
-        REGISTRY.registerEntityAttributes(YAUTJA, Yautja::createYautjaAttributes);
+        REGISTRY.registerAttributes(YAUTJA, Yautja::createYautjaAttributes);
     }
 }
