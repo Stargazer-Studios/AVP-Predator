@@ -2,7 +2,6 @@ package com.predator;
 
 import com.blib.BLib;
 import com.blib.BLibMod;
-import com.blib.service.BLibServices;
 import com.predator.common.registry.init.PredatorArmorMaterials;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
 import com.predator.common.registry.init.PredatorBlocks;
@@ -43,10 +42,10 @@ public class Predator {
             PredatorItems.initialize();
             PredatorSoundEvents.initialize();
             PredatorSpawnEggItems.initialize();
-        });
 
-        // TODO: Only run this once on server start.
-        BLibServices.EVENT.beforeLevelTick().register(Predator::injectCustomParrotSounds);
+            // TODO: Only run this once on server start.
+            MOD.events().beforeLevelTick().register(Predator::injectCustomParrotSounds);
+        });
     }
 
     // Marine Spawns and Ash placement in nuked zones
