@@ -1,10 +1,11 @@
 package com.predator.common.registry.init.item.block;
 
 import com.blib.common.registry.BLibHolder;
-import com.blib.common.registry.impl.BLibItemRegistry;
+import com.blib.common.registry.BLibRegistry;
 import com.blib.service.BLibServices;
 import com.predator.Predator;
 import com.predator.common.registry.init.PredatorEntityTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
@@ -14,7 +15,7 @@ import java.util.function.Supplier;
 
 public class PredatorSpawnEggItems {
 
-    public static final BLibItemRegistry REGISTRY = Predator.MOD.registries().createItemRegistry();
+    public static final BLibRegistry<Item> REGISTRY = Predator.MOD.registries().create(BuiltInRegistries.ITEM);
 
     public static final BLibHolder<SpawnEggItem> YAUTJA_SPAWN_EGG = create(
         "yautja",

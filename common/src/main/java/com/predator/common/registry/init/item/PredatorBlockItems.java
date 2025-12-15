@@ -1,9 +1,10 @@
 package com.predator.common.registry.init.item;
 
 import com.blib.common.registry.BLibHolder;
-import com.blib.common.registry.impl.BLibItemRegistry;
+import com.blib.common.registry.BLibRegistry;
 import com.predator.Predator;
 import com.predator.common.registry.init.PredatorBlocks;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -12,7 +13,7 @@ import java.util.function.Supplier;
 
 public class PredatorBlockItems {
 
-    private static final BLibItemRegistry REGISTRY = Predator.MOD.registries().createItemRegistry();
+    private static final BLibRegistry<Item> REGISTRY = Predator.MOD.registries().create(BuiltInRegistries.ITEM);
 
     public static final BLibHolder<BlockItem> TRIP_MINE_BLOCK = create("trip_mine", PredatorBlocks.TRIP_MINE_BLOCK);
 
