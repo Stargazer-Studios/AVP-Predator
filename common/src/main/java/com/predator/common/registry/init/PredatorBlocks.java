@@ -1,7 +1,7 @@
 package com.predator.common.registry.init;
 
-import com.blib.BLibHolder;
-import com.blib.BLibRegistry;
+import com.blib.common.registry.BLibHolder;
+import com.blib.common.registry.BLibRegistry;
 import com.predator.Predator;
 import com.predator.common.gameplay.block.TripMineBlock;
 import com.predator.common.gameplay.block.property.PredatorBlockProperties;
@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class PredatorBlocks {
 
-    public static final BLibRegistry<Block> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.BLOCK);
+    public static final BLibRegistry<Block> REGISTRY = Predator.MOD.registries().create(BuiltInRegistries.BLOCK);
 
     public static final BLibHolder<Block> TRIP_MINE_BLOCK = create(
         "trip_mine",

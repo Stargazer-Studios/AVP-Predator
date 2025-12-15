@@ -1,7 +1,7 @@
 package com.predator.common.registry.init;
 
-import com.blib.BLibHolder;
-import com.blib.BLibRegistry;
+import com.blib.common.registry.BLibHolder;
+import com.blib.common.registry.BLibRegistry;
 import com.predator.Predator;
 import com.predator.common.gameplay.block.entity.TripMineBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 public class PredatorBlockEntityTypes {
 
-    private static final BLibRegistry<BlockEntityType<?>> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.BLOCK_ENTITY_TYPE);
+    private static final BLibRegistry<BlockEntityType<?>> REGISTRY = Predator.MOD.registries().create(BuiltInRegistries.BLOCK_ENTITY_TYPE);
 
     public static final BLibHolder<BlockEntityType<TripMineBlockEntity>> TRIP_MINE = create(
         "trip_mine",

@@ -1,7 +1,7 @@
 package com.predator.common.registry.init;
 
-import com.blib.BLibHolder;
-import com.blib.BLibRegistry;
+import com.blib.common.registry.BLibHolder;
+import com.blib.common.registry.BLibRegistry;
 import com.predator.Predator;
 import com.predator.PredatorResources;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -9,7 +9,7 @@ import net.minecraft.sounds.SoundEvent;
 
 public class PredatorSoundEvents {
 
-    private static final BLibRegistry<SoundEvent> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.SOUND_EVENT);
+    private static final BLibRegistry<SoundEvent> REGISTRY = Predator.MOD.registries().create(BuiltInRegistries.SOUND_EVENT);
 
     public static final BLibHolder<SoundEvent> ITEM_ARMOR_EQUIP_VERITANIUM = create("item.armor.equip_veritanium");
 

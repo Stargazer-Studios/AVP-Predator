@@ -18,7 +18,7 @@ public class EnUsEntityProvider {
         addEntity(builder, PredatorEntityTypes.SMART_DISC, "Smart Disc");
         addEntity(builder, PredatorEntityTypes.YAUTJA, "Yautja");
 
-        var missingEntries = PredatorEntityTypes.REGISTRY.computeMissingEntries(TOUCHED_ENTRIES);
+        var missingEntries = PredatorEntityTypes.TYPE_REGISTRY.computeMissingEntries(TOUCHED_ENTRIES);
 
         if (!missingEntries.isEmpty()) {
             var unhandledBlocksStrings = String.join("\n", missingEntries.stream().map(EntityType::getDescriptionId).toList());

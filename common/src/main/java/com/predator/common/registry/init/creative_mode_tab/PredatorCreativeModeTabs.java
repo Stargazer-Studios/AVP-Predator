@@ -1,7 +1,7 @@
 package com.predator.common.registry.init.creative_mode_tab;
 
-import com.blib.BLibHolder;
-import com.blib.BLibRegistry;
+import com.blib.common.registry.BLibHolder;
+import com.blib.common.registry.BLibRegistry;
 import com.predator.Predator;
 import com.predator.common.registry.init.PredatorBlocks;
 import com.predator.common.registry.init.creative_mode_tab.initializer.BlocksCreativeModeTabInitializer;
@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 
 public class PredatorCreativeModeTabs {
 
-    private static final BLibRegistry<CreativeModeTab> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.CREATIVE_MODE_TAB);
+    private static final BLibRegistry<CreativeModeTab> REGISTRY = Predator.MOD.registries().create(BuiltInRegistries.CREATIVE_MODE_TAB);
 
     private static final String BASE_PATH = "creativeModeTab";
 

@@ -1,6 +1,6 @@
 package com.predator.common.registry.init.item.block;
 
-import com.blib.BLibHolder;
+import com.blib.common.registry.BLibHolder;
 import com.blib.common.registry.impl.BLibItemRegistry;
 import com.blib.service.BLibServices;
 import com.predator.Predator;
@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 public class PredatorSpawnEggItems {
 
-    public static final BLibItemRegistry REGISTRY = Predator.MOD.createItemRegistry();
+    public static final BLibItemRegistry REGISTRY = Predator.MOD.registries().createItemRegistry();
 
     public static final BLibHolder<SpawnEggItem> YAUTJA_SPAWN_EGG = create(
         "yautja",

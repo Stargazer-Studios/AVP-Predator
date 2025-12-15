@@ -1,7 +1,7 @@
 package com.predator.common.registry.init;
 
-import com.blib.BLibHolder;
-import com.blib.BLibRegistry;
+import com.blib.common.registry.BLibHolder;
+import com.blib.common.registry.BLibRegistry;
 import com.predator.Predator;
 import com.predator.PredatorResources;
 import com.predator.common.registry.init.item.PredatorItems;
@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 
 public class PredatorArmorMaterials {
 
-    public static final BLibRegistry<ArmorMaterial> REGISTRY = Predator.MOD.createRegistry(BuiltInRegistries.ARMOR_MATERIAL);
+    public static final BLibRegistry<ArmorMaterial> REGISTRY = Predator.MOD.registries().create(BuiltInRegistries.ARMOR_MATERIAL);
 
     public static final BLibHolder<ArmorMaterial> VERITANIUM = create(
         "veritanium",
