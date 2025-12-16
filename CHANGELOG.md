@@ -1,4 +1,4 @@
-# vMAJOR.MINOR.PATCH-DIST
+# v0.1.0
 
 ## ✍️ Developer Notes
 - For help or other questions, concerns, etc. check out our Discord server: https://discord.gg/wp7mvmbkVb
@@ -10,7 +10,8 @@
 - N/A
 
 ## ♻️ Changes
-- N/A
+- Updated yautja's model and texture.
+  - Thanks to Davianortis for contributing the model and texture changes!
 
 ## 🐞 Fixes
 - N/A
