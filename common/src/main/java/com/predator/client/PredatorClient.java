@@ -1,6 +1,7 @@
 package com.predator.client;
 
-import com.blib.service.BLibServices;
+import com.blib.client.BLibClientMod;
+import com.predator.Predator;
 import com.predator.client.render.armor.JunglePredatorArmorRenderer;
 import com.predator.client.render.block.TripMineRenderer;
 import com.predator.client.render.entity.YautjaRenderer;
@@ -16,15 +17,18 @@ import java.util.List;
 
 public class PredatorClient {
 
+    private static final BLibClientMod MOD = BLibClientMod.createFor(Predator.MOD);
+
     public static void initialize() {
         registerArmorRenderers();
         registerBlockEntityRenderers();
         registerEntityRenderers();
         registerItemRenderers();
+        MOD.initialize();
     }
 
     private static void registerArmorRenderers() {
-        BLibServices.CLIENT_REGISTRY.registerArmorRenderer(
+        MOD.registries().registerArmorRenderer(
             JunglePredatorArmorRenderer::new,
             List.of(
                 PredatorArmorItems.JUNGLE_PREDATOR_HELMET,
@@ -36,19 +40,19 @@ public class PredatorClient {
     }
 
     private static void registerBlockEntityRenderers() {
-        BLibServices.CLIENT_REGISTRY.registerBlockEntityRenderer(
+        MOD.registries().registerBlockEntityRenderer(
             PredatorBlockEntityTypes.TRIP_MINE,
             (BlockEntityRendererProvider.Context rendererDispatcherIn) -> new TripMineRenderer()
         );
     }
 
     private static void registerEntityRenderers() {
-        BLibServices.CLIENT_REGISTRY.registerEntityRenderer(PredatorEntityTypes.SHURIKEN, SpinningItemRenderer::new);
-        BLibServices.CLIENT_REGISTRY.registerEntityRenderer(PredatorEntityTypes.SMART_DISC, SpinningItemRenderer::new);
-        BLibServices.CLIENT_REGISTRY.registerEntityRenderer(PredatorEntityTypes.YAUTJA, YautjaRenderer::new);
+        MOD.registries().registerEntityRenderer(PredatorEntityTypes.SHURIKEN, SpinningItemRenderer::new);
+        MOD.registries().registerEntityRenderer(PredatorEntityTypes.SMART_DISC, SpinningItemRenderer::new);
+        MOD.registries().registerEntityRenderer(PredatorEntityTypes.YAUTJA, YautjaRenderer::new);
     }
 
     private static void registerItemRenderers() {
-        BLibServices.CLIENT_REGISTRY.registerItemRenderer(PredatorBlockItems.TRIP_MINE_BLOCK, name -> TripMineItemRenderer::new);
+        MOD.registries().registerItemRenderer(PredatorBlockItems.TRIP_MINE_BLOCK, name -> TripMineItemRenderer::new);
     }
 }

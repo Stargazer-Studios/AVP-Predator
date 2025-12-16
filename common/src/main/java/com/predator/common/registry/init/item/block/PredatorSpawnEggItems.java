@@ -2,7 +2,6 @@ package com.predator.common.registry.init.item.block;
 
 import com.blib.common.registry.BLibHolder;
 import com.blib.common.registry.BLibRegistry;
-import com.blib.service.BLibServices;
 import com.predator.Predator;
 import com.predator.common.registry.init.PredatorEntityTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -30,7 +29,8 @@ public class PredatorSpawnEggItems {
         int primaryColor,
         int secondaryColor
     ) {
-        var supplier = BLibServices.FACTORY.createSpawnEggSupplier(entityTypeSupplier, primaryColor, secondaryColor, new Item.Properties());
+        var supplier = Predator.MOD.factories()
+            .createSpawnEggSupplier(entityTypeSupplier, primaryColor, secondaryColor, new Item.Properties());
         return REGISTRY.createHolder(baseId + "_spawn_egg", supplier);
     }
 
