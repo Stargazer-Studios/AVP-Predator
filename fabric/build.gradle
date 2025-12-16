@@ -87,6 +87,10 @@ dependencies {
 
     // Here in case of any issues
     //modImplementation "maven.modrinth:modernfix:5.21.0+mc1.21.1"
+
+    // Compatibility
+    modCompileOnly "com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}"
+    modRuntimeOnly "com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}"
 }
 
 loom {
