@@ -1,5 +1,6 @@
 package com.predator.fabric.data.tag;
 
+import com.human.common.registry.tag.HumanEntityTypeTags;
 import com.predator.common.registry.init.PredatorEntityTypes;
 import com.predator.common.registry.tag.PredatorEntityTypeTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -26,8 +27,7 @@ public class PredatorEntityTypeTagProvider extends FabricTagProvider.EntityTypeT
     }
 
     private void addRadiationResistant() {
-        // FIXME:
-        // getOrCreateTagBuilder(AVPEntityTypeTags.RADIATION_RESISTANT)
-        // .addTag(PredatorEntityTypeTags.PREDATORS);
+        getOrCreateTagBuilder(HumanEntityTypeTags.RADIATION_RESISTANT)
+            .addTag(PredatorEntityTypeTags.PREDATORS);
     }
 }

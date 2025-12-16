@@ -28,22 +28,24 @@ public class PredatorClient {
     }
 
     private static void registerArmorRenderers() {
-        MOD.registries().registerArmorRenderer(
-            JunglePredatorArmorRenderer::new,
-            List.of(
-                PredatorArmorItems.JUNGLE_PREDATOR_HELMET,
-                PredatorArmorItems.JUNGLE_PREDATOR_CHESTPLATE,
-                PredatorArmorItems.JUNGLE_PREDATOR_LEGGINGS,
-                PredatorArmorItems.JUNGLE_PREDATOR_BOOTS
-            )
-        );
+        MOD.registries()
+            .registerArmorRenderer(
+                JunglePredatorArmorRenderer::new,
+                List.of(
+                    PredatorArmorItems.JUNGLE_PREDATOR_HELMET,
+                    PredatorArmorItems.JUNGLE_PREDATOR_CHESTPLATE,
+                    PredatorArmorItems.JUNGLE_PREDATOR_LEGGINGS,
+                    PredatorArmorItems.JUNGLE_PREDATOR_BOOTS
+                )
+            );
     }
 
     private static void registerBlockEntityRenderers() {
-        MOD.registries().registerBlockEntityRenderer(
-            PredatorBlockEntityTypes.TRIP_MINE,
-            (BlockEntityRendererProvider.Context rendererDispatcherIn) -> new TripMineRenderer()
-        );
+        MOD.registries()
+            .registerBlockEntityRenderer(
+                PredatorBlockEntityTypes.TRIP_MINE,
+                (BlockEntityRendererProvider.Context rendererDispatcherIn) -> new TripMineRenderer()
+            );
     }
 
     private static void registerEntityRenderers() {
