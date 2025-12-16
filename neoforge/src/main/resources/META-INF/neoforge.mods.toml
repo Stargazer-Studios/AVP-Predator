@@ -20,25 +20,21 @@ config        = "${mod_id}.neoforge.mixins.json"
 modId         = "neoforge"
 type          = "required"
 versionRange  = "[${neoforge_version},)"
-ordering      = "NONE"
 side          = "BOTH"
 [[dependencies.${mod_id}]]
 modId         = "minecraft"
 type          = "required"
 versionRange  = "${minecraft_version_range}"
-ordering      = "NONE"
 side          = "BOTH"
 [[dependencies.${mod_id}]]
 modId         = "azurelib"
 type          = "required"
 versionRange  = "${azurelib_version}"
-ordering      = "NONE"
 side          = "BOTH"
 [[dependencies.${mod_id}]]
 modId         = "blib"
 type          = "required"
 versionRange  = "${blib_version}"
-ordering      = "NONE"
 side          = "BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
