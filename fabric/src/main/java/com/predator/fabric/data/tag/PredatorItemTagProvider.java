@@ -82,8 +82,8 @@ public class PredatorItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
         Predator.MOD.registries()
             .getAllHolders(BuiltInRegistries.ITEM)
-            .forEach(deferredHolder -> {
-                var item = deferredHolder.get();
+            .forEach(holder -> {
+                var item = holder.get();
 
                 if (item instanceof ArmorItem armorItem) {
                     switch (armorItem.getType()) {
