@@ -2,12 +2,14 @@ package com.predator.fabric.data.tag;
 
 import com.compatibility.CommonItemTags;
 import com.human.common.registry.tag.HumanItemTags;
+import com.predator.Predator;
 import com.predator.common.registry.init.item.PredatorArmorItems;
 import com.predator.common.registry.init.item.PredatorItems;
 import com.predator.common.registry.tag.PredatorItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.AxeItem;
@@ -78,71 +80,73 @@ public class PredatorItemTagProvider extends FabricTagProvider.ItemTagProvider {
         // Weapons
         var swordTagProvider = getOrCreateTagBuilder(ItemTags.SWORDS);
 
-        PredatorItems.REGISTRY.getAll().forEach(deferredHolder -> {
-            var item = deferredHolder.get();
+        Predator.MOD.registries()
+            .getAllHolders(BuiltInRegistries.ITEM)
+            .forEach(deferredHolder -> {
+                var item = deferredHolder.get();
 
-            if (item instanceof ArmorItem armorItem) {
-                switch (armorItem.getType()) {
-                    case HELMET -> headArmorTagProvider.add(item);
-                    case CHESTPLATE -> chestArmorTagProvider.add(item);
-                    case LEGGINGS -> legArmorTagProvider.add(item);
-                    case BOOTS -> footArmorTagProvider.add(item);
-                    case BODY -> { /* NO-OP */ }
-                }
-            }
-
-            if (item instanceof BlockItem blockItem) {
-                var block = blockItem.getBlock();
-
-                if (block instanceof ButtonBlock) {
-                    buttonTagProvider.add(item);
+                if (item instanceof ArmorItem armorItem) {
+                    switch (armorItem.getType()) {
+                        case HELMET -> headArmorTagProvider.add(item);
+                        case CHESTPLATE -> chestArmorTagProvider.add(item);
+                        case LEGGINGS -> legArmorTagProvider.add(item);
+                        case BOOTS -> footArmorTagProvider.add(item);
+                        case BODY -> { /* NO-OP */ }
+                    }
                 }
 
-                if (block instanceof DoorBlock) {
-                    doorTagProvider.add(item);
+                if (item instanceof BlockItem blockItem) {
+                    var block = blockItem.getBlock();
+
+                    if (block instanceof ButtonBlock) {
+                        buttonTagProvider.add(item);
+                    }
+
+                    if (block instanceof DoorBlock) {
+                        doorTagProvider.add(item);
+                    }
+
+                    if (block instanceof FenceBlock) {
+                        fenceTagProvider.add(item);
+                    }
+
+                    if (block instanceof SlabBlock) {
+                        slabTagProvider.add(item);
+                    }
+
+                    if (block instanceof StairBlock) {
+                        stairsTagProvider.add(item);
+                    }
+
+                    if (block instanceof TrapDoorBlock) {
+                        trapdoorTagProvider.add(item);
+                    }
+
+                    if (block instanceof WallBlock) {
+                        wallTagBuilder.add(item);
+                    }
                 }
 
-                if (block instanceof FenceBlock) {
-                    fenceTagProvider.add(item);
+                if (item instanceof AxeItem) {
+                    axeTagProvider.add(item);
                 }
 
-                if (block instanceof SlabBlock) {
-                    slabTagProvider.add(item);
+                if (item instanceof HoeItem) {
+                    hoeTagProvider.add(item);
                 }
 
-                if (block instanceof StairBlock) {
-                    stairsTagProvider.add(item);
+                if (item instanceof PickaxeItem) {
+                    pickaxeTagProvider.add(item);
                 }
 
-                if (block instanceof TrapDoorBlock) {
-                    trapdoorTagProvider.add(item);
+                if (item instanceof ShovelItem) {
+                    shovelTagProvider.add(item);
                 }
 
-                if (block instanceof WallBlock) {
-                    wallTagBuilder.add(item);
+                if (item instanceof SwordItem) {
+                    swordTagProvider.add(item);
                 }
-            }
-
-            if (item instanceof AxeItem) {
-                axeTagProvider.add(item);
-            }
-
-            if (item instanceof HoeItem) {
-                hoeTagProvider.add(item);
-            }
-
-            if (item instanceof PickaxeItem) {
-                pickaxeTagProvider.add(item);
-            }
-
-            if (item instanceof ShovelItem) {
-                shovelTagProvider.add(item);
-            }
-
-            if (item instanceof SwordItem) {
-                swordTagProvider.add(item);
-            }
-        });
+            });
     }
 
     private void addArmors() {
