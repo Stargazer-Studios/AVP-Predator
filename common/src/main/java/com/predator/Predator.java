@@ -2,6 +2,7 @@ package com.predator;
 
 import com.blib.BLib;
 import com.blib.BLibMod;
+import com.predator.common.data.fixer.migration.PredatorDataMigrations;
 import com.predator.common.registry.init.PredatorArmorMaterials;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
 import com.predator.common.registry.init.PredatorBlocks;
@@ -42,6 +43,8 @@ public class Predator {
             PredatorItems.initialize();
             PredatorSoundEvents.initialize();
             PredatorSpawnEggItems.initialize();
+
+            PredatorDataMigrations.initialize();
 
             // TODO: Only run this once on server start.
             MOD.events().beforeLevelTick().register(Predator::injectCustomParrotSounds);
