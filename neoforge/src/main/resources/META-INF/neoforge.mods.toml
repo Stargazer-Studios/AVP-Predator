@@ -37,6 +37,11 @@ type          = "required"
 versionRange  = "[${blib_version},0.2.0)"
 side          = "BOTH"
 [[dependencies.${mod_id}]]
+modId         = "avp_alien"
+type          = "optional"
+versionRange  = "[${avp_alien_version},0.2.0)"
+side          = "BOTH"
+[[dependencies.${mod_id}]]
 modId         = "avp_human"
 type          = "optional"
 versionRange  = "[${avp_human_version},0.2.0)"

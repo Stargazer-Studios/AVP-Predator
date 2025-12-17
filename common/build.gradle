@@ -39,6 +39,7 @@ dependencies {
     compileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${project.rei_version}"
 
     // Compatibility
+    compileOnly "com.avp.alien:avp_alien-common-1.21.1:${project.avp_alien_version}"
     compileOnly "com.avp.human:avp_human-common-1.21.1:${project.avp_human_version}"
 }
 

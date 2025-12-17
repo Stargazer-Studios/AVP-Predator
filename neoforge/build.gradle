@@ -70,6 +70,9 @@ dependencies {
     implementation("com.just:just-goap:${project.just_goap_version}")
 
     // Compatibility
+    compileOnly "com.avp.alien:avp_alien-neoforge-1.21.1:${project.avp_alien_version}"
+    runtimeOnly "com.avp.alien:avp_alien-neoforge-1.21.1:${project.avp_alien_version}"
+
     compileOnly "com.avp.human:avp_human-neoforge-1.21.1:${project.avp_human_version}"
     runtimeOnly "com.avp.human:avp_human-neoforge-1.21.1:${project.avp_human_version}"
 }
