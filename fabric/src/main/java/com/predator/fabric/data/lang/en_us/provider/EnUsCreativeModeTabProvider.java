@@ -8,10 +8,10 @@ import java.util.function.Consumer;
 public class EnUsCreativeModeTabProvider {
 
     public static final Consumer<FabricLanguageProvider.TranslationBuilder> CONSUMER = builder -> {
-        builder.add(PredatorCreativeModeTabKeys.BLOCKS_KEY, "Predator Blocks");
-        builder.add(PredatorCreativeModeTabKeys.COMBAT_KEY, "Predator Combat");
-        builder.add(PredatorCreativeModeTabKeys.INGREDIENTS_KEY, "Predator Ingredients");
-        builder.add(PredatorCreativeModeTabKeys.SPAWN_EGGS_KEY, "Predator Spawn Eggs");
-        builder.add(PredatorCreativeModeTabKeys.TOOLS_AND_UTILITIES_KEY, "Predator Tools & Utilities");
+        builder.add(PredatorCreativeModeTabKeys.BLOCKS_KEY, "Blocks (AVP: Predator)");
+        builder.add(PredatorCreativeModeTabKeys.COMBAT_KEY, "Combat (AVP: Predator)");
+        builder.add(PredatorCreativeModeTabKeys.INGREDIENTS_KEY, "Ingredients (AVP: Predator)");
+        builder.add(PredatorCreativeModeTabKeys.SPAWN_EGGS_KEY, "Spawn Eggs (AVP: Predator)");
+        builder.add(PredatorCreativeModeTabKeys.TOOLS_AND_UTILITIES_KEY, "Tools & Utilities (AVP: Predator)");
     };
 }

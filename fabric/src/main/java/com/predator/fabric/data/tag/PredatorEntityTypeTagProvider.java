@@ -1,5 +1,6 @@
 package com.predator.fabric.data.tag;
 
+import com.alien.common.registry.tag.AlienEntityTypeTags;
 import com.human.common.registry.tag.HumanEntityTypeTags;
 import com.predator.common.registry.init.PredatorEntityTypes;
 import com.predator.common.registry.tag.PredatorEntityTypeTags;
@@ -19,6 +20,10 @@ public class PredatorEntityTypeTagProvider extends FabricTagProvider.EntityTypeT
     protected void addTags(HolderLookup.Provider wrapperLookup) {
         addPredators();
         addRadiationResistant();
+
+        // Compatibility
+        addHatedByXenomorphs();
+        addHosts();
     }
 
     private void addPredators() {
@@ -28,6 +33,16 @@ public class PredatorEntityTypeTagProvider extends FabricTagProvider.EntityTypeT
 
     private void addRadiationResistant() {
         getOrCreateTagBuilder(HumanEntityTypeTags.RADIATION_RESISTANT)
+            .addTag(PredatorEntityTypeTags.PREDATORS);
+    }
+
+    private void addHatedByXenomorphs() {
+        getOrCreateTagBuilder(AlienEntityTypeTags.HATED_BY_XENOMORPHS)
+            .addTag(PredatorEntityTypeTags.PREDATORS);
+    }
+
+    private void addHosts() {
+        getOrCreateTagBuilder(AlienEntityTypeTags.HOSTS)
             .addTag(PredatorEntityTypeTags.PREDATORS);
     }
 }
