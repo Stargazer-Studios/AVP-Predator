@@ -18,7 +18,7 @@ public class RecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void buildRecipes(RecipeOutput recipeOutput) {
-        var builder = RecipeBuilder.with(Predator.MOD, recipeOutput);
+        var builder = RecipeBuilder.with(Predator.MOD, recipeOutput, this::withConditions);
         MiscellaneousRecipeProvider.provide(builder);
     }
 
