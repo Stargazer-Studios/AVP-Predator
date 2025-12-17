@@ -7,7 +7,8 @@
 - N/A
 
 ## ✨ What's New
-- N/A
+- Added a new texture for the yautja spawn egg item.
+  - Thanks to Danlogo for contributing the texture!
 
 ## ♻️ Changes
 - Updated yautja's model and texture.

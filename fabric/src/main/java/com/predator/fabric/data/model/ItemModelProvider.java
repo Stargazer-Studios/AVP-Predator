@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
-import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.data.models.model.ModelTemplate;
 import net.minecraft.data.models.model.ModelTemplates;
 import net.minecraft.world.item.Item;
@@ -22,12 +21,7 @@ public class ItemModelProvider extends FabricModelProvider {
     }
 
     @Override
-    public void generateBlockStateModels(BlockModelGenerators generators) {
-        var spawnEggLocation = ModelLocationUtils.decorateItemModelLocation("template_spawn_egg");
-
-        PredatorSpawnEggItems.REGISTRY.getAll()
-            .forEach(spawnEggItem -> generators.delegateItemModel(spawnEggItem.get(), spawnEggLocation));
-    }
+    public void generateBlockStateModels(BlockModelGenerators generators) {}
 
     @Override
     public void generateItemModels(ItemModelGenerators generators) {
@@ -49,6 +43,9 @@ public class ItemModelProvider extends FabricModelProvider {
         generateHandheldItem(generators, PredatorItems.VERITANIUM_SWORD);
 
         generateStandardItem(generators, PredatorItems.VERITANIUM_SHARD);
+
+        PredatorSpawnEggItems.REGISTRY.getAll()
+            .forEach(spawnEggItem -> generateStandardItem(generators, spawnEggItem.get()));
     }
 
     private void generateHandheldItem(ItemModelGenerators generators, Supplier<? extends Item> itemSupplier) {
