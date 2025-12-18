@@ -1,6 +1,9 @@
 package com.predator.client;
 
+import com.alien.client.render.entity.head.EntityHeadDataCache;
+import com.alien.client.render.entity.parasite.attachment.ParasiteHeadAttachmentOffsetDataCache;
 import com.blib.client.BLibClientMod;
+import com.human.compatibility.avp_alien.AVPAlien;
 import com.predator.Predator;
 import com.predator.client.render.armor.JunglePredatorArmorRenderer;
 import com.predator.client.render.block.TripMineRenderer;
@@ -11,6 +14,8 @@ import com.predator.common.registry.init.PredatorBlockEntityTypes;
 import com.predator.common.registry.init.PredatorEntityTypes;
 import com.predator.common.registry.init.item.PredatorArmorItems;
 import com.predator.common.registry.init.item.PredatorBlockItems;
+import com.predator.compatibility.avp_alien.PredatorEntityHeadData;
+import com.predator.compatibility.avp_alien.PredatorParasiteAttachmentOffsetData;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 
 import java.util.List;
@@ -24,6 +29,12 @@ public class PredatorClient {
         registerBlockEntityRenderers();
         registerEntityRenderers();
         registerItemRenderers();
+
+        if (AVPAlien.MOD.isLoaded()) {
+            registerEntityHeadData();
+            registerParasiteHeadAttachmentOffsetData();
+        }
+
         MOD.initialize();
     }
 
@@ -48,10 +59,18 @@ public class PredatorClient {
             );
     }
 
+    private static void registerEntityHeadData() {
+        EntityHeadDataCache.put(PredatorEntityTypes.YAUTJA.get(), PredatorEntityHeadData.YAUTJA);
+    }
+
     private static void registerEntityRenderers() {
         MOD.registries().registerEntityRenderer(PredatorEntityTypes.SHURIKEN, SpinningItemRenderer::new);
         MOD.registries().registerEntityRenderer(PredatorEntityTypes.SMART_DISC, SpinningItemRenderer::new);
         MOD.registries().registerEntityRenderer(PredatorEntityTypes.YAUTJA, YautjaRenderer::new);
+    }
+
+    private static void registerParasiteHeadAttachmentOffsetData() {
+        ParasiteHeadAttachmentOffsetDataCache.put(PredatorEntityTypes.YAUTJA.get(), PredatorParasiteAttachmentOffsetData.YAUTJA);
     }
 
     private static void registerItemRenderers() {
