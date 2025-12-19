@@ -47,7 +47,7 @@ public class Predator {
             PredatorDataMigrations.initialize();
 
             // TODO: Only run this once on server start.
-            MOD.events().beforeLevelTick().register(Predator::injectCustomParrotSounds);
+            MOD.events().preLevelTick().register(Predator::injectCustomParrotSounds);
         });
     }
 
