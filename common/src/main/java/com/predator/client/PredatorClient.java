@@ -30,12 +30,12 @@ public class PredatorClient {
         registerEntityRenderers();
         registerItemRenderers();
 
-        if (AVPAlien.MOD.isLoaded()) {
-            registerEntityHeadData();
-            registerParasiteHeadAttachmentOffsetData();
-        }
-
-        MOD.initialize();
+        MOD.initialize(() -> {
+            if (AVPAlien.MOD.isLoaded()) {
+                registerEntityHeadData();
+                registerParasiteHeadAttachmentOffsetData();
+            }
+        });
     }
 
     private static void registerArmorRenderers() {
@@ -60,7 +60,7 @@ public class PredatorClient {
     }
 
     private static void registerEntityHeadData() {
-        EntityHeadDataCache.put(PredatorEntityTypes.YAUTJA.get(), PredatorEntityHeadData.YAUTJA);
+        EntityHeadDataCache.put(MOD, PredatorEntityTypes.YAUTJA, PredatorEntityHeadData.YAUTJA);
     }
 
     private static void registerEntityRenderers() {
@@ -70,7 +70,7 @@ public class PredatorClient {
     }
 
     private static void registerParasiteHeadAttachmentOffsetData() {
-        ParasiteHeadAttachmentOffsetDataCache.put(PredatorEntityTypes.YAUTJA.get(), PredatorParasiteAttachmentOffsetData.YAUTJA);
+        ParasiteHeadAttachmentOffsetDataCache.put(MOD, PredatorEntityTypes.YAUTJA, PredatorParasiteAttachmentOffsetData.YAUTJA);
     }
 
     private static void registerItemRenderers() {
