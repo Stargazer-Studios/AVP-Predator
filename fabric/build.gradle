@@ -90,10 +90,12 @@ dependencies {
 
     // Compatibility
     modCompileOnly "com.avp.alien:avp_alien-fabric-1.21.1:${project.avp_alien_version}"
-    modRuntimeOnly "com.avp.alien:avp_alien-fabric-1.21.1:${project.avp_alien_version}"
+    // Uncomment to test compatibility.
+//    modRuntimeOnly "com.avp.alien:avp_alien-fabric-1.21.1:${project.avp_alien_version}"
 
     modCompileOnly "com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}"
-    modRuntimeOnly "com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}"
+    // Uncomment to test compatibility.
+//    modRuntimeOnly "com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}"
 }
 
 loom {
