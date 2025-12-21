@@ -1,6 +1,7 @@
 package com.predator.fabric.data;
 
 import com.predator.fabric.data.gene_bonus_data.GeneBonusDataSubProvider;
+import com.predator.fabric.data.infections.InfectionSubProvider;
 import com.predator.fabric.data.jukebox_song.PredatorJukeboxSongsProvider;
 import com.predator.fabric.data.lang.en_us.EnglishLanguageProvider;
 import com.predator.fabric.data.loot.BlockLootTableProvider;
@@ -44,6 +45,7 @@ public class PredatorDataGenerator implements DataGeneratorEntrypoint {
 
         // Custom Providers
         pack.addProvider(GeneBonusDataSubProvider::new);
+        pack.addProvider(InfectionSubProvider::new);
     }
 
     @Override

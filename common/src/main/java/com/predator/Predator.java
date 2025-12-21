@@ -31,24 +31,26 @@ public class Predator {
     public static void initialize() {
         LOGGER.info("Initializing AVP (Predator) for mod loader '{}'", BLib.getModLoaderType());
 
-        MOD.initialize(() -> {
-            PredatorArmorItems.initialize();
-            PredatorArmorMaterials.initialize();
-            PredatorBlockEntityTypes.initialize();
-            PredatorBlockItems.initialize();
-            PredatorBlocks.initialize();
-            PredatorCreativeModeTabs.initialize();
-            PredatorEntitySpawns.initialize();
-            PredatorEntityTypes.initialize();
-            PredatorItems.initialize();
-            PredatorSoundEvents.initialize();
-            PredatorSpawnEggItems.initialize();
+        MOD.initialize(Predator::runInitialization);
+    }
 
-            PredatorDataMigrations.initialize();
+    private static void runInitialization() {
+        PredatorArmorItems.initialize();
+        PredatorArmorMaterials.initialize();
+        PredatorBlockEntityTypes.initialize();
+        PredatorBlockItems.initialize();
+        PredatorBlocks.initialize();
+        PredatorCreativeModeTabs.initialize();
+        PredatorEntitySpawns.initialize();
+        PredatorEntityTypes.initialize();
+        PredatorItems.initialize();
+        PredatorSoundEvents.initialize();
+        PredatorSpawnEggItems.initialize();
 
-            // TODO: Only run this once on server start.
-            MOD.events().preLevelTick().register(Predator::injectCustomParrotSounds);
-        });
+        PredatorDataMigrations.initialize();
+
+        // TODO: Only run this once on server start.
+        MOD.events().preLevelTick().register(Predator::injectCustomParrotSounds);
     }
 
     // Marine Spawns and Ash placement in nuked zones
