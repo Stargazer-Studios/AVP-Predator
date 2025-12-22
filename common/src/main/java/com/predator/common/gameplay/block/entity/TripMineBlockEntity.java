@@ -1,6 +1,7 @@
 package com.predator.common.gameplay.block.entity;
 
 import com.blib.common.gameplay.util.BLibEntityPredicates;
+import com.predator.common.config.PredatorConfig;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
 import com.predator.common.registry.tag.PredatorEntityTypeTags;
 import net.minecraft.core.BlockPos;
@@ -34,7 +35,7 @@ public class TripMineBlockEntity extends BlockEntity {
             return;
         }
 
-        var detectionArea = new AABB(blockPos).inflate(2);
+        var detectionArea = new AABB(blockPos).inflate(PredatorConfig.INSTANCE.blockConfigs.TRIP_MINE_SEARCH_RADIUS);
         var entities = level.getEntitiesOfClass(LivingEntity.class, detectionArea, entity -> {
             if (entity instanceof Player player) {
                 return !BLibEntityPredicates.isInvulnerable(player);

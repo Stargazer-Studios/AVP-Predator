@@ -2,6 +2,7 @@ package com.predator;
 
 import com.blib.BLib;
 import com.blib.BLibMod;
+import com.predator.common.config.PredatorConfig;
 import com.predator.common.data.fixer.migration.PredatorDataMigrations;
 import com.predator.common.registry.init.PredatorArmorMaterials;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
@@ -30,6 +31,8 @@ public class Predator {
 
     public static void initialize() {
         LOGGER.info("Initializing AVP (Predator) for mod loader '{}'", BLib.getModLoaderType());
+
+        PredatorConfig.initialize();
 
         MOD.initialize(Predator::runInitialization);
     }

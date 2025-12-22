@@ -3,8 +3,8 @@ package com.predator.common.gameplay.entity.living.yautja;
 import com.blib.common.constant.PlayerStatConstants;
 import com.blib.common.gameplay.entity.ai.goal.StrollAroundInWaterGoal;
 import com.blib.common.gameplay.entity.ai.goal.combat.DelayedAttackGoal;
-import com.blib.common.gameplay.model.spawning.AdvancedStats;
 import com.blib.common.network.data.DataUser;
+import com.predator.common.config.PredatorConfig;
 import com.predator.common.gameplay.entity.ai.goal.UseItemGoal;
 import com.predator.common.gameplay.entity.living.yautja.manager.YautjaNavigationManager;
 import com.predator.common.gameplay.entity.living.yautja.util.YautjaPredicates;
@@ -63,20 +63,7 @@ public class Yautja extends Monster implements DataUser {
     }
 
     public static AttributeSupplier.Builder createYautjaAttributes() {
-        return applyFrom(
-            new AdvancedStats(
-                HEALTH,
-                ATTACK_DAMAGE,
-                0.0f,
-                KNOCKBACK_RESISTANCE,
-                SPEED,
-                ARMOR,
-                ARMOR_TOUGHNESS,
-                0,
-                FOLLOW_RANGE
-            ),
-            Monster.createMonsterAttributes()
-        );
+        return applyFrom(PredatorConfig.INSTANCE.statsConfigs.YAUTJA_STATS, Monster.createMonsterAttributes());
     }
 
     @Override
@@ -157,14 +144,14 @@ public class Yautja extends Monster implements DataUser {
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData);
     }
 
-    public static AttributeSupplier.Builder applyFrom(AdvancedStats config, AttributeSupplier.Builder builder) {
-        builder.add(Attributes.ARMOR, config.armor());
-        builder.add(Attributes.ARMOR_TOUGHNESS, config.armorToughness());
-        builder.add(Attributes.ATTACK_DAMAGE, config.attackDamage());
-        builder.add(Attributes.FOLLOW_RANGE, config.followRange());
-        builder.add(Attributes.KNOCKBACK_RESISTANCE, config.knockbackResistance());
-        builder.add(Attributes.MAX_HEALTH, config.health());
-        builder.add(Attributes.MOVEMENT_SPEED, config.moveSpeed());
+    public static AttributeSupplier.Builder applyFrom(PredatorConfig.StatsConfigs.AdvancedStats config, AttributeSupplier.Builder builder) {
+        builder.add(Attributes.ARMOR, config.armor);
+        builder.add(Attributes.ARMOR_TOUGHNESS, config.armorToughness);
+        builder.add(Attributes.ATTACK_DAMAGE, config.attackDamage);
+        builder.add(Attributes.FOLLOW_RANGE, config.followRange);
+        builder.add(Attributes.KNOCKBACK_RESISTANCE, config.knockbackResistance);
+        builder.add(Attributes.MAX_HEALTH, config.health);
+        builder.add(Attributes.MOVEMENT_SPEED, config.moveSpeed);
 
         return builder;
     }
