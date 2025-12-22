@@ -1,5 +1,6 @@
 package com.predator.fabric.data.tag;
 
+import com.alien.common.registry.tag.AlienItemTags;
 import com.compatibility.CommonItemTags;
 import com.human.common.registry.tag.HumanItemTags;
 import com.predator.Predator;
@@ -165,5 +166,8 @@ public class PredatorItemTagProvider extends FabricTagProvider.ItemTagProvider {
     private void addCompatibilityTags() {
         getOrCreateTagBuilder(CommonItemTags.MUSIC_DISCS)
             .add(PredatorItems.PREDATOR_MUSIC_DISC_1.get());
+
+        getOrCreateTagBuilder(AlienItemTags.FACEHUGGER_RESISTANT_HELMETS)
+            .add(PredatorArmorItems.JUNGLE_PREDATOR_HELMET.get());
     }
 }
