@@ -89,13 +89,21 @@ dependencies {
     //modImplementation "maven.modrinth:modernfix:5.21.0+mc1.21.1"
 
     // Compatibility
-    modCompileOnly "com.avp.alien:avp_alien-fabric-1.21.1:${project.avp_alien_version}"
+    modCompileOnly ("com.avp.alien:avp_alien-fabric-1.21.1:${project.avp_alien_version}") {
+        exclude group: project.group
+    }
     // Uncomment to test compatibility.
-    modRuntimeOnly "com.avp.alien:avp_alien-fabric-1.21.1:${project.avp_alien_version}"
+    modLocalRuntime ("com.avp.alien:avp_alien-fabric-1.21.1:${project.avp_alien_version}") {
+        exclude group: project.group
+    }
 
-    modCompileOnly "com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}"
+    modCompileOnly ("com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}") {
+        exclude group: project.group
+    }
     // Uncomment to test compatibility.
-    modRuntimeOnly "com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}"
+    modLocalRuntime ("com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}") {
+        exclude group: project.group
+    }
 }
 
 loom {

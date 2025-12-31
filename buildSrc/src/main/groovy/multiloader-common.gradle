@@ -49,7 +49,6 @@ repositories {
     }
     maven { url = "https://maven.bvanseghi.dev/avp_alien" }
     maven { url = "https://maven.bvanseghi.dev/avp_human" }
-    maven { url = "https://maven.bvanseghi.dev/avp_predator" }
     maven { url = "https://maven.bvanseghi.dev/blib" }
     maven { url = "https://maven.bvanseghi.dev/just" }
     maven { url = "https://maven.azuredoom.com/mods" }
