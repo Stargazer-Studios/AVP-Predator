@@ -10,6 +10,7 @@ import com.predator.fabric.data.lang.en_us.provider.EnUsEntityTypeTagProvider;
 import com.predator.fabric.data.lang.en_us.provider.EnUsItemProvider;
 import com.predator.fabric.data.lang.en_us.provider.EnUsItemTagProvider;
 import com.predator.fabric.data.lang.en_us.provider.EnUsSoundEventProvider;
+import com.predator.fabric.data.lang.en_us.provider.EnUsTooltipProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
@@ -52,5 +53,8 @@ public class EnglishLanguageProvider extends FabricLanguageProvider {
         EnUsBlockTagProvider.CONSUMER.accept(builder);
         EnUsItemTagProvider.CONSUMER.accept(builder);
         EnUsEntityTypeTagProvider.CONSUMER.accept(builder);
+
+        // Tooltips
+        EnUsTooltipProvider.CONSUMER.accept(builder);
     }
 }

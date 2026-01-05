@@ -25,17 +25,21 @@ public class PredatorClient {
     private static final BLibClientMod MOD = BLibClientMod.createFor(Predator.MOD);
 
     public static void initialize() {
+        MOD.initialize(PredatorClient::runInitialization);
+    }
+
+    private static void runInitialization() {
         registerArmorRenderers();
         registerBlockEntityRenderers();
         registerEntityRenderers();
         registerItemRenderers();
 
-        MOD.initialize(() -> {
-            if (AVPAlien.MOD.isLoaded()) {
+        if (AVPAlien.MOD.isLoaded()) {
+            MOD.events().onClientSetup().register(() -> {
                 registerEntityHeadData();
                 registerParasiteHeadAttachmentOffsetData();
-            }
-        });
+            });
+        }
     }
 
     private static void registerArmorRenderers() {
@@ -60,7 +64,7 @@ public class PredatorClient {
     }
 
     private static void registerEntityHeadData() {
-        EntityHeadDataCache.put(MOD, PredatorEntityTypes.YAUTJA, PredatorEntityHeadData.YAUTJA);
+        EntityHeadDataCache.put(PredatorEntityTypes.YAUTJA, PredatorEntityHeadData.YAUTJA);
     }
 
     private static void registerEntityRenderers() {
@@ -70,7 +74,7 @@ public class PredatorClient {
     }
 
     private static void registerParasiteHeadAttachmentOffsetData() {
-        ParasiteHeadAttachmentOffsetDataCache.put(MOD, PredatorEntityTypes.YAUTJA, PredatorParasiteAttachmentOffsetData.YAUTJA);
+        ParasiteHeadAttachmentOffsetDataCache.put(PredatorEntityTypes.YAUTJA, PredatorParasiteAttachmentOffsetData.YAUTJA);
     }
 
     private static void registerItemRenderers() {

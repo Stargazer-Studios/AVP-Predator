@@ -3,6 +3,7 @@ package com.predator.common.gameplay.item;
 import com.blib.common.data.TooltipHintBuilder;
 import com.blib.common.data.TooltipTranslationKeys;
 import com.blib.common.gameplay.model.TooltipCategoryType;
+import com.predator.common.data.PredatorTooltipTranslationKeys;
 import com.predator.common.registry.init.PredatorArmorMaterials;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ArmorItem;
@@ -18,7 +19,7 @@ public class VeritaniumArmorItem extends ArmorItem {
 
     private static final List<Component> TOOLTIP_COMPONENTS = new TooltipHintBuilder()
         .addCategory(TooltipCategoryType.WHEN_HELMET_EQUIPPED)
-        .addPositiveEffect(TooltipTranslationKeys.EFFECT_PREVENTS_FACEHUGGING)
+        .addPositiveEffect(PredatorTooltipTranslationKeys.EFFECT_PREVENTS_FACEHUGGING)
         .addCategory(TooltipCategoryType.WHEN_FULL_ARMOR_SET_EQUIPPED)
         .addPositiveEffect(TooltipTranslationKeys.EFFECT_JUMP_BOOST)
         .addPositiveEffect(TooltipTranslationKeys.EFFECT_STRENGTH)
