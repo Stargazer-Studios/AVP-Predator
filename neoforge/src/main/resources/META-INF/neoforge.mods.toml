@@ -29,22 +29,29 @@ side          = "BOTH"
 [[dependencies.${mod_id}]]
 modId         = "azurelib"
 type          = "required"
-versionRange  = "${azurelib_version}"
+versionRange  = "[${azurelib_version},${azurelib_excl_end_version})"
+ordering      = "NONE"
+side          = "BOTH"
+[[dependencies.${mod_id}]]
+modId         = "azurelib"
+type          = "discouraged"
+versionRange  = "[${azurelib_discouraged_version},)"
+ordering      = "NONE"
 side          = "BOTH"
 [[dependencies.${mod_id}]]
 modId         = "blib"
 type          = "required"
-versionRange  = "[${blib_version},0.2.0)"
+versionRange  = "[${blib_version},${blib_excl_end_version})"
 side          = "BOTH"
 [[dependencies.${mod_id}]]
 modId         = "avp_alien"
 type          = "optional"
-versionRange  = "[${avp_alien_version},0.2.0)"
+versionRange  = "[${avp_alien_version},${avp_alien_excl_end_version})"
 side          = "BOTH"
 [[dependencies.${mod_id}]]
 modId         = "avp_human"
 type          = "optional"
-versionRange  = "[${avp_human_version},0.2.0)"
+versionRange  = "[${avp_human_version},${avp_human_excl_end_version})"
 side          = "BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
