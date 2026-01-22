@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "avp_predator:item/predator_music_disc_1_fragment"
+  }
+}

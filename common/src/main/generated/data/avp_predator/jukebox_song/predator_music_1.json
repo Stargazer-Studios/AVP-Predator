@@ -1,0 +1,8 @@
+{
+  "comparator_output": 12,
+  "description": {
+    "translate": "jukebox_song.avp_predator.predator_music_1"
+  },
+  "length_in_seconds": 184.0,
+  "sound_event": "avp_predator:jukebox_sounds.predator_music_1"
+}

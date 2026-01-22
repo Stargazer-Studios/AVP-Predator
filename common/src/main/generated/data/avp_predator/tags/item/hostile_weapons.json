@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "#avp_human:guns",
+      "required": false
+    },
+    "#minecraft:axes",
+    "#minecraft:swords",
+    "minecraft:bow",
+    "minecraft:crossbow"
+  ]
+}
