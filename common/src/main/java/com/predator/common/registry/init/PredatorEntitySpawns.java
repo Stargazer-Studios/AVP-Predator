@@ -5,8 +5,6 @@ import com.blib.api.common.entity.v1.spawning.SpawnSettings;
 import com.blib.api.common.registry.v1.impl.BLibEntitySpawnRegistry;
 import com.predator.Predator;
 import com.predator.common.gameplay.entity.living.yautja.YautjaSpawning;
-import com.predator.common.property.PredatorProperties;
-import com.predator.common.property.PredatorPropertyAccess;
 import net.minecraft.tags.BiomeTags;
 
 public class PredatorEntitySpawns {
@@ -18,17 +16,10 @@ public class PredatorEntitySpawns {
             BLibEntitySpawnData.builder(PredatorEntityTypes.YAUTJA)
                 .withBiomeTagKey(BiomeTags.IS_JUNGLE)
                 .withSpawnPredicate(YautjaSpawning.PREDICATE)
-                .withSpawnSettings(convert(PredatorProperties.Entities.Yautja.SPAWNING))
+                .withSpawnSettings(
+                    new SpawnSettings(true, 1, 1, 10)
+                )
                 .build()
-        );
-    }
-
-    private static SpawnSettings convert(PredatorProperties.SpawnProperties spawnProperties) {
-        return new SpawnSettings(
-            PredatorPropertyAccess.INSTANCE.getOrThrow(spawnProperties.enabled()),
-            PredatorPropertyAccess.INSTANCE.getOrThrow(spawnProperties.minimumGroupSize()),
-            PredatorPropertyAccess.INSTANCE.getOrThrow(spawnProperties.maximumGroupSize()),
-            PredatorPropertyAccess.INSTANCE.getOrThrow(spawnProperties.weight())
         );
     }
 }

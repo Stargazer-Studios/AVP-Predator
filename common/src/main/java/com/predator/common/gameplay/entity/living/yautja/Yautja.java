@@ -7,8 +7,6 @@ import com.blib.api.common.entity.v1.ai.goal.combat.DelayedAttackGoal;
 import com.predator.common.gameplay.entity.ai.goal.UseItemGoal;
 import com.predator.common.gameplay.entity.living.yautja.manager.YautjaNavigationManager;
 import com.predator.common.gameplay.entity.living.yautja.util.YautjaPredicates;
-import com.predator.common.property.PredatorProperties;
-import com.predator.common.property.PredatorPropertyAccess;
 import com.predator.common.registry.init.item.PredatorArmorItems;
 import com.predator.common.registry.init.item.PredatorItems;
 import net.minecraft.world.DifficultyInstance;
@@ -39,20 +37,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class Yautja extends Monster implements DataUser {
 
-    public static final float ARMOR = 16.0F;
-
-    public static final float ARMOR_TOUGHNESS = 16.0F;
-
-    public static final float ATTACK_DAMAGE = PlayerStatConstants.BASE_HEALTH * 0.75F;
-
-    public static final float FOLLOW_RANGE = 35F;
-
-    public static final float HEALTH = PlayerStatConstants.BASE_HEALTH * 10F;
-
-    public static final float KNOCKBACK_RESISTANCE = 1f;
-
-    public static final float SPEED = PlayerStatConstants.BASE_WALK_SPEED * 1.2F;
-
     private final YautjaAnimationDispatcher animationDispatcher;
 
     private final YautjaNavigationManager navigationManager;
@@ -64,7 +48,17 @@ public class Yautja extends Monster implements DataUser {
     }
 
     public static AttributeSupplier.Builder createYautjaAttributes() {
-        return applyFrom(PredatorProperties.Entities.Yautja.STATS, Monster.createMonsterAttributes());
+        var builder = Monster.createMonsterAttributes();
+
+        builder.add(Attributes.ARMOR, 16.0F);
+        builder.add(Attributes.ARMOR_TOUGHNESS, 16.0F);
+        builder.add(Attributes.ATTACK_DAMAGE, PlayerStatConstants.BASE_HEALTH * 0.75F);
+        builder.add(Attributes.FOLLOW_RANGE, 35F);
+        builder.add(Attributes.KNOCKBACK_RESISTANCE, 1f);
+        builder.add(Attributes.MAX_HEALTH, PlayerStatConstants.BASE_HEALTH * 10F);
+        builder.add(Attributes.MOVEMENT_SPEED, PlayerStatConstants.BASE_WALK_SPEED * 1.2F);
+
+        return builder;
     }
 
     @Override
@@ -143,18 +137,6 @@ public class Yautja extends Monster implements DataUser {
         }
 
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData);
-    }
-
-    public static AttributeSupplier.Builder applyFrom(PredatorProperties.StatProperties statProperties, AttributeSupplier.Builder builder) {
-        builder.add(Attributes.ARMOR, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.armor()));
-        builder.add(Attributes.ARMOR_TOUGHNESS, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.armorToughness()));
-        builder.add(Attributes.ATTACK_DAMAGE, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.attackDamage()));
-        builder.add(Attributes.FOLLOW_RANGE, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.followRange()));
-        builder.add(Attributes.KNOCKBACK_RESISTANCE, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.knockbackResistance()));
-        builder.add(Attributes.MAX_HEALTH, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.health()));
-        builder.add(Attributes.MOVEMENT_SPEED, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.movementSpeed()));
-
-        return builder;
     }
 
     public void setMoveControl(MoveControl moveControl) {
