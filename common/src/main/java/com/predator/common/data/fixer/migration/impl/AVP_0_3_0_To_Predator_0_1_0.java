@@ -1,8 +1,8 @@
 package com.predator.common.data.fixer.migration.impl;
 
-import com.blib.common.data.fixer.BLibDataFixerRegistry;
-import com.blib.common.data.fixer.migration.BLibDataMigration;
-import com.blib.common.model.Version;
+import com.blib.api.common.data_fix.v1.BLibDataFixerRegistry;
+import com.blib.api.common.data_fix.v1.BLibDataMigration;
+import com.blib.api.common.mod.v1.model.Version;
 import com.predator.Predator;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

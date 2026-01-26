@@ -1,6 +1,6 @@
 package com.predator.common.gameplay.entity.living.yautja.manager;
 
-import com.blib.common.gameplay.entity.ai.goal.WaterMoveControl;
+import com.blib.api.common.entity.v1.ai.goal.WaterMoveControl;
 import com.predator.common.gameplay.entity.ai.goal.UseItemGoal;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
 import net.minecraft.world.entity.ai.control.MoveControl;

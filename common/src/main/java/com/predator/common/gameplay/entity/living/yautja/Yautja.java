@@ -1,13 +1,14 @@
 package com.predator.common.gameplay.entity.living.yautja;
 
-import com.blib.common.constant.PlayerStatConstants;
-import com.blib.common.gameplay.entity.ai.goal.StrollAroundInWaterGoal;
-import com.blib.common.gameplay.entity.ai.goal.combat.DelayedAttackGoal;
-import com.blib.common.network.data.DataUser;
-import com.predator.common.config.PredatorConfig;
+import com.blib.api.common.data_sync.v1.model.DataUser;
+import com.blib.api.common.entity.v1.PlayerStatConstants;
+import com.blib.api.common.entity.v1.ai.goal.StrollAroundInWaterGoal;
+import com.blib.api.common.entity.v1.ai.goal.combat.DelayedAttackGoal;
 import com.predator.common.gameplay.entity.ai.goal.UseItemGoal;
 import com.predator.common.gameplay.entity.living.yautja.manager.YautjaNavigationManager;
 import com.predator.common.gameplay.entity.living.yautja.util.YautjaPredicates;
+import com.predator.common.property.PredatorProperties;
+import com.predator.common.property.PredatorPropertyAccess;
 import com.predator.common.registry.init.item.PredatorArmorItems;
 import com.predator.common.registry.init.item.PredatorItems;
 import net.minecraft.world.DifficultyInstance;
@@ -63,7 +64,7 @@ public class Yautja extends Monster implements DataUser {
     }
 
     public static AttributeSupplier.Builder createYautjaAttributes() {
-        return applyFrom(PredatorConfig.INSTANCE.statsConfigs.YAUTJA_STATS, Monster.createMonsterAttributes());
+        return applyFrom(PredatorProperties.Entities.Yautja.STATS, Monster.createMonsterAttributes());
     }
 
     @Override
@@ -144,14 +145,14 @@ public class Yautja extends Monster implements DataUser {
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData);
     }
 
-    public static AttributeSupplier.Builder applyFrom(PredatorConfig.StatsConfigs.AdvancedStats config, AttributeSupplier.Builder builder) {
-        builder.add(Attributes.ARMOR, config.armor);
-        builder.add(Attributes.ARMOR_TOUGHNESS, config.armorToughness);
-        builder.add(Attributes.ATTACK_DAMAGE, config.attackDamage);
-        builder.add(Attributes.FOLLOW_RANGE, config.followRange);
-        builder.add(Attributes.KNOCKBACK_RESISTANCE, config.knockbackResistance);
-        builder.add(Attributes.MAX_HEALTH, config.health);
-        builder.add(Attributes.MOVEMENT_SPEED, config.moveSpeed);
+    public static AttributeSupplier.Builder applyFrom(PredatorProperties.StatProperties statProperties, AttributeSupplier.Builder builder) {
+        builder.add(Attributes.ARMOR, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.armor()));
+        builder.add(Attributes.ARMOR_TOUGHNESS, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.armorToughness()));
+        builder.add(Attributes.ATTACK_DAMAGE, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.attackDamage()));
+        builder.add(Attributes.FOLLOW_RANGE, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.followRange()));
+        builder.add(Attributes.KNOCKBACK_RESISTANCE, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.knockbackResistance()));
+        builder.add(Attributes.MAX_HEALTH, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.health()));
+        builder.add(Attributes.MOVEMENT_SPEED, PredatorPropertyAccess.INSTANCE.getOrThrow(statProperties.movementSpeed()));
 
         return builder;
     }

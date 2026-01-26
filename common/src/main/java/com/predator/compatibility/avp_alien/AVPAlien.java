@@ -1,10 +1,10 @@
 package com.predator.compatibility.avp_alien;
 
-import com.blib.BLib;
-import com.blib.BLibMod;
+import com.blib.api.BLibAPI;
+import com.blib.api.common.mod.v1.BLibMod;
 
 public class AVPAlien {
 
-    public static final BLibMod MOD = BLib.createMod("avp_alien");
+    public static final BLibMod MOD = BLibAPI.createMod("avp_alien");
 
 }

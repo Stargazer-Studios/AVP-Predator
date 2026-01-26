@@ -1,8 +1,8 @@
 package com.predator.client.render.armor;
 
+import com.blib.azurelib.common.render.armor.AzArmorRenderer;
+import com.blib.azurelib.common.render.armor.AzArmorRendererConfig;
 import com.predator.PredatorResources;
-import mod.azure.azurelib.common.render.armor.AzArmorRenderer;
-import mod.azure.azurelib.common.render.armor.AzArmorRendererConfig;
 import net.minecraft.resources.ResourceLocation;
 
 public class JunglePredatorArmorRenderer extends AzArmorRenderer {

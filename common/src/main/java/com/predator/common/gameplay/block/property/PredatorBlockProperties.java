@@ -1,6 +1,6 @@
 package com.predator.common.gameplay.block.property;
 
-import com.blib.common.gameplay.block.property.BlockPropertyBuilder;
+import com.blib.api.common.block.v1.BlockPropertyBuilder;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;

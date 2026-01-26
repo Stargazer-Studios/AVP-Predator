@@ -1,6 +1,6 @@
 package com.predator.common.gameplay.entity.living.yautja;
 
-import com.blib.common.gameplay.util.BLibEntityPredicates;
+import com.blib.api.common.entity.v1.BLibEntityPredicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;

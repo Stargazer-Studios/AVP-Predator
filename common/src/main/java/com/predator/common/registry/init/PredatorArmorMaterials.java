@@ -1,7 +1,7 @@
 package com.predator.common.registry.init;
 
-import com.blib.common.registry.BLibHolder;
-import com.blib.common.registry.BLibRegistry;
+import com.blib.api.common.registry.v1.BLibHolder;
+import com.blib.api.common.registry.v1.BLibRegistry;
 import com.predator.Predator;
 import com.predator.PredatorResources;
 import com.predator.common.registry.init.item.PredatorItems;

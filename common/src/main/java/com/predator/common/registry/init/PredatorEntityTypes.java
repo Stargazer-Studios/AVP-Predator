@@ -1,9 +1,9 @@
 package com.predator.common.registry.init;
 
-import com.blib.common.registry.BLibHolder;
-import com.blib.common.registry.BLibRegistry;
-import com.blib.common.registry.SilencedEntityTypeBuilder;
-import com.blib.common.registry.impl.BLibEntityAttributeRegistry;
+import com.blib.api.common.entity.v1.SilencedEntityTypeBuilder;
+import com.blib.api.common.registry.v1.BLibHolder;
+import com.blib.api.common.registry.v1.BLibRegistry;
+import com.blib.api.common.registry.v1.impl.BLibEntityAttributeRegistry;
 import com.predator.Predator;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
 import com.predator.common.gameplay.entity.projectile.ShurikenProjectile;

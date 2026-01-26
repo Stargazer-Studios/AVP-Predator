@@ -1,9 +1,9 @@
 package com.predator;
 
-import com.blib.BLib;
-import com.blib.BLibMod;
-import com.predator.common.config.PredatorConfig;
+import com.blib.api.BLibAPI;
+import com.blib.api.common.mod.v1.BLibMod;
 import com.predator.common.data.fixer.migration.PredatorDataMigrations;
+import com.predator.common.property.PredatorPropertyAccess;
 import com.predator.common.registry.init.PredatorArmorMaterials;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
 import com.predator.common.registry.init.PredatorBlocks;
@@ -25,14 +25,14 @@ public class Predator {
 
     public static final String MOD_ID = "avp_predator";
 
-    public static final BLibMod MOD = BLib.createMod(MOD_ID);
+    public static final BLibMod MOD = BLibAPI.createMod(MOD_ID);
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static void initialize() {
-        LOGGER.info("Initializing AVP (Predator) for mod loader '{}'", BLib.getModLoaderType());
+        LOGGER.info("Initializing AVP (Predator) for mod loader '{}'", BLibAPI.getModLoaderType());
 
-        PredatorConfig.initialize();
+        PredatorPropertyAccess.INSTANCE.save();
 
         MOD.initialize(Predator::runInitialization);
     }

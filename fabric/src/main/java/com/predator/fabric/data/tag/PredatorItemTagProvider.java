@@ -1,7 +1,7 @@
 package com.predator.fabric.data.tag;
 
 import com.alien.common.registry.tag.AlienItemTags;
-import com.compatibility.CommonItemTags;
+import com.blib.api.common.tag.v1.CommonItemTags;
 import com.human.common.registry.tag.HumanItemTags;
 import com.predator.Predator;
 import com.predator.common.registry.init.item.PredatorArmorItems;

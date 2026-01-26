@@ -2,7 +2,7 @@ package com.predator.client;
 
 import com.alien.client.render.entity.head.EntityHeadDataCache;
 import com.alien.client.render.entity.parasite.attachment.ParasiteHeadAttachmentOffsetDataCache;
-import com.blib.client.BLibClientMod;
+import com.blib.api.client.mod.v1.BLibClientMod;
 import com.predator.Predator;
 import com.predator.client.render.armor.JunglePredatorArmorRenderer;
 import com.predator.client.render.block.TripMineRenderer;

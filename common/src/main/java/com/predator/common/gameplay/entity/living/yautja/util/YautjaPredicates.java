@@ -1,6 +1,6 @@
 package com.predator.common.gameplay.entity.living.yautja.util;
 
-import com.blib.common.gameplay.util.BLibEntityPredicates;
+import com.blib.api.common.entity.v1.BLibEntityPredicates;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
 import com.predator.common.registry.tag.PredatorItemTags;
 import net.minecraft.world.entity.LivingEntity;

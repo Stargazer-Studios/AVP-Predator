@@ -1,7 +1,7 @@
 package com.predator.common.registry.init.creative_mode_tab;
 
-import com.blib.common.registry.BLibHolder;
-import com.blib.common.registry.BLibRegistry;
+import com.blib.api.common.registry.v1.BLibHolder;
+import com.blib.api.common.registry.v1.BLibRegistry;
 import com.predator.Predator;
 import com.predator.common.registry.init.PredatorBlocks;
 import com.predator.common.registry.init.creative_mode_tab.initializer.BlocksCreativeModeTabInitializer;

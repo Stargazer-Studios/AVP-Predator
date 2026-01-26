@@ -1,14 +1,14 @@
 package com.predator.client.animation.entity;
 
+import com.blib.azurelib.common.animation.AzAnimationContext;
+import com.blib.azurelib.common.animation.AzAnimatorConfig;
+import com.blib.azurelib.common.animation.controller.AzAnimationController;
+import com.blib.azurelib.common.animation.controller.AzAnimationControllerContainer;
+import com.blib.azurelib.common.animation.impl.AzEntityAnimator;
 import com.predator.PredatorResources;
 import com.predator.client.animation.BasicAnimationUtils;
 import com.predator.common.gameplay.entity.living.yautja.Yautja;
 import com.predator.common.gameplay.entity.living.yautja.YautjaAnimationRefs;
-import mod.azure.azurelib.common.animation.AzAnimationContext;
-import mod.azure.azurelib.common.animation.AzAnimatorConfig;
-import mod.azure.azurelib.common.animation.controller.AzAnimationController;
-import mod.azure.azurelib.common.animation.controller.AzAnimationControllerContainer;
-import mod.azure.azurelib.common.animation.impl.AzEntityAnimator;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,6 +1,6 @@
 package com.predator.util;
 
-import com.blib.common.gameplay.util.BLibEntityPredicates;
+import com.blib.api.common.entity.v1.BLibEntityPredicates;
 import com.predator.common.gameplay.entity.projectile.ShurikenProjectile;
 import com.predator.common.gameplay.entity.projectile.SmartDiscProjectile;
 import com.predator.common.registry.init.item.PredatorItems;

@@ -1,6 +1,6 @@
 package com.predator.mixin;
 
-import com.blib.common.gameplay.util.BLibEntityPredicates;
+import com.blib.api.common.entity.v1.BLibEntityPredicates;
 import com.predator.common.registry.tag.PredatorItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
