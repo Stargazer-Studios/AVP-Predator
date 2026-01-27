@@ -84,7 +84,6 @@ dependencies {
     modCompileOnly ("com.avp.alien:avp_alien-fabric-1.21.1:${project.avp_alien_version}") {
         exclude group: project.group
     }
-    // Uncomment to test compatibility.
     modLocalRuntime ("com.avp.alien:avp_alien-fabric-1.21.1:${project.avp_alien_version}") {
         exclude group: project.group
     }
@@ -92,7 +91,6 @@ dependencies {
     modCompileOnly ("com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}") {
         exclude group: project.group
     }
-    // Uncomment to test compatibility.
     modLocalRuntime ("com.avp.human:avp_human-fabric-1.21.1:${project.avp_human_version}") {
         exclude group: project.group
     }

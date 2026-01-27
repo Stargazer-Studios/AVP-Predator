@@ -1,7 +1,12 @@
 package com.predator.fabric.data.infections;
 
+import com.alien.common.model.lifecycle.infection.Infection;
+import com.alien.common.registry.init.AlienEntityTypes;
+import com.blib.api.common.entity.v1.EntityTypePredicate;
+import com.predator.common.registry.tag.PredatorEntityTypeTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class InfectionSubProvider extends InfectionDataProvider {
@@ -18,85 +23,83 @@ public class InfectionSubProvider extends InfectionDataProvider {
 
     @Override
     protected void generate() {
-        // FIXME:
-        // provideBaseFacehuggerInfections();
-        // provideAberrantFacehuggerInfections();
-        // provideNetherFacehuggerInfections();
+        provideBaseFacehuggerInfections();
+        provideAberrantFacehuggerInfections();
+        provideNetherFacehuggerInfections();
     }
 
-    // FIXME:
-    // private void provideBaseFacehuggerInfections() {
-    // add(
-    // "facehugger_produces_predalien_chestburster",
-    // new Infection(
-    // AlienEntityTypes.FACEHUGGER.get(),
-    // AlienEntityTypes.PREDALIEN_CHESTBURSTER.get(),
-    // Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
-    // IMPREGNATION_DELAY_IN_TICKS,
-    // DETACH_DELAY_IN_TICKS,
-    // GESTATION_TIME_IN_TICKS
-    // )
-    // );
-    // add(
-    // "royal_facehugger_produces_predalien_chestburster",
-    // new Infection(
-    // AlienEntityTypes.ROYAL_FACEHUGGER.get(),
-    // AlienEntityTypes.PREDALIEN_CHESTBURSTER.get(),
-    // Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
-    // IMPREGNATION_DELAY_IN_TICKS,
-    // DETACH_DELAY_IN_TICKS,
-    // GESTATION_TIME_IN_TICKS
-    // )
-    // );
-    // }
-    //
-    // private void provideAberrantFacehuggerInfections() {
-    // add(
-    // "aberrant_facehugger_produces_aberrant_predalien_chestburster",
-    // new Infection(
-    // AlienEntityTypes.ABERRANT_FACEHUGGER.get(),
-    // AlienEntityTypes.ABERRANT_PREDALIEN_CHESTBURSTER.get(),
-    // Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
-    // IMPREGNATION_DELAY_IN_TICKS,
-    // DETACH_DELAY_IN_TICKS,
-    // GESTATION_TIME_IN_TICKS
-    // )
-    // );
-    // add(
-    // "royal_aberrant_facehugger_produces_aberrant_predalien_chestburster",
-    // new Infection(
-    // AlienEntityTypes.ROYAL_ABERRANT_FACEHUGGER.get(),
-    // AlienEntityTypes.ABERRANT_PREDALIEN_CHESTBURSTER.get(),
-    // Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
-    // IMPREGNATION_DELAY_IN_TICKS,
-    // DETACH_DELAY_IN_TICKS,
-    // GESTATION_TIME_IN_TICKS
-    // )
-    // );
-    // }
-    //
-    // private void provideNetherFacehuggerInfections() {
-    // add(
-    // "nether_facehugger_produces_nether_predalien_chestburster",
-    // new Infection(
-    // AlienEntityTypes.NETHER_FACEHUGGER.get(),
-    // AlienEntityTypes.NETHER_PREDALIEN_CHESTBURSTER.get(),
-    // Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
-    // IMPREGNATION_DELAY_IN_TICKS,
-    // DETACH_DELAY_IN_TICKS,
-    // GESTATION_TIME_IN_TICKS
-    // )
-    // );
-    // add(
-    // "royal_nether_facehugger_produces_nether_predalien_chestburster",
-    // new Infection(
-    // AlienEntityTypes.ROYAL_NETHER_FACEHUGGER.get(),
-    // AlienEntityTypes.NETHER_PREDALIEN_CHESTBURSTER.get(),
-    // Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
-    // IMPREGNATION_DELAY_IN_TICKS,
-    // DETACH_DELAY_IN_TICKS,
-    // GESTATION_TIME_IN_TICKS
-    // )
-    // );
-    // }
+    private void provideBaseFacehuggerInfections() {
+        add(
+            "facehugger_produces_predalien_chestburster",
+            new Infection(
+                AlienEntityTypes.FACEHUGGER.get(),
+                AlienEntityTypes.PREDALIEN_CHESTBURSTER.get(),
+                Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
+                IMPREGNATION_DELAY_IN_TICKS,
+                DETACH_DELAY_IN_TICKS,
+                GESTATION_TIME_IN_TICKS
+            )
+        );
+        add(
+            "royal_facehugger_produces_predalien_chestburster",
+            new Infection(
+                AlienEntityTypes.ROYAL_FACEHUGGER.get(),
+                AlienEntityTypes.PREDALIEN_CHESTBURSTER.get(),
+                Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
+                IMPREGNATION_DELAY_IN_TICKS,
+                DETACH_DELAY_IN_TICKS,
+                GESTATION_TIME_IN_TICKS
+            )
+        );
+    }
+
+    private void provideAberrantFacehuggerInfections() {
+        add(
+            "aberrant_facehugger_produces_aberrant_predalien_chestburster",
+            new Infection(
+                AlienEntityTypes.ABERRANT_FACEHUGGER.get(),
+                AlienEntityTypes.ABERRANT_PREDALIEN_CHESTBURSTER.get(),
+                Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
+                IMPREGNATION_DELAY_IN_TICKS,
+                DETACH_DELAY_IN_TICKS,
+                GESTATION_TIME_IN_TICKS
+            )
+        );
+        add(
+            "royal_aberrant_facehugger_produces_aberrant_predalien_chestburster",
+            new Infection(
+                AlienEntityTypes.ROYAL_ABERRANT_FACEHUGGER.get(),
+                AlienEntityTypes.ABERRANT_PREDALIEN_CHESTBURSTER.get(),
+                Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
+                IMPREGNATION_DELAY_IN_TICKS,
+                DETACH_DELAY_IN_TICKS,
+                GESTATION_TIME_IN_TICKS
+            )
+        );
+    }
+
+    private void provideNetherFacehuggerInfections() {
+        add(
+            "nether_facehugger_produces_nether_predalien_chestburster",
+            new Infection(
+                AlienEntityTypes.NETHER_FACEHUGGER.get(),
+                AlienEntityTypes.NETHER_PREDALIEN_CHESTBURSTER.get(),
+                Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
+                IMPREGNATION_DELAY_IN_TICKS,
+                DETACH_DELAY_IN_TICKS,
+                GESTATION_TIME_IN_TICKS
+            )
+        );
+        add(
+            "royal_nether_facehugger_produces_nether_predalien_chestburster",
+            new Infection(
+                AlienEntityTypes.ROYAL_NETHER_FACEHUGGER.get(),
+                AlienEntityTypes.NETHER_PREDALIEN_CHESTBURSTER.get(),
+                Optional.of(new EntityTypePredicate.Tag(PredatorEntityTypeTags.PREDATORS)),
+                IMPREGNATION_DELAY_IN_TICKS,
+                DETACH_DELAY_IN_TICKS,
+                GESTATION_TIME_IN_TICKS
+            )
+        );
+    }
 }
