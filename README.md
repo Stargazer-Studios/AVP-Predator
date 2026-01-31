@@ -1,54 +1,117 @@
-[discord-shield]: https://dcbadge.limes.pink/api/server/https://discord.gg/wp7mvmbkVb
-[discord-url]: https://discord.gg/wp7mvmbkVb
+[# AVP (Predator)
 
-[github-build]: https://github.com/Stargazer-Studios/AVP-Predator/actions/workflows/build.yml/badge.svg
-[github-build-url]:https://github.com/Stargazer-Studios/AVP-Predator/actions/workflows/build.yml
+Welcome to AVP (Predator)! This Minecraft mod is made in 1.21.1 and is home to predator-related content from the Alien, Predator and AVP franchises. The mod is currently available for Fabric and NeoForge.
 
-[java-shield]: https://img.shields.io/badge/Made%20with-Java-ED8B00.svg
-[java-url]: https://www.java.com/
+---
 
-[IntelliJ IDEA]: https://www.jetbrains.com/idea/
-[Gradle]: https://www.gradle.org/
-[Java Development Kit 21]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
-[CurseForge]: https://preview.redd.it/i-heard-that-curseforge-rebranded-their-logo-is-it-good-or-v0-hualodaes7ka1.png?auto=webp&s=985d21b6461a7e0be2dfb5d4e3beb64401711c9e
+## MIGRATING FROM "AVP"
 
-<br>
-<center>
+If you are migrating from the 1.21.1 "AVP" mod to the split up AVP files, you MUST use ALL modules provided (Alien, Human and Predator) to avoid losing data in your worlds and/or corrupting your worlds. Do not use the standalone AVP mod as it will no longer be updated.
 
-AVP (Predator)
-=============
+Also, please **BACK UP YOUR WORLDS** before migrating! The different modules should migrate their respective content automatically, but it never hurts to back things up just in case! :)
 
-[![discord-shield]][discord-url]
+---
 
-[![github-build]][github-build-url]
-[![java-shield]][java-url]
+## Features
 
-</center>
+### Yautja (Predators)
 
-## Prerequisites ##
-* [Java Development Kit 21]
-* [Gradle]
+Face off against the ultimate hunters from the predator franchise:
 
-## Development Guide
-The majority of mod should be developed in the `common` project. The `common` project is compiled against the vanilla game and is used to hold code shared between the different loader-specific versions of your mod. The `common` project has no knowledge or access to ModLoader specific code, apis, or concepts. Code that requires something from a specific loader must be done through the project that is specific to that loader, such as the `fabric` or `neoforge` projects.
+- **High Health** - Extremely durable combatants, tankier than iron golems.
+- **Full Combat AI** - Engages with both ranged and melee attacks.
+- **Equipped Hunters** - Spawns with full jungle predator armor and either a Shuriken or Smart Disc.
+- **Knockback Immunity** - Cannot be pushed back by attacks.
+- **Mask Removal** - When wounded below 50% health, the Yautja removes its helmet.
 
-Loader-specific projects such as the `fabric` and `neoforge` project are used to load the `common` project into the game. These projects also define code that is specific to that loader. Loader-specific projects can access all the code in the `common` project. It is important to remember that the `common` project cannot access code from loader-specific projects.
+Yautja spawn naturally in jungle biomes and drop veritanium shards, armor pieces, and tools.
 
-## Contributing ##
-Before contributing to this project, please ensure that you read the following guidelines. It's crucial to have your development environment configured correctly. Additionally, pull requests that do not adhere to the specified format will not be accepted.
+### Weapons
 
-### 1) Clone The Repository ###
-Follow the steps here: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+Wield iconic predator weaponry with **2 throwable weapons**:
 
-### 2) Setup in [IntelliJ IDEA] ###
-1. Open the template's root folder as a new project in IDEA. This is the folder that contains this README.md file and the gradlew executable.
-2. If your default JVM/JDK is not Java 21 you will encounter an error when opening the project. This error is fixed by going to `File > Settings > Build, Execution, Deployment > Build Tools > Gradle > Gradle JVM` and changing the value to a valid Java 21 JVM. You will also need to set the Project SDK to Java 21. This can be done by going to `File > Project Structure > Project SDK`. Once both have been set open the Gradle tab in IDEA and click the refresh button to reload the project.
-3. Open your Run/Debug Configurations. Under the `Application` category there should now be options to run Fabric and NeoForge projects. Select one of the client options and try to run it.
-4. Assuming you were able to run the game in step 3 your workspace should now be set up.
+- **Shuriken** - Hold-to-charge throwing weapon. Power scales with charge time, launching at up to 6.5x velocity.
+- **Smart Disc** - Instant-throw disc projectile with fixed velocity.
 
-__**Eclipse/VSCode not supported**__
+Both projectiles can damage blocks and entities on impact.
 
-### 3) Creating a PR ###
-Please do at least one build via `Tasks > build > build` to have the spotless plugin format all code before submitting the PR.
+### Veritanium Tools
 
-Follow the steps here: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request
+A complete tool set crafted from veritanium, surpassing even netherite:
+
+- **Veritanium Pickaxe** - Mine faster than netherite with superior durability.
+- **Veritanium Axe** - Powerful chopping with high attack damage.
+- **Veritanium Shovel** - Efficient digging tool.
+- **Veritanium Hoe** - Farming implement for the hunter-gatherer.
+- **Veritanium Sword** - Deadly blade for close combat.
+
+**Veritanium Tier Properties:**
+- 2640 durability (higher than netherite).
+- 10.0 mining speed (faster than netherite).
+- +5.0 attack damage bonus.
+- Fire resistant.
+- Repaired with veritanium shards.
+
+### Armor Set
+
+Protect yourself with **1 complete armor set** with 4 pieces (helmet, chestplate, leggings, boots):
+
+- **Jungle Predator Armor** - Advanced hunter armor crafted from veritanium. Fire-resistant with high toughness and knockback resistance. The helmet alone prevents facehugger attacks when AVP: Alien is installed. Wearing the full set grants Jump Boost and Strength effects.
+
+### Blocks
+
+**Trip Mine** - A deadly trap block that detects nearby players and yautja:
+- Configurable detection range.
+- TNT-equivalent explosion on detonation.
+
+### Resources & Crafting
+
+**Veritanium Shard**
+- Fire-resistant crafting material.
+- Dropped by Yautja (2-3 per kill, affected by Looting).
+- Used to craft and repair all veritanium equipment.
+
+### Music
+
+**Music Disc - Hunter**
+- Original soundtrack by Rotch Gwylt.
+- Crafted from 9 disc fragments.
+
+### AVP: Alien Compatibility
+
+When used alongside AVP: Alien, additional features are unlocked:
+
+- **Predalien Hosts** - Yautja can be facehugged and will produce predalien chestbursters.
+- **Facehugger Protection** - The predator Helmet prevents facehugger attacks.
+- **Xenomorph Hostility** - Xenomorphs recognize yautja as threats and will attack them.
+
+---
+
+# Other Content
+
+If you are looking for a full AVP experience, this mod is just 1 module that offers **ONLY** the predator-related content from the AVP franchises! More content is available through our other modules:
+
+**Alien Module:**
+- CurseForge: https://www.curseforge.com/minecraft/mc-mods/avp-alien
+- Modrinth: https://modrinth.com/project/avp-alien
+
+**Human Module:**
+- CurseForge: https://www.curseforge.com/minecraft/mc-mods/avp-human
+- Modrinth: https://modrinth.com/project/avp-human
+
+---
+
+# Credits
+
+Coding: Bvanseg, AzureDoom, PheonixAtredes, \_cerbon\_
+
+Textures: PheonixAtredes, Gothic-Lycan, GorbleGorble, Spooky, .silicon., WhiteShark01
+
+Models: PheonixAtredes, .Silicon., GorbleGorble
+
+Animations: ended4499, PheonixAtredes, AzureDoom, .silicon., Caution
+
+Sounds: Hossasaurus, PheonixAtredes, AzureDoom
+
+Music: Rotch Gwylt https://linktr.ee/rotch.gwylt
+]()
