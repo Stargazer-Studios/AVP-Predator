@@ -1,7 +1,7 @@
 package com.predator.client.render.entity;
 
-import com.blib.azurelib.common.render.entity.AzEntityRenderer;
-import com.blib.azurelib.common.render.entity.AzEntityRendererConfig;
+import com.blib.api.client.render.v1.entity.AzEntityRenderer;
+import com.blib.api.client.render.v1.entity.AzEntityRendererConfig;
 import com.predator.PredatorResources;
 import com.predator.client.animation.entity.YautjaAnimator;
 import com.predator.client.render.layer.YautjaArmorLayer;

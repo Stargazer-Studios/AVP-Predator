@@ -1,7 +1,7 @@
 package com.predator.client.render.armor;
 
-import com.blib.azurelib.common.render.armor.AzArmorRenderer;
-import com.blib.azurelib.common.render.armor.AzArmorRendererConfig;
+import com.blib.api.client.render.v1.armor.AzArmorRenderer;
+import com.blib.api.client.render.v1.armor.AzArmorRendererConfig;
 import com.predator.PredatorResources;
 import net.minecraft.resources.ResourceLocation;
 

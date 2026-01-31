@@ -1,8 +1,8 @@
 package com.predator.client.render.block;
 
-import com.blib.azurelib.common.render.block.AzBlockEntityRenderer;
-import com.blib.azurelib.common.render.block.AzBlockEntityRendererConfig;
-import com.blib.azurelib.common.render.layer.AzAutoGlowingLayer;
+import com.blib.api.client.render.v1.block.AzBlockEntityRenderer;
+import com.blib.api.client.render.v1.block.AzBlockEntityRendererConfig;
+import com.blib.api.client.render.v1.layer.AzAutoGlowingLayer;
 import com.predator.PredatorResources;
 import com.predator.common.gameplay.block.entity.TripMineBlockEntity;
 import net.minecraft.resources.ResourceLocation;

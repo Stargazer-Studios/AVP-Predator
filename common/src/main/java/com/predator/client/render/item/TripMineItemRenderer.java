@@ -1,7 +1,7 @@
 package com.predator.client.render.item;
 
-import com.blib.azurelib.common.render.item.AzItemRenderer;
-import com.blib.azurelib.common.render.item.AzItemRendererConfig;
+import com.blib.api.client.render.v1.item.AzItemRenderer;
+import com.blib.api.client.render.v1.item.AzItemRendererConfig;
 import com.predator.PredatorResources;
 import net.minecraft.resources.ResourceLocation;
 

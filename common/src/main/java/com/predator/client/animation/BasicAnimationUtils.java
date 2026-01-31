@@ -1,6 +1,6 @@
 package com.predator.client.animation;
 
-import com.blib.azurelib.common.animation.AzAnimationContext;
+import com.blib.api.client.animation.v1.animator.AzAnimationContext;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
