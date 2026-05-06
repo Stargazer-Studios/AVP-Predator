@@ -140,20 +140,24 @@ void main() {
     vec3 srcDim = src * dimFactor;
 
     // Category breakdown of the mask byte. Values written by BLibEntityShaderPatcher.Category, plus the special
-    // 0.875 "held-item passthrough" written when BlibHeldItem is set during first-person hand or third-person
-    // ItemInHandLayer draws. Held-item fragments skip thermal recoloring so they remain readable as items.
-    //   0.875  = held item     → thermalRgb = srcDim (no thermal recoloring)
-    //   1.000  = entity        → body heat + lighting
+    // 0.875 "held item" written when BlibHeldItem is set during first-person hand or third-person ItemInHandLayer
+    // draws. Held-item fragments are routed through the background-entity branch so they blend with the world
+    // (dark blue thermal / dark green EM) instead of standing out as foreground entities — held items shouldn't
+    // give away your position in the predator vision.
+    //   0.875  = held item     → forced through world-coloring branch (treated as background)
+    //   1.000  = entity        → body heat + lighting (or world coloring if backgroundFlag set)
     //   0.500  = terrain       → lighting only (no body heat)
     //   0.250  = particle      → ambient block light only
     //   0.0625 = celestial     → sun/moon texture recolored via heat gradient + ambient-sky fade
     //   0.000  = sky/passthrough → ambient sky baseline only
     bool isHeldItem = mask > 0.8125 && mask < 0.9375;
 
-    vec3 thermalRgb = isHeldItem
-        ? srcDim
-        : computeThermal(src, srcDim, mask, drawData, specular, materialId, dimFactor, backgroundFlag);
-    vec3 emRgb = computeEm(src, srcDim, mask, drawData, dimFactor, backgroundFlag);
+    // Force the background flag for held items so the per-pixel coloring routes through the world branch in both
+    // computeThermal (catEntity zeroed out → terrain heat formula) and computeEm (catEntity zeroed → emWorldColor).
+    float effectiveBackgroundFlag = max(backgroundFlag, isHeldItem ? 1.0 : 0.0);
+
+    vec3 thermalRgb = computeThermal(src, srcDim, mask, drawData, specular, materialId, dimFactor, effectiveBackgroundFlag);
+    vec3 emRgb = computeEm(src, srcDim, mask, drawData, dimFactor, effectiveBackgroundFlag);
 
     // Apply vision-mode wipe. When oldMode == newMode there's no transition active — both sides resolve to the
     // same coloring and we skip the band/erosion math.
@@ -218,6 +222,18 @@ void main() {
 }
 
 vec3 computeThermal(vec3 src, vec3 srcDim, float mask, vec4 drawData, vec4 specular, int materialId, float dimFactor, float backgroundFlag) {
+    // Held items: render uniformly as cold-zone background regardless of position lighting (no IR signature). Mirrors
+    // EM's "held items don't show up" behavior — without this, held items inherit terrain-heat from their wielder's
+    // block-light and read as warm in lit areas. Held items aren't biological tissue and shouldn't have a thermal
+    // signature, so we route them to BLIB_THERMAL_COLD + a srcLuma-driven blue underlay (matching the cold zone of
+    // the gradient) instead of the position-driven heat formula.
+    if (mask > 0.8125 && mask < 0.9375) {
+        float heldSrcLuma = dot(src, vec3(0.299, 0.587, 0.114));
+        float heldLifted = pow(clamp(heldSrcLuma, 0.0, 1.0), 0.5);
+        vec3 heldDetail = vec3(0.0, 0.0, 1.0) * heldLifted * 0.5;
+        return (BLIB_THERMAL_COLD + heldDetail) * dimFactor;
+    }
+
     // Entity-mask pixels with backgroundFlag set are reclassified as terrain so they pick up the world heat formula
     // (low heat → dark blue with srcLuma-driven coldDetail underlay) instead of the foreground entity formula's
     // 0.5 baseline. Visible-tagged entities have backgroundFlag = 0 and stay classified as entity.
@@ -333,13 +349,9 @@ vec3 computeThermal(vec3 src, vec3 srcDim, float mask, vec4 drawData, vec4 specu
 //   2. srcLuma-driven green underlay so block edges and texture variation show up as brighter green.
 //   3. Block-light / face-light deliberately NOT consumed — the world looks the same near a torch as in a dark cave.
 vec3 computeEm(vec3 src, vec3 srcDim, float mask, vec4 drawData, float dimFactor, float backgroundFlag) {
-    bool isHeldItem = mask > 0.8125 && mask < 0.9375;
-
-    if (isHeldItem) {
-        return srcDim;
-    }
-
-    // Background entities are zeroed out of catEntity so they fall through to the world coloring branch below.
+    // Held items used to short-circuit to srcDim (passthrough). Now main() merges held-item state into
+    // backgroundFlag so they fall through to the world coloring branch below — held items blend with the world
+    // instead of giving away their wielder's position.
     float catEntity = step(0.75, mask) * (1.0 - backgroundFlag);
     float srcLuma = dot(src, vec3(0.299, 0.587, 0.114));
     float liftedLuma = pow(clamp(srcLuma, 0.0, 1.0), 0.5);
@@ -352,11 +364,12 @@ vec3 computeEm(vec3 src, vec3 srcDim, float mask, vec4 drawData, float dimFactor
     vec3 emEntityColor = vec3(0.0, 1.0, 0.2) * entityLuma * entityLighting;
 
     // WORLD: dark-green base + srcLuma-driven green underlay (mirrors thermal's BLIB_THERMAL_COLD + coldDetail in
-    // green). Block-light intentionally unused — torches/lava don't change EM's world appearance. Range: 0.02
-    // (unlit / black source) to 0.25 (bright source pixel), so block edges and texture variation are visible
-    // without lifting EM out of its low-light feel.
-    const vec3 EM_WORLD_BASE = vec3(0.0, 0.02, 0.0);
-    vec3 emWorldDetail = vec3(0.0, 1.0, 0.0) * liftedLuma * 0.23;
+    // green). Block-light intentionally unused — torches/lava don't change EM's world appearance. Range: 0.05
+    // (unlit / black source) to 0.25 (bright source pixel). The 0.05 floor matters: dark-textured surfaces (e.g.
+    // dark armor on a player who's classified as a background entity) need somewhere visible to land, otherwise
+    // they read as pure black.
+    const vec3 EM_WORLD_BASE = vec3(0.0, 0.05, 0.0);
+    vec3 emWorldDetail = vec3(0.0, 1.0, 0.0) * liftedLuma * 0.20;
     vec3 emWorldColor = EM_WORLD_BASE + emWorldDetail;
 
     vec3 result = catEntity * emEntityColor + (1.0 - catEntity) * emWorldColor;
