@@ -7,6 +7,8 @@ import com.predator.Predator;
 import com.predator.common.registry.init.item.PredatorArmorItems;
 import com.predator.common.registry.init.item.PredatorItems;
 import com.predator.common.registry.tag.PredatorItemTags;
+import com.predator.compatibility.avp_alien.AVPAlien;
+import com.predator.compatibility.avp_human.AVPHuman;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
@@ -41,14 +43,17 @@ public class PredatorItemTagProvider extends FabricTagProvider.ItemTagProvider {
         addArmors();
         addAutomatedTagItems();
 
-        getOrCreateTagBuilder(PredatorItemTags.HOSTILE_WEAPONS)
-            .addOptionalTag(HumanItemTags.GUNS)
+        var hostileWeapons = getOrCreateTagBuilder(PredatorItemTags.HOSTILE_WEAPONS)
             .addTag(ItemTags.AXES)
             .addTag(ItemTags.SWORDS)
             .add(
                 Items.BOW,
                 Items.CROSSBOW
             );
+
+        if (AVPHuman.MOD.isLoaded()) {
+            hostileWeapons.addOptionalTag(HumanItemTags.GUNS);
+        }
 
         getOrCreateTagBuilder(ItemTags.FREEZE_IMMUNE_WEARABLES)
             .addTag(PredatorItemTags.PREDATOR_ARMORS);
@@ -167,7 +172,9 @@ public class PredatorItemTagProvider extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(CommonItemTags.MUSIC_DISCS)
             .add(PredatorItems.PREDATOR_MUSIC_DISC_1.get());
 
-        getOrCreateTagBuilder(AlienItemTags.FACEHUGGER_RESISTANT_HELMETS)
-            .add(PredatorArmorItems.JUNGLE_PREDATOR_HELMET.get());
+        if (AVPAlien.MOD.isLoaded()) {
+            getOrCreateTagBuilder(AlienItemTags.FACEHUGGER_RESISTANT_HELMETS)
+                .add(PredatorArmorItems.JUNGLE_PREDATOR_HELMET.get());
+        }
     }
 }

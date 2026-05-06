@@ -1,5 +1,7 @@
 package com.predator.fabric.data;
 
+import com.predator.compatibility.avp_alien.AVPAlien;
+import com.predator.compatibility.avp_human.AVPHuman;
 import com.predator.fabric.data.gene_bonus_data.GeneBonusDataSubProvider;
 import com.predator.fabric.data.infections.InfectionSubProvider;
 import com.predator.fabric.data.jukebox_song.PredatorJukeboxSongsProvider;
@@ -43,9 +45,16 @@ public class PredatorDataGenerator implements DataGeneratorEntrypoint {
         // Jukebox Song Providers
         pack.addProvider(PredatorJukeboxSongsProvider::new);
 
-        // Custom Providers
-        pack.addProvider(GeneBonusDataSubProvider::new);
-        pack.addProvider(InfectionSubProvider::new);
+        // Custom Providers — each gated on the optional mod that owns the data type. When the mod isn't loaded its
+        // classes aren't on the runtime classpath, so referencing the SubProvider class (let alone instantiating it)
+        // would NoClassDefFoundError. The if-gate ensures the line never runs.
+        if (AVPHuman.MOD.isLoaded()) {
+            pack.addProvider(GeneBonusDataSubProvider::new);
+        }
+
+        if (AVPAlien.MOD.isLoaded()) {
+            pack.addProvider(InfectionSubProvider::new);
+        }
     }
 
     @Override

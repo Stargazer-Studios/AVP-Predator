@@ -4,11 +4,13 @@ import com.alien.client.render.entity.head.EntityHeadDataCache;
 import com.alien.client.render.entity.parasite.attachment.ParasiteHeadAttachmentOffsetDataCache;
 import com.blib.api.client.mod.v1.BLibClientMod;
 import com.predator.Predator;
+import com.predator.client.input.keybind.PredatorKeybindingRegistry;
 import com.predator.client.render.armor.JunglePredatorArmorRenderer;
 import com.predator.client.render.block.TripMineRenderer;
 import com.predator.client.render.entity.YautjaRenderer;
 import com.predator.client.render.item.SpinningItemRenderer;
 import com.predator.client.render.item.TripMineItemRenderer;
+import com.predator.client.vision.PredatorVisionPostEffects;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
 import com.predator.common.registry.init.PredatorEntityTypes;
 import com.predator.common.registry.init.item.PredatorArmorItems;
@@ -22,7 +24,7 @@ import java.util.List;
 
 public class PredatorClient {
 
-    private static final BLibClientMod MOD = BLibClientMod.createFor(Predator.MOD);
+    public static final BLibClientMod MOD = BLibClientMod.createFor(Predator.MOD);
 
     public static void initialize() {
         MOD.initialize(PredatorClient::runInitialization);
@@ -33,6 +35,8 @@ public class PredatorClient {
         registerBlockEntityRenderers();
         registerEntityRenderers();
         registerItemRenderers();
+        PredatorVisionPostEffects.register(MOD);
+        PredatorKeybindingRegistry.initialize();
 
         if (AVPAlien.MOD.isLoaded()) {
             MOD.events().onClientSetup().register(() -> {

@@ -8,7 +8,10 @@
     "MixinLivingEntity_ApplyArmorEffects",
     "ParrotSoundMapAccessor"
   ],
-  "client": [],
+  "client": [
+    "vision.MixinLivingEntityRenderer_VisionPerBoneLight",
+    "vision.MixinLivingEntityRenderer_VisionRenderType"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1

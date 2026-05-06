@@ -3,10 +3,13 @@ package com.predator;
 import com.blib.api.BLibAPI;
 import com.blib.api.common.mod.v1.BLibMod;
 import com.predator.common.data.fixer.migration.PredatorDataMigrations;
+import com.predator.common.network.PredatorPacketDirectionRegistry;
+import com.predator.common.network.PredatorServerPacketHandlerRegistry;
 import com.predator.common.property.PredatorPropertyAccess;
 import com.predator.common.registry.init.PredatorArmorMaterials;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
 import com.predator.common.registry.init.PredatorBlocks;
+import com.predator.common.registry.init.PredatorDataComponents;
 import com.predator.common.registry.init.PredatorEntitySpawns;
 import com.predator.common.registry.init.PredatorEntityTypes;
 import com.predator.common.registry.init.PredatorSoundEvents;
@@ -44,11 +47,15 @@ public class Predator {
         PredatorBlockItems.initialize();
         PredatorBlocks.initialize();
         PredatorCreativeModeTabs.initialize();
+        PredatorDataComponents.initialize();
         PredatorEntitySpawns.initialize();
         PredatorEntityTypes.initialize();
         PredatorItems.initialize();
         PredatorSoundEvents.initialize();
         PredatorSpawnEggItems.initialize();
+
+        PredatorPacketDirectionRegistry.initialize();
+        PredatorServerPacketHandlerRegistry.initialize();
 
         PredatorDataMigrations.initialize();
 
