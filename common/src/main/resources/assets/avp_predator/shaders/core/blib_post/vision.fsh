@@ -49,7 +49,7 @@ const float BLIB_FOG_AMOUNT = 1.0;
 
 // Cold end is a very dark blue rather than pure black so unlit areas still read as "ambient cold" — pure black
 // looks like missing data / GUI clear and breaks immersion in fully-dark caves.
-const vec3 BLIB_THERMAL_COLD = vec3(0.0, 0.0, 0.04);
+const vec3 BLIB_THERMAL_COLD = vec3(0.0, 0.0, 0.06);
 
 // Hot end: mostly white with a faint hint of red retained from the previous gradient stop, instead of pure
 // (1, 1, 1) — pure white reads as eye-searing on common monitors when a full lava block fills the over-1.0 range.
@@ -305,18 +305,15 @@ vec3 computeThermal(vec3 src, vec3 srcDim, float mask, vec4 drawData, vec4 specu
     vec3 heatVis = thermalGradient(heat);
 
     // Cold-area visibility underlay — only for non-sky pixels. At low heat the gradient color is a near-uniform
-    // dark blue, which obliterates structure (walls/floor/edges) and makes navigation hard. Add a faint blue
-    // underlay scaled by source luminance so block edges and lit-side faces brighten the blue subtly. Sky pixels
-    // are excluded (catSky multiplier) — their heat already comes from a clean procedural source, and adding a
-    // luma-scaled blue on top would re-introduce source-color leak through the sky region.
-    // <p>
-    // Multiplier matches the EM world's underlay strength (0.04) so unlit thermal areas land in the same darkness
-    // band as unlit EM areas. Range for unlit pixels: BLIB_THERMAL_COLD (0.04) to ~0.08 — same as EM. This is also
-    // dark enough that vanilla MC's GUI-pass vignette overlay (multiply-blend) shows through visibly at the edges.
+    // dark blue, which obliterates structure (walls/floor/edges) and makes navigation hard. Add a pure-blue underlay
+    // scaled by source luminance so block edges and lit-side faces brighten the blue. Sky pixels are excluded
+    // (catSky multiplier) — their heat already comes from a clean procedural source, and adding a luma-scaled blue
+    // on top would re-introduce source-color leak through the sky region (the green ring around unloaded chunks,
+    // faint banding from celestial-body texture luminance, etc.).
     float srcLuma = dot(src, vec3(0.299, 0.587, 0.114));
     float liftedLuma = pow(clamp(srcLuma, 0.0, 1.0), 0.5);
     float coldFade = (1.0 - smoothstep(0.0, 0.5, heat)) * (1.0 - catSky);
-    vec3 coldDetail = vec3(0.0, 0.0, 1.0) * liftedLuma * 0.04 * coldFade;
+    vec3 coldDetail = vec3(0.0, 0.0, 1.0) * liftedLuma * 0.5 * coldFade;
 
     vec3 outColor = heatVis + coldDetail;
     return outColor * dimFactor;
@@ -354,10 +351,12 @@ vec3 computeEm(vec3 src, vec3 srcDim, float mask, vec4 drawData, float dimFactor
     float entityLuma = mix(0.2, 1.0, liftedLuma);
     vec3 emEntityColor = vec3(0.0, 1.0, 0.2) * entityLuma * entityLighting;
 
-    // WORLD: dark-green base plus a very subtle srcLuma-driven underlay so structure is faintly readable without
-    // the world brightness lifting much above ~0.06. Block-light intentionally unused.
-    const vec3 EM_WORLD_BASE = vec3(0.0, 0.04, 0.0);
-    vec3 emWorldDetail = vec3(0.0, 0.04, 0.0) * liftedLuma;
+    // WORLD: dark-green base + srcLuma-driven green underlay (mirrors thermal's BLIB_THERMAL_COLD + coldDetail in
+    // green). Block-light intentionally unused — torches/lava don't change EM's world appearance. Range: 0.02
+    // (unlit / black source) to 0.25 (bright source pixel), so block edges and texture variation are visible
+    // without lifting EM out of its low-light feel.
+    const vec3 EM_WORLD_BASE = vec3(0.0, 0.02, 0.0);
+    vec3 emWorldDetail = vec3(0.0, 1.0, 0.0) * liftedLuma * 0.23;
     vec3 emWorldColor = EM_WORLD_BASE + emWorldDetail;
 
     vec3 result = catEntity * emEntityColor + (1.0 - catEntity) * emWorldColor;
