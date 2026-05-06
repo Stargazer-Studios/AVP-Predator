@@ -9,6 +9,7 @@ import com.predator.common.property.PredatorPropertyAccess;
 import com.predator.common.registry.init.PredatorArmorMaterials;
 import com.predator.common.registry.init.PredatorBlockEntityTypes;
 import com.predator.common.registry.init.PredatorBlocks;
+import com.predator.common.registry.init.PredatorCommands;
 import com.predator.common.registry.init.PredatorDataComponents;
 import com.predator.common.registry.init.PredatorEntitySpawns;
 import com.predator.common.registry.init.PredatorEntityTypes;
@@ -46,6 +47,7 @@ public class Predator {
         PredatorBlockEntityTypes.initialize();
         PredatorBlockItems.initialize();
         PredatorBlocks.initialize();
+        PredatorCommands.initialize();
         PredatorCreativeModeTabs.initialize();
         PredatorDataComponents.initialize();
         PredatorEntitySpawns.initialize();

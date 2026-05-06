@@ -13,7 +13,9 @@ import com.predator.common.gameplay.component.PredatorVisionMode;
  */
 public final class PredatorVisionTransition {
 
-    private static final long DURATION_MS = 200L;
+    public static final long DEFAULT_DURATION_MS = 200L;
+
+    private static volatile long durationMs = DEFAULT_DURATION_MS;
 
     private static long startTimeMs;
 
@@ -39,11 +41,11 @@ public final class PredatorVisionTransition {
 
         var elapsed = System.currentTimeMillis() - startTimeMs;
 
-        if (elapsed >= DURATION_MS) {
+        if (elapsed >= durationMs) {
             return 1.0F;
         }
 
-        return elapsed / (float) DURATION_MS;
+        return elapsed / (float) durationMs;
     }
 
     public static boolean isActive() {
@@ -56,5 +58,21 @@ public final class PredatorVisionTransition {
 
     public static PredatorVisionMode newMode() {
         return newMode;
+    }
+
+    /**
+     * @return the active transition duration in milliseconds. Defaults to {@link #DEFAULT_DURATION_MS} but can be
+     *         overridden at runtime via the {@code /avp_predator vision_transition_duration <ms>} debug command.
+     */
+    public static long durationMs() {
+        return durationMs;
+    }
+
+    /**
+     * Override the transition duration. Volatile because the debug command may run on the integrated-server thread
+     * while {@link #progress()} reads it on the render thread.
+     */
+    public static void setDurationMs(long newDurationMs) {
+        durationMs = newDurationMs;
     }
 }

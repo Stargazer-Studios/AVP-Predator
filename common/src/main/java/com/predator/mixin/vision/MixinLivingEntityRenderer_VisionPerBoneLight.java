@@ -3,7 +3,7 @@ package com.predator.mixin.vision;
 import com.blib.api.client.posteffect.v1.BLibPerBoneLightContext;
 import com.blib.api.client.posteffect.v1.BLibPostEffectFramework;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.predator.client.vision.PredatorVisionAccessor;
+import com.predator.client.vision.PredatorVisionClassification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -13,33 +13,38 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * Two-part hook into {@code LivingEntityRenderer.render}, gated on any non-regular vision mode being active. The
  * current vision mode (read from the equipped predator helmet) supplies the visible/hot tags that drive how each entity
- * is processed.
+ * is processed. Classification is delegated to {@link PredatorVisionClassification}.
  * <p>
- * <b>Visible entities</b> (those in the current mode's
- * {@link com.predator.common.gameplay.component.PredatorVisionMode#visibleTag()}): a {@link BLibPerBoneLightContext}
- * frame is pushed so BLib's {@code MixinModelPart_PerBoneLight} samples world block-light at each bone's
- * pose-stack-derived position, optionally floored at 14 for {@code HOT}-tag entities.
- * <p>
- * <b>Background entities</b> (rendered, but not in the visible tag):
- * {@link BLibPostEffectFramework#pushBackgroundEntity()} is called so the entity-shader patcher writes a flag into
- * {@code entityMask.g}; the predator vision shader reads that flag and routes those pixels through its world-coloring
- * branch (dark blue thermal / dark green EM, with texture detail intact). The entity still draws in full so it blends
- * with the world rather than disappearing.
+ * <b>Why HEAD records its decisions on a stack instead of recomputing at RETURN:</b> the classify result depends on
+ * {@link com.predator.client.vision.PredatorVisionTransition#isActive()} and the helmet's current mode, both of which
+ * can change between HEAD and RETURN (a transition ending mid-render, a server packet updating the helmet, etc.). If
+ * RETURN recomputed and got a different answer, the pops wouldn't match the pushes — leaking the BLib lane depths
+ * across renders and corrupting every subsequent entity's mask.g. The stack guarantees pushes and pops are always
+ * symmetric regardless of intervening state changes.
  * <p>
  * <b>Why this mixin force-flushes the buffer source around background entities:</b> {@code LivingEntityRenderer.render}
  * only queues vertices into the level's {@code MultiBufferSource} — the actual GL draw and {@code ShaderInstance.apply}
- * (which is when {@code BlibBackgroundEntity} gets pushed to the GPU) doesn't happen until the level renderer flushes
- * the whole entity batch later. Without forcing flushes at the visible↔background boundary, every entity in the same
- * batch ends up sampling whatever flag state happened to be active at flush time — usually whichever entity rendered
- * last — so the color of any given entity drifts based on render order, which depends on camera angle and distance.
- * Calling {@code BufferSource.endBatch()} at the boundary ensures each entity's vertices flush under the uniform value
- * that was set when its render was called.
+ * (which is when the {@code BlibBackgroundEntity}* uniforms get pushed to the GPU) doesn't happen until the level
+ * renderer flushes the whole entity batch later. Without forcing flushes at the visible↔background boundary, every
+ * entity in the same batch ends up sampling whatever flag state happened to be active at flush time — usually whichever
+ * entity rendered last — so the color of any given entity drifts based on render order. Calling
+ * {@code BufferSource.endBatch()} at the boundary ensures each entity's vertices flush under the uniform values that
+ * were set when its render was called.
  */
 @Mixin(LivingEntityRenderer.class)
 public abstract class MixinLivingEntityRenderer_VisionPerBoneLight {
+
+    /**
+     * Per-render frame: {@code [pushedLaneA, pushedLaneB, pushedPerBoneLight]} as 0/1 ints. A stack so re-entrant
+     * renders (passenger drawn inside its mount's render, etc.) compose correctly. Render-thread only.
+     */
+    private static final ThreadLocal<Deque<int[]>> FRAME_STACK = ThreadLocal.withInitial(ArrayDeque::new);
 
     @Inject(method = "render", at = @At("HEAD"))
     private void predator$visionPushContext(
@@ -51,39 +56,56 @@ public abstract class MixinLivingEntityRenderer_VisionPerBoneLight {
         int packedLight,
         CallbackInfo ci
     ) {
+        // Always push a frame even if we're going to bail — RETURN pops unconditionally so push/pop must be paired.
+        var frame = new int[3];
+        FRAME_STACK.get().push(frame);
+
         if (BLibPostEffectFramework.isShaderModActive()) {
             return;
         }
 
-        var mode = PredatorVisionAccessor.currentVisionMode();
-        var visibleTag = mode.visibleTag();
+        var classification = PredatorVisionClassification.classify(entity);
 
-        if (visibleTag == null) {
+        if (classification.isInactive()) {
             return;
         }
 
-        if (entity.getType().is(visibleTag)) {
-            // Visible entity: per-bone block-light floor so the body reads bright against a dim backdrop.
-            var mc = Minecraft.getInstance();
-            var camera = mc.gameRenderer.getMainCamera();
+        var pushLaneA = classification.isBackgroundUnderOld();
+        var pushLaneB = classification.isBackgroundUnderNew();
 
-            if (mc.level == null || !camera.isInitialized()) {
-                return;
-            }
-
-            var hotTag = mode.hotTag();
-            var blockLightFloor = (hotTag != null && entity.getType().is(hotTag)) ? 14 : 7;
-
-            BLibPerBoneLightContext.push(mc.level, camera.getPosition(), blockLightFloor);
-        } else {
-            // Background entity: flush whatever's been queued under the current state (= flag 0) so those vertices
-            // draw correctly, then flip the flag and let this entity queue under flag=1.
+        if (pushLaneA || pushLaneB) {
             if (buffer instanceof MultiBufferSource.BufferSource bufferSource) {
                 bufferSource.endBatch();
             }
 
-            BLibPostEffectFramework.pushBackgroundEntity();
+            if (pushLaneA) {
+                BLibPostEffectFramework.pushBackgroundEntity();
+                frame[0] = 1;
+            }
+
+            if (pushLaneB) {
+                BLibPostEffectFramework.pushBackgroundEntityB();
+                frame[1] = 1;
+            }
         }
+
+        if (!classification.anyVisible()) {
+            return;
+        }
+
+        var mc = Minecraft.getInstance();
+        var camera = mc.gameRenderer.getMainCamera();
+
+        if (mc.level == null || !camera.isInitialized()) {
+            return;
+        }
+
+        var visibleMode = PredatorVisionClassification.visibleMode(entity);
+        var hotTag = visibleMode != null ? visibleMode.hotTag() : null;
+        var blockLightFloor = (hotTag != null && entity.getType().is(hotTag)) ? 14 : 7;
+
+        BLibPerBoneLightContext.push(mc.level, camera.getPosition(), blockLightFloor);
+        frame[2] = 1;
     }
 
     @Inject(method = "render", at = @At("RETURN"))
@@ -96,27 +118,33 @@ public abstract class MixinLivingEntityRenderer_VisionPerBoneLight {
         int packedLight,
         CallbackInfo ci
     ) {
-        if (BLibPostEffectFramework.isShaderModActive()) {
+        var stack = FRAME_STACK.get();
+
+        if (stack.isEmpty()) {
             return;
         }
 
-        var mode = PredatorVisionAccessor.currentVisionMode();
-        var visibleTag = mode.visibleTag();
+        var frame = stack.pop();
+        var poppedLaneA = frame[0] == 1;
+        var poppedLaneB = frame[1] == 1;
+        var poppedPerBoneLight = frame[2] == 1;
 
-        if (visibleTag == null) {
-            return;
-        }
-
-        if (entity.getType().is(visibleTag)) {
+        if (poppedPerBoneLight) {
             BLibPerBoneLightContext.pop();
-        } else {
-            // Flush this background entity's queued vertices NOW so they draw with flag=1 (the current state),
-            // then pop the flag back to 0 for any subsequent entities.
+        }
+
+        if (poppedLaneA || poppedLaneB) {
             if (buffer instanceof MultiBufferSource.BufferSource bufferSource) {
                 bufferSource.endBatch();
             }
 
-            BLibPostEffectFramework.popBackgroundEntity();
+            if (poppedLaneB) {
+                BLibPostEffectFramework.popBackgroundEntityB();
+            }
+
+            if (poppedLaneA) {
+                BLibPostEffectFramework.popBackgroundEntity();
+            }
         }
     }
 }

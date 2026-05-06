@@ -2,8 +2,7 @@ package com.predator.mixin.vision;
 
 import com.blib.api.client.posteffect.v1.BLibPostEffectFramework;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.predator.client.vision.PredatorVisionAccessor;
-import com.predator.common.gameplay.component.PredatorVisionMode;
+import com.predator.client.vision.PredatorVisionClassification;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -12,20 +11,23 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
- * Background-flag push for block (tile) entities — chests, beacons, signs, banners, beds, item frames in 1.21
- * (technically a block entity since the framework rework, though item frames are still {@code Entity} in this version),
- * conduits, end portals, etc. They render via {@code BlockEntityRenderDispatcher} which is parallel to (not under)
- * {@code EntityRenderDispatcher}, so neither the entity nor the living-entity mixin fires for them. Many BERs use
- * {@code rendertype_entity_*} render types under the hood (chest sheet, sign sheet, banner sheet), which means BLib's
- * patcher classifies their fragments as entity (mask.r = 1.0) — and without a background-flag push, the vision shader
- * would render them as foreground entities (warm glow).
+ * Background-flag push for block (tile) entities — chests, beacons, signs, banners, beds, conduits, end portals, etc.
+ * They render via {@code BlockEntityRenderDispatcher}, parallel to (not under) {@code EntityRenderDispatcher}. Many BERs
+ * use {@code rendertype_entity_*} render types under the hood (chest sheet, sign sheet, banner sheet) which BLib's
+ * patcher classifies as entity ({@code mask.r = 1.0}) — without a background-flag push, the vision shader would render
+ * them as foreground entities (warm glow).
  * <p>
- * Same forced-flush dance as the other vision mixins so each block entity's vertices flush under the right uniform
- * value.
+ * RETURN pops based on the per-render frame recorded by HEAD rather than recomputing — recomputation is unsafe because
+ * the transition state can change mid-render and produce mismatched pop counts that leak BLib lane depth.
  */
 @Mixin(BlockEntityRenderDispatcher.class)
 public abstract class MixinBlockEntityRenderDispatcher_VisionBackground {
+
+    private static final ThreadLocal<Deque<int[]>> FRAME_STACK = ThreadLocal.withInitial(ArrayDeque::new);
 
     @Inject(method = "render", at = @At("HEAD"))
     private void predator$pushBackgroundForBlockEntity(
@@ -35,11 +37,18 @@ public abstract class MixinBlockEntityRenderDispatcher_VisionBackground {
         MultiBufferSource buffer,
         CallbackInfo ci
     ) {
+        var frame = new int[2];
+        FRAME_STACK.get().push(frame);
+
         if (BLibPostEffectFramework.isShaderModActive()) {
             return;
         }
 
-        if (PredatorVisionAccessor.currentVisionMode() == PredatorVisionMode.REGULAR) {
+        var classification = PredatorVisionClassification.nonLivingClassification();
+        var pushLaneA = classification.isBackgroundUnderOld();
+        var pushLaneB = classification.isBackgroundUnderNew();
+
+        if (!pushLaneA && !pushLaneB) {
             return;
         }
 
@@ -47,7 +56,15 @@ public abstract class MixinBlockEntityRenderDispatcher_VisionBackground {
             bufferSource.endBatch();
         }
 
-        BLibPostEffectFramework.pushBackgroundEntity();
+        if (pushLaneA) {
+            BLibPostEffectFramework.pushBackgroundEntity();
+            frame[0] = 1;
+        }
+
+        if (pushLaneB) {
+            BLibPostEffectFramework.pushBackgroundEntityB();
+            frame[1] = 1;
+        }
     }
 
     @Inject(method = "render", at = @At("RETURN"))
@@ -58,11 +75,17 @@ public abstract class MixinBlockEntityRenderDispatcher_VisionBackground {
         MultiBufferSource buffer,
         CallbackInfo ci
     ) {
-        if (BLibPostEffectFramework.isShaderModActive()) {
+        var stack = FRAME_STACK.get();
+
+        if (stack.isEmpty()) {
             return;
         }
 
-        if (PredatorVisionAccessor.currentVisionMode() == PredatorVisionMode.REGULAR) {
+        var frame = stack.pop();
+        var poppedLaneA = frame[0] == 1;
+        var poppedLaneB = frame[1] == 1;
+
+        if (!poppedLaneA && !poppedLaneB) {
             return;
         }
 
@@ -70,6 +93,12 @@ public abstract class MixinBlockEntityRenderDispatcher_VisionBackground {
             bufferSource.endBatch();
         }
 
-        BLibPostEffectFramework.popBackgroundEntity();
+        if (poppedLaneB) {
+            BLibPostEffectFramework.popBackgroundEntityB();
+        }
+
+        if (poppedLaneA) {
+            BLibPostEffectFramework.popBackgroundEntity();
+        }
     }
 }

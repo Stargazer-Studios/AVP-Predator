@@ -127,11 +127,20 @@ void main() {
     vec3 src = texture(DiffuseSampler, texCoord).rgb;
     vec2 maskSample = texture(entityMask, texCoord).rg;
     float mask = maskSample.r;
-    // backgroundFlag = 1.0 when the patched entity shader was rendering an entity that the consumer mod (predator
-    // vision) flagged via BLibPostEffectFramework.pushBackgroundEntity() — i.e., a mob outside the active vision's
-    // visibility tag. Such pixels still arrive in the gbuffer with mask.r = 1.0 (entity) but are routed through
-    // the world coloring formula below so they blend with the dark world instead of reading as bright foreground.
-    float backgroundFlag = maskSample.g;
+    // mask.g packs two background-entity lanes from BLib: lane A (oldMode side of the wipe) contributes 0.25, lane
+    // B (newMode side) contributes 0.5. The four combinations land at exactly 0.0/0.25/0.5/0.75 under NEAREST
+    // sampling of the RG8 attachment. Decoding via step() pairs cleanly because the thresholds (0.125/0.375/0.625)
+    // sit halfway between adjacent encoded values:
+    //   0.0  → laneA=0, laneB=0   (visible under both modes)
+    //   0.25 → laneA=1, laneB=0   (background under old only)
+    //   0.5  → laneA=0, laneB=1   (background under new only)
+    //   0.75 → laneA=1, laneB=1   (background under both)
+    // Each side of the wipe applies its own lane's flag below so an entity visible under exactly one mode is
+    // correctly foregrounded on that side and backgrounded on the other — without the union "background wins"
+    // compromise that the previous single-flag scheme required.
+    float maskG = maskSample.g;
+    float bgLaneA = step(0.125, maskG) - step(0.375, maskG) + step(0.625, maskG);
+    float bgLaneB = step(0.375, maskG);
     vec4 drawData = texture(entityDrawData, texCoord);
     vec4 specular = texture(entitySpecular, texCoord);
     int materialId = int(round(texture(entityMaterialId, texCoord).r * 255.0));
@@ -152,17 +161,25 @@ void main() {
     //   0.000  = sky/passthrough → ambient sky baseline only
     bool isHeldItem = mask > 0.8125 && mask < 0.9375;
 
-    // Force the background flag for held items so the per-pixel coloring routes through the world branch in both
-    // computeThermal (catEntity zeroed out → terrain heat formula) and computeEm (catEntity zeroed → emWorldColor).
-    float effectiveBackgroundFlag = max(backgroundFlag, isHeldItem ? 1.0 : 0.0);
+    // Held items are always background (no IR / EM signature); force both lanes high regardless of mask.g so each
+    // side's coloring routes through the world branch in both computeThermal (catEntity zeroed → terrain heat
+    // formula) and computeEm (catEntity zeroed → emWorldColor).
+    float heldBoost = isHeldItem ? 1.0 : 0.0;
+    float effectiveBgOld = max(bgLaneA, heldBoost);
+    float effectiveBgNew = max(bgLaneB, heldBoost);
 
-    vec3 thermalRgb = computeThermal(src, srcDim, mask, drawData, specular, materialId, dimFactor, effectiveBackgroundFlag);
-    vec3 emRgb = computeEm(src, srcDim, mask, drawData, dimFactor, effectiveBackgroundFlag);
+    // Compute each side's coloring with its own per-lane flag — old uses laneA (right of wipe), new uses laneB
+    // (left of wipe). That's two extra computeThermal/computeEm calls compared to the old single-flag layout but
+    // it's the only way to give an entity that's visible under exactly one mode the right routing on each side
+    // simultaneously. When oldMode == newMode (no transition active) bgLaneA == bgLaneB and the two halves
+    // collapse to the same result, so the wipe short-circuits below.
+    vec3 thermalRgbOld = computeThermal(src, srcDim, mask, drawData, specular, materialId, dimFactor, effectiveBgOld);
+    vec3 emRgbOld = computeEm(src, srcDim, mask, drawData, dimFactor, effectiveBgOld);
+    vec3 oldRgb = selectMode(oldMode, srcDim, thermalRgbOld, emRgbOld);
 
-    // Apply vision-mode wipe. When oldMode == newMode there's no transition active — both sides resolve to the
-    // same coloring and we skip the band/erosion math.
-    vec3 oldRgb = selectMode(oldMode, srcDim, thermalRgb, emRgb);
-    vec3 newRgb = selectMode(newMode, srcDim, thermalRgb, emRgb);
+    vec3 thermalRgbNew = computeThermal(src, srcDim, mask, drawData, specular, materialId, dimFactor, effectiveBgNew);
+    vec3 emRgbNew = computeEm(src, srcDim, mask, drawData, dimFactor, effectiveBgNew);
+    vec3 newRgb = selectMode(newMode, srcDim, thermalRgbNew, emRgbNew);
 
     if (oldMode == newMode) {
         fragColor = vec4(oldRgb, 1.0);
@@ -286,7 +303,15 @@ vec3 computeThermal(vec3 src, vec3 srcDim, float mask, vec4 drawData, vec4 specu
     float entityHeat = mix(entityHeatNonPBR, entityHeatPBR, pbrWeight);
 
     // Terrain: block light drives heat across the full gradient range so torches/lava produce smooth radiance falloff.
-    float terrainHeat = blockLight + 1.50 * emission;
+    // For entity-mask pixels reclassified as terrain via backgroundFlag (catEntity zeroed out above), drawData.g
+    // carries the per-bone-light-boosted block-light coord that the consumer mod pushed for visibility on the OTHER
+    // side of a wipe — feeding that boost into terrainHeat would produce a spurious thermal-warm silhouette of the
+    // entity on the side where it's supposed to read as world-cold (e.g. an EM-visible mob glowing as if it were
+    // thermal-tagged on the thermal side of a T→EM transition). Override to 0 so those pixels render like real
+    // terrain in shadow. Real terrain pixels (mask.r ≈ 0.5) have catEntityRaw = 0 and pass through unchanged.
+    float isEntityReclassified = catEntityRaw * backgroundFlag;
+    float terrainBlockLight = mix(blockLight, 0.0, isEntityReclassified);
+    float terrainHeat = terrainBlockLight + 1.50 * emission;
 
     float particleHeat = blockLight + 0.80 * emission;
 
@@ -364,12 +389,11 @@ vec3 computeEm(vec3 src, vec3 srcDim, float mask, vec4 drawData, float dimFactor
     vec3 emEntityColor = vec3(0.0, 1.0, 0.2) * entityLuma * entityLighting;
 
     // WORLD: dark-green base + srcLuma-driven green underlay (mirrors thermal's BLIB_THERMAL_COLD + coldDetail in
-    // green). Block-light intentionally unused — torches/lava don't change EM's world appearance. Range: 0.05
-    // (unlit / black source) to 0.25 (bright source pixel). The 0.05 floor matters: dark-textured surfaces (e.g.
-    // dark armor on a player who's classified as a background entity) need somewhere visible to land, otherwise
-    // they read as pure black.
-    const vec3 EM_WORLD_BASE = vec3(0.0, 0.05, 0.0);
-    vec3 emWorldDetail = vec3(0.0, 1.0, 0.0) * liftedLuma * 0.20;
+    // green). Block-light intentionally unused — torches/lava don't change EM's world appearance. Range: 0.02
+    // (unlit / black source) to 0.25 (bright source pixel). The dark floor is intentional — it's what gives
+    // EM-visible entities (rendered through the entity branch above) their vivid contrast against the world.
+    const vec3 EM_WORLD_BASE = vec3(0.0, 0.02, 0.0);
+    vec3 emWorldDetail = vec3(0.0, 1.0, 0.0) * liftedLuma * 0.23;
     vec3 emWorldColor = EM_WORLD_BASE + emWorldDetail;
 
     vec3 result = catEntity * emEntityColor + (1.0 - catEntity) * emWorldColor;
