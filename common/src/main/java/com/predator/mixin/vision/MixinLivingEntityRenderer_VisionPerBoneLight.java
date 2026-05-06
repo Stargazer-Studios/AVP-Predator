@@ -14,25 +14,35 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Two-part hook into {@code LivingEntityRenderer.render}, both gated on any non-regular vision mode being active. The
- * current vision mode (read from the equipped predator helmet) supplies the visible/hot tags that drive both filtering
- * and per-bone lighting.
+ * Two-part hook into {@code LivingEntityRenderer.render}, gated on any non-regular vision mode being active. The
+ * current vision mode (read from the equipped predator helmet) supplies the visible/hot tags that drive how each entity
+ * is processed.
  * <p>
- * <b>Tag-based visibility filter.</b> If the entity's type isn't in the current mode's
- * {@link com.predator.common.gameplay.component.PredatorVisionMode#visibleTag()}, the render call is cancelled — the
- * entity isn't drawn into the gbuffer, so its pixels keep whatever the world geometry behind them wrote and the entity
- * reads as "invisible" in that mode. Each mode's visible tag is empty by default; modders/datapacks declare which mob
- * types should be detectable per mode.
+ * <b>Visible entities</b> (those in the current mode's
+ * {@link com.predator.common.gameplay.component.PredatorVisionMode#visibleTag()}): a {@link BLibPerBoneLightContext}
+ * frame is pushed so BLib's {@code MixinModelPart_PerBoneLight} samples world block-light at each bone's
+ * pose-stack-derived position, optionally floored at 14 for {@code HOT}-tag entities.
  * <p>
- * <b>Per-bone lighting context.</b> For visible entities, pushes a {@link BLibPerBoneLightContext} frame so BLib's
- * {@code MixinModelPart_PerBoneLight} can sample world block-light at each bone's pose-stack-derived position. Popped
- * on return. When no vision is active, both hooks no-op and vanilla render is untouched.
+ * <b>Background entities</b> (rendered, but not in the visible tag):
+ * {@link BLibPostEffectFramework#pushBackgroundEntity()} is called so the entity-shader patcher writes a flag into
+ * {@code entityMask.g}; the predator vision shader reads that flag and routes those pixels through its world-coloring
+ * branch (dark blue thermal / dark green EM, with texture detail intact). The entity still draws in full so it blends
+ * with the world rather than disappearing.
+ * <p>
+ * <b>Why this mixin force-flushes the buffer source around background entities:</b> {@code LivingEntityRenderer.render}
+ * only queues vertices into the level's {@code MultiBufferSource} — the actual GL draw and {@code ShaderInstance.apply}
+ * (which is when {@code BlibBackgroundEntity} gets pushed to the GPU) doesn't happen until the level renderer flushes
+ * the whole entity batch later. Without forcing flushes at the visible↔background boundary, every entity in the same
+ * batch ends up sampling whatever flag state happened to be active at flush time — usually whichever entity rendered
+ * last — so the color of any given entity drifts based on render order, which depends on camera angle and distance.
+ * Calling {@code BufferSource.endBatch()} at the boundary ensures each entity's vertices flush under the uniform value
+ * that was set when its render was called.
  */
 @Mixin(LivingEntityRenderer.class)
 public abstract class MixinLivingEntityRenderer_VisionPerBoneLight {
 
-    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    private void predator$visionGateAndContextPush(
+    @Inject(method = "render", at = @At("HEAD"))
+    private void predator$visionPushContext(
         LivingEntity entity,
         float entityYaw,
         float partialTicks,
@@ -52,31 +62,32 @@ public abstract class MixinLivingEntityRenderer_VisionPerBoneLight {
             return;
         }
 
-        // Tag-gate: skip rendering entities not in this mode's VISIBLE set so their pixels show through to whatever
-        // values the world geometry behind them wrote. Visually, the entity is invisible in this vision mode.
-        if (!entity.getType().is(visibleTag)) {
-            ci.cancel();
-            return;
+        if (entity.getType().is(visibleTag)) {
+            // Visible entity: per-bone block-light floor so the body reads bright against a dim backdrop.
+            var mc = Minecraft.getInstance();
+            var camera = mc.gameRenderer.getMainCamera();
+
+            if (mc.level == null || !camera.isInitialized()) {
+                return;
+            }
+
+            var hotTag = mode.hotTag();
+            var blockLightFloor = (hotTag != null && entity.getType().is(hotTag)) ? 14 : 7;
+
+            BLibPerBoneLightContext.push(mc.level, camera.getPosition(), blockLightFloor);
+        } else {
+            // Background entity: flush whatever's been queued under the current state (= flag 0) so those vertices
+            // draw correctly, then flip the flag and let this entity queue under flag=1.
+            if (buffer instanceof MultiBufferSource.BufferSource bufferSource) {
+                bufferSource.endBatch();
+            }
+
+            BLibPostEffectFramework.pushBackgroundEntity();
         }
-
-        var mc = Minecraft.getInstance();
-        var camera = mc.gameRenderer.getMainCamera();
-
-        if (mc.level == null || !camera.isInitialized()) {
-            return;
-        }
-
-        // Block-light floor for the per-bone packedLight mixin. Vanilla MC light coords are 0-15:
-        // - HOT entities (THERMAL_HOT etc.): floor = 14 (fully lit in this mode).
-        // - Regular visible entities: floor = 7 (mid-warm — visible against a dim/cold backdrop).
-        var hotTag = mode.hotTag();
-        var blockLightFloor = (hotTag != null && entity.getType().is(hotTag)) ? 14 : 7;
-
-        BLibPerBoneLightContext.push(mc.level, camera.getPosition(), blockLightFloor);
     }
 
     @Inject(method = "render", at = @At("RETURN"))
-    private void predator$popPerBoneLightContext(
+    private void predator$visionPopContext(
         LivingEntity entity,
         float entityYaw,
         float partialTicks,
@@ -85,6 +96,27 @@ public abstract class MixinLivingEntityRenderer_VisionPerBoneLight {
         int packedLight,
         CallbackInfo ci
     ) {
-        BLibPerBoneLightContext.pop();
+        if (BLibPostEffectFramework.isShaderModActive()) {
+            return;
+        }
+
+        var mode = PredatorVisionAccessor.currentVisionMode();
+        var visibleTag = mode.visibleTag();
+
+        if (visibleTag == null) {
+            return;
+        }
+
+        if (entity.getType().is(visibleTag)) {
+            BLibPerBoneLightContext.pop();
+        } else {
+            // Flush this background entity's queued vertices NOW so they draw with flag=1 (the current state),
+            // then pop the flag back to 0 for any subsequent entities.
+            if (buffer instanceof MultiBufferSource.BufferSource bufferSource) {
+                bufferSource.endBatch();
+            }
+
+            BLibPostEffectFramework.popBackgroundEntity();
+        }
     }
 }

@@ -49,7 +49,7 @@ const float BLIB_FOG_AMOUNT = 1.0;
 
 // Cold end is a very dark blue rather than pure black so unlit areas still read as "ambient cold" — pure black
 // looks like missing data / GUI clear and breaks immersion in fully-dark caves.
-const vec3 BLIB_THERMAL_COLD = vec3(0.0, 0.0, 0.06);
+const vec3 BLIB_THERMAL_COLD = vec3(0.0, 0.0, 0.04);
 
 // Hot end: mostly white with a faint hint of red retained from the previous gradient stop, instead of pure
 // (1, 1, 1) — pure white reads as eye-searing on common monitors when a full lava block fills the over-1.0 range.
@@ -119,13 +119,19 @@ float computeSkyHeat(vec2 uv, float drawDetail) {
 }
 
 // Forward declarations — bodies are at the bottom of this file so the wipe logic in main() reads top-down.
-vec3 computeThermal(vec3 src, vec3 srcDim, float mask, vec4 drawData, vec4 specular, int materialId, float dimFactor);
-vec3 computeEm(vec3 src, vec3 srcDim, float mask, vec4 drawData, float dimFactor);
+vec3 computeThermal(vec3 src, vec3 srcDim, float mask, vec4 drawData, vec4 specular, int materialId, float dimFactor, float backgroundFlag);
+vec3 computeEm(vec3 src, vec3 srcDim, float mask, vec4 drawData, float dimFactor, float backgroundFlag);
 vec3 selectMode(int mode, vec3 srcDim, vec3 thermalRgb, vec3 emRgb);
 
 void main() {
     vec3 src = texture(DiffuseSampler, texCoord).rgb;
-    float mask = texture(entityMask, texCoord).r;
+    vec2 maskSample = texture(entityMask, texCoord).rg;
+    float mask = maskSample.r;
+    // backgroundFlag = 1.0 when the patched entity shader was rendering an entity that the consumer mod (predator
+    // vision) flagged via BLibPostEffectFramework.pushBackgroundEntity() — i.e., a mob outside the active vision's
+    // visibility tag. Such pixels still arrive in the gbuffer with mask.r = 1.0 (entity) but are routed through
+    // the world coloring formula below so they blend with the dark world instead of reading as bright foreground.
+    float backgroundFlag = maskSample.g;
     vec4 drawData = texture(entityDrawData, texCoord);
     vec4 specular = texture(entitySpecular, texCoord);
     int materialId = int(round(texture(entityMaterialId, texCoord).r * 255.0));
@@ -146,8 +152,8 @@ void main() {
 
     vec3 thermalRgb = isHeldItem
         ? srcDim
-        : computeThermal(src, srcDim, mask, drawData, specular, materialId, dimFactor);
-    vec3 emRgb = computeEm(src, srcDim, mask, drawData, dimFactor);
+        : computeThermal(src, srcDim, mask, drawData, specular, materialId, dimFactor, backgroundFlag);
+    vec3 emRgb = computeEm(src, srcDim, mask, drawData, dimFactor, backgroundFlag);
 
     // Apply vision-mode wipe. When oldMode == newMode there's no transition active — both sides resolve to the
     // same coloring and we skip the band/erosion math.
@@ -211,8 +217,12 @@ void main() {
     fragColor = vec4(finalRgb, 1.0);
 }
 
-vec3 computeThermal(vec3 src, vec3 srcDim, float mask, vec4 drawData, vec4 specular, int materialId, float dimFactor) {
-    float catEntity   = step(0.75, mask);
+vec3 computeThermal(vec3 src, vec3 srcDim, float mask, vec4 drawData, vec4 specular, int materialId, float dimFactor, float backgroundFlag) {
+    // Entity-mask pixels with backgroundFlag set are reclassified as terrain so they pick up the world heat formula
+    // (low heat → dark blue with srcLuma-driven coldDetail underlay) instead of the foreground entity formula's
+    // 0.5 baseline. Visible-tagged entities have backgroundFlag = 0 and stay classified as entity.
+    float catEntityRaw = step(0.75, mask);
+    float catEntity   = catEntityRaw * (1.0 - backgroundFlag);
     float catTerrain  = step(0.375, mask) - catEntity;
     float catParticle = step(0.125, mask) - step(0.375, mask);
     // Sky/celestial — everything below the particle threshold. Includes both pure sky (mask=0) and celestial
@@ -295,15 +305,18 @@ vec3 computeThermal(vec3 src, vec3 srcDim, float mask, vec4 drawData, vec4 specu
     vec3 heatVis = thermalGradient(heat);
 
     // Cold-area visibility underlay — only for non-sky pixels. At low heat the gradient color is a near-uniform
-    // dark blue, which obliterates structure (walls/floor/edges) and makes navigation hard. Add a pure-blue underlay
-    // scaled by source luminance so block edges and lit-side faces brighten the blue. Sky pixels are excluded
-    // (catSky multiplier) — their heat already comes from a clean procedural source, and adding a luma-scaled blue
-    // on top would re-introduce source-color leak through the sky region (the green ring around unloaded chunks,
-    // faint banding from celestial-body texture luminance, etc.).
+    // dark blue, which obliterates structure (walls/floor/edges) and makes navigation hard. Add a faint blue
+    // underlay scaled by source luminance so block edges and lit-side faces brighten the blue subtly. Sky pixels
+    // are excluded (catSky multiplier) — their heat already comes from a clean procedural source, and adding a
+    // luma-scaled blue on top would re-introduce source-color leak through the sky region.
+    // <p>
+    // Multiplier matches the EM world's underlay strength (0.04) so unlit thermal areas land in the same darkness
+    // band as unlit EM areas. Range for unlit pixels: BLIB_THERMAL_COLD (0.04) to ~0.08 — same as EM. This is also
+    // dark enough that vanilla MC's GUI-pass vignette overlay (multiply-blend) shows through visibly at the edges.
     float srcLuma = dot(src, vec3(0.299, 0.587, 0.114));
     float liftedLuma = pow(clamp(srcLuma, 0.0, 1.0), 0.5);
     float coldFade = (1.0 - smoothstep(0.0, 0.5, heat)) * (1.0 - catSky);
-    vec3 coldDetail = vec3(0.0, 0.0, 1.0) * liftedLuma * 0.5 * coldFade;
+    vec3 coldDetail = vec3(0.0, 0.0, 1.0) * liftedLuma * 0.04 * coldFade;
 
     vec3 outColor = heatVis + coldDetail;
     return outColor * dimFactor;
@@ -322,14 +335,15 @@ vec3 computeThermal(vec3 src, vec3 srcDim, float mask, vec4 drawData, vec4 specu
 //   1. Constant dark-green base so unlit / no-detail pixels still read as something.
 //   2. srcLuma-driven green underlay so block edges and texture variation show up as brighter green.
 //   3. Block-light / face-light deliberately NOT consumed — the world looks the same near a torch as in a dark cave.
-vec3 computeEm(vec3 src, vec3 srcDim, float mask, vec4 drawData, float dimFactor) {
+vec3 computeEm(vec3 src, vec3 srcDim, float mask, vec4 drawData, float dimFactor, float backgroundFlag) {
     bool isHeldItem = mask > 0.8125 && mask < 0.9375;
 
     if (isHeldItem) {
         return srcDim;
     }
 
-    float catEntity = step(0.75, mask);
+    // Background entities are zeroed out of catEntity so they fall through to the world coloring branch below.
+    float catEntity = step(0.75, mask) * (1.0 - backgroundFlag);
     float srcLuma = dot(src, vec3(0.299, 0.587, 0.114));
     float liftedLuma = pow(clamp(srcLuma, 0.0, 1.0), 0.5);
 

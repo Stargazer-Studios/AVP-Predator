@@ -58,8 +58,6 @@ public class PredatorEntityTypeTagProvider extends FabricTagProvider.EntityTypeT
      */
     private void addThermalVisible() {
         getOrCreateTagBuilder(PredatorEntityTypeTags.THERMAL_VISIBLE)
-            // Vanilla aggregate tags pick up zombie/skeleton families + wither + phantom + the four illagers.
-            .addOptionalTag(EntityTypeTags.UNDEAD)
             .addOptionalTag(EntityTypeTags.ILLAGER)
             .add(
                 // Players
@@ -89,24 +87,15 @@ public class PredatorEntityTypeTagProvider extends FabricTagProvider.EntityTypeT
                 // Birds + small flyers
                 EntityType.CHICKEN,
                 EntityType.PARROT,
-                EntityType.ALLAY,
-                EntityType.VEX,
                 // Aquatic mammals (warm-blooded)
                 EntityType.DOLPHIN,
                 // Aquatic hostile biological — alien sea creatures, included for gameplay over biology
                 EntityType.GUARDIAN,
                 EntityType.ELDER_GUARDIAN,
-                // Arthropods — small but biological
-                EntityType.BEE,
-                EntityType.CAVE_SPIDER,
-                EntityType.SILVERFISH,
-                EntityType.SPIDER,
                 // Hostile biological non-undead
-                EntityType.CREEPER,
                 EntityType.RAVAGER,
                 EntityType.VILLAGER,
                 EntityType.WANDERING_TRADER,
-                EntityType.WARDEN,
                 EntityType.WITCH,
                 // Nether warm/hot
                 EntityType.BLAZE,
@@ -115,13 +104,7 @@ public class PredatorEntityTypeTagProvider extends FabricTagProvider.EntityTypeT
                 EntityType.MAGMA_CUBE,
                 EntityType.PIGLIN,
                 EntityType.PIGLIN_BRUTE,
-                EntityType.STRIDER,
-                // End-realm creatures
-                EntityType.ENDERMAN,
-                EntityType.ENDERMITE,
-                EntityType.ENDER_DRAGON,
-                // Gelatinous biological
-                EntityType.SLIME
+                EntityType.STRIDER
             );
     }
 

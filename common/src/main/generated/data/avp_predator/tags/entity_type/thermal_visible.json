@@ -1,10 +1,6 @@
 {
   "values": [
     {
-      "id": "#minecraft:undead",
-      "required": false
-    },
-    {
       "id": "#minecraft:illager",
       "required": false
     },
@@ -32,20 +28,12 @@
     "minecraft:wolf",
     "minecraft:chicken",
     "minecraft:parrot",
-    "minecraft:allay",
-    "minecraft:vex",
     "minecraft:dolphin",
     "minecraft:guardian",
     "minecraft:elder_guardian",
-    "minecraft:bee",
-    "minecraft:cave_spider",
-    "minecraft:silverfish",
-    "minecraft:spider",
-    "minecraft:creeper",
     "minecraft:ravager",
     "minecraft:villager",
     "minecraft:wandering_trader",
-    "minecraft:warden",
     "minecraft:witch",
     "minecraft:blaze",
     "minecraft:ghast",
@@ -53,10 +41,6 @@
     "minecraft:magma_cube",
     "minecraft:piglin",
     "minecraft:piglin_brute",
-    "minecraft:strider",
-    "minecraft:enderman",
-    "minecraft:endermite",
-    "minecraft:ender_dragon",
-    "minecraft:slime"
+    "minecraft:strider"
   ]
 }
