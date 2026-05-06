@@ -130,6 +130,15 @@ public class PredatorEntityTypeTagProvider extends FabricTagProvider.EntityTypeT
     private void addEmVisible() {
         getOrCreateTagBuilder(PredatorEntityTypeTags.EM_VISIBLE)
             .add(
+                // Arthropods — small but biological
+                EntityType.BEE,
+                EntityType.CAVE_SPIDER,
+                EntityType.SILVERFISH,
+                EntityType.SPIDER,
+                // Birds + small flyers
+                EntityType.ALLAY,
+                EntityType.VEX,
+                // End-realm creatures
                 EntityType.ENDERMAN,
                 EntityType.ENDER_DRAGON,
                 EntityType.ENDERMITE

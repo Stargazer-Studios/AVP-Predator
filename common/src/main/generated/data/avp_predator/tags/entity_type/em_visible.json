@@ -1,5 +1,11 @@
 {
   "values": [
+    "minecraft:bee",
+    "minecraft:cave_spider",
+    "minecraft:silverfish",
+    "minecraft:spider",
+    "minecraft:allay",
+    "minecraft:vex",
     "minecraft:enderman",
     "minecraft:ender_dragon",
     "minecraft:endermite"
