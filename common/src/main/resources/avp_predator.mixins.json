@@ -9,6 +9,8 @@
     "ParrotSoundMapAccessor"
   ],
   "client": [
+    "vision.MixinBlockEntityRenderDispatcher_VisionBackground",
+    "vision.MixinEntityRenderDispatcher_VisionNonLivingBackground",
     "vision.MixinLivingEntityRenderer_VisionPerBoneLight",
     "vision.MixinLivingEntityRenderer_VisionRenderType"
   ],
