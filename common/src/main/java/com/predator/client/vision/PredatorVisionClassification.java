@@ -1,6 +1,7 @@
 package com.predator.client.vision;
 
 import com.predator.common.gameplay.component.PredatorVisionMode;
+import com.predator.common.registry.init.PredatorMobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -122,7 +123,18 @@ public final class PredatorVisionClassification {
             return Result.NONE;
         }
 
-        return isVisibleUnder(mode, entity) ? Result.VISIBLE : Result.BACKGROUND;
+        if (!isVisibleUnder(mode, entity)) {
+            return Result.BACKGROUND;
+        }
+
+        // Mud cloak: a thermal-only effect that insulates the entity's heat signature, so a thermal-tagged
+        // mob covered in mud reads as cold world (background) instead of as foreground. Other vision modes
+        // are unaffected — an em-tagged mob covered in mud still shows up under EM.
+        if (mode == PredatorVisionMode.THERMAL && entity.hasEffect(PredatorMobEffects.getMudHolder())) {
+            return Result.BACKGROUND;
+        }
+
+        return Result.VISIBLE;
     }
 
     private static boolean isVisibleUnder(PredatorVisionMode mode, LivingEntity entity) {

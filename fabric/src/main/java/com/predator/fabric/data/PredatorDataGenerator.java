@@ -14,6 +14,7 @@ import com.predator.fabric.data.recipe.RecipeProvider;
 import com.predator.fabric.data.tag.PredatorBlockTagProvider;
 import com.predator.fabric.data.tag.PredatorEntityTypeTagProvider;
 import com.predator.fabric.data.tag.PredatorItemTagProvider;
+import com.predator.fabric.data.tag.PredatorMobEffectTagProvider;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.core.RegistrySetBuilder;
@@ -37,6 +38,7 @@ public class PredatorDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(PredatorBlockTagProvider::new);
         pack.addProvider(PredatorEntityTypeTagProvider::new);
         pack.addProvider(PredatorItemTagProvider::new);
+        pack.addProvider(PredatorMobEffectTagProvider::new);
 
         // Loot providers
         pack.addProvider(BlockLootTableProvider::new);

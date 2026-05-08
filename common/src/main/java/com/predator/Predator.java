@@ -13,6 +13,7 @@ import com.predator.common.registry.init.PredatorCommands;
 import com.predator.common.registry.init.PredatorDataComponents;
 import com.predator.common.registry.init.PredatorEntitySpawns;
 import com.predator.common.registry.init.PredatorEntityTypes;
+import com.predator.common.registry.init.PredatorMobEffects;
 import com.predator.common.registry.init.PredatorSoundEvents;
 import com.predator.common.registry.init.creative_mode_tab.PredatorCreativeModeTabs;
 import com.predator.common.registry.init.item.PredatorArmorItems;
@@ -53,6 +54,7 @@ public class Predator {
         PredatorEntitySpawns.initialize();
         PredatorEntityTypes.initialize();
         PredatorItems.initialize();
+        PredatorMobEffects.initialize();
         PredatorSoundEvents.initialize();
         PredatorSpawnEggItems.initialize();
 

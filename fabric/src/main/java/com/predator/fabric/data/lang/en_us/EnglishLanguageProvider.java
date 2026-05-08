@@ -1,5 +1,6 @@
 package com.predator.fabric.data.lang.en_us;
 
+import com.predator.common.registry.init.PredatorMobEffects;
 import com.predator.fabric.data.lang.en_us.provider.EnUsAdvancementProvider;
 import com.predator.fabric.data.lang.en_us.provider.EnUsBlockProvider;
 import com.predator.fabric.data.lang.en_us.provider.EnUsBlockTagProvider;
@@ -42,6 +43,9 @@ public class EnglishLanguageProvider extends FabricLanguageProvider {
 
         // Jukebox Sounds
         builder.add("jukebox_song.avp_predator.predator_music_1", "Rotch Gwylt - Hunter");
+
+        // Mob Effects
+        builder.add(PredatorMobEffects.getMudHolder().value(), "Mud");
 
         // Advancements
         EnUsAdvancementProvider.CONSUMER.accept(builder);

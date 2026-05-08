@@ -390,10 +390,10 @@ vec3 computeEm(vec3 src, vec3 srcDim, float mask, vec4 drawData, float dimFactor
 
     // WORLD: dark-green base + srcLuma-driven green underlay (mirrors thermal's BLIB_THERMAL_COLD + coldDetail in
     // green). Block-light intentionally unused — torches/lava don't change EM's world appearance. Range: 0.02
-    // (unlit / black source) to 0.25 (bright source pixel). The dark floor is intentional — it's what gives
+    // (unlit / black source) to 0.18 (bright source pixel). The dark floor is intentional — it's what gives
     // EM-visible entities (rendered through the entity branch above) their vivid contrast against the world.
     const vec3 EM_WORLD_BASE = vec3(0.0, 0.02, 0.0);
-    vec3 emWorldDetail = vec3(0.0, 1.0, 0.0) * liftedLuma * 0.23;
+    vec3 emWorldDetail = vec3(0.0, 1.0, 0.0) * liftedLuma * 0.16;
     vec3 emWorldColor = EM_WORLD_BASE + emWorldDetail;
 
     vec3 result = catEntity * emEntityColor + (1.0 - catEntity) * emWorldColor;
